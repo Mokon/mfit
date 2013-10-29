@@ -1,4 +1,0 @@
-mfit
-====
-
-Mokon Fitness
