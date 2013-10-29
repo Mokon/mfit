@@ -5,19 +5,24 @@
 
 #include "Config.hpp"
 #include "mfit/Run.hpp"
+#include "mfit/General.hpp"
+
+using namespace mcommon ;
 
 namespace mfit {
 
-  static std::vector<Run> runs ;
-
   void initStats( Stats& stats ) {
 
-    runs = std::vector<Run> {
+    static std::vector<Run> runs = std::vector<Run> {
       Run(12, 6.4),
       Run(1, 8.0),
     };
+    static Quantity weight(215, LBS) ;
+    static Quantity height(73, INCHES) ;
 
     stats[Run::STAT_RUNS] = &runs ;
+    stats[General::STAT_WEIGHT] = &weight ;
+    stats[General::STAT_HEIGHT] = &height ;
   }
 
 }

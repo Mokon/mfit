@@ -12,8 +12,9 @@ AM_LIBTOOLFLAGS= --silent
 SHARED_SOURCES = \
   ${SRC_DIR}/../mcommon/src/mcommon/Quantity.cpp \
   ${SRC_DIR}/../mcommon/src/mcommon/Unit.cpp \
-  ${SRC_DIR}/Config.cpp \
   ${SRC_DIR}/mfit/Run.cpp \
+  ${SRC_DIR}/mfit/General.cpp \
+  ${SRC_DIR}/Config.cpp \
   ${SRC_DIR}/Main.cpp 
 
 if DEBUG
