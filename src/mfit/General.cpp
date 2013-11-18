@@ -19,6 +19,7 @@ namespace mfit {
     return bmi ;
   }
 
+  // Formula: Hodgdon and Beckett: Naval Health Research Center: 1984
   float General::bfp( const Stats& stats ) {
     Gender* gender = stats.get<Gender>(STAT_GENDER) ;
     float height = stats.get<Quantity>(STAT_HEIGHT)->convert(INCHES).magnitude() *2.54;
