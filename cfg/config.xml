@@ -1,0 +1,35 @@
+<!-- Copyright (C) 2013 David 'Mokon' Bond,  All Rights Reserved -->
+<person>
+  <name>David Bond</name>
+  <gender>Male</gender>
+  <age unit="YEARS">27</age>
+  <weight unit="LBS">213</weight>
+  <height unit="INCHES">73</height>
+  <neck unit="INCHES">16</neck>
+  <waist unit="INCHES">40</waist>
+  <hips unit="INCHES">41.5</hips>
+  <runs gradient="0.0" type="best">
+    <run>
+      <time unit="MINUTES">10</time>
+      <speed unit="MPH">6.6</speed>
+    </run>
+    <run>
+      <time unit="MINUTES">3</time>
+      <speed unit="MPH">8</speed>
+    </run>
+  </runs>
+  <runs gradient="0.0" type="treadmill">
+    <run>
+      <time unit="MINUTES">10</time>
+      <speed unit="MPH">6.7</speed>
+    </run>
+    <run>
+      <time unit="MINUTES">3</time>
+      <speed unit="MPH">8</speed>
+    </run>
+    <run>
+      <time unit="MINUTES">2</time>
+      <speed unit="MPH">4</speed>
+    </run>
+  </runs>
+</person>

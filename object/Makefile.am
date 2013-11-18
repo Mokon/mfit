@@ -14,7 +14,8 @@ SHARED_SOURCES = \
   ${SRC_DIR}/../mcommon/src/mcommon/Unit.cpp \
   ${SRC_DIR}/mfit/Run.cpp \
   ${SRC_DIR}/mfit/General.cpp \
-  ${SRC_DIR}/Config.cpp \
+  ${SRC_DIR}/mfit/Stats.cpp \
+  ${SRC_DIR}/mfit/Engine.cpp \
   ${SRC_DIR}/Main.cpp 
 
 if DEBUG
