@@ -12,9 +12,12 @@ AM_LIBTOOLFLAGS= --silent
 SHARED_SOURCES = \
   ${SRC_DIR}/../mcommon/src/mcommon/Quantity.cpp \
   ${SRC_DIR}/../mcommon/src/mcommon/Unit.cpp \
-  ${SRC_DIR}/mfit/Run.cpp \
-  ${SRC_DIR}/mfit/General.cpp \
-  ${SRC_DIR}/mfit/Stats.cpp \
+  ${SRC_DIR}/mfit/modules/General.cpp \
+  ${SRC_DIR}/mfit/modules/Weights.cpp \
+  ${SRC_DIR}/mfit/modules/Cardio.cpp \
+  ${SRC_DIR}/mfit/modules/BodyFatPercentage.cpp \
+  ${SRC_DIR}/mfit/modules/Run.cpp \
+  ${SRC_DIR}/mfit/modules/WeightRepSet.cpp \
   ${SRC_DIR}/mfit/Engine.cpp \
   ${SRC_DIR}/Main.cpp 
 

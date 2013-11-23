@@ -3,33 +3,73 @@
   <name>David Bond</name>
   <gender>Male</gender>
   <age unit="YEARS">27</age>
-  <weight unit="LBS">213</weight>
-  <height unit="INCHES">73</height>
-  <neck unit="INCHES">16</neck>
-  <waist unit="INCHES">40</waist>
-  <hips unit="INCHES">41.5</hips>
-  <runs gradient="0.0" type="best">
-    <run>
-      <time unit="MINUTES">10</time>
-      <speed unit="MPH">6.6</speed>
-    </run>
-    <run>
-      <time unit="MINUTES">3</time>
-      <speed unit="MPH">8</speed>
-    </run>
-  </runs>
-  <runs gradient="0.0" type="treadmill">
-    <run>
-      <time unit="MINUTES">10</time>
-      <speed unit="MPH">6.7</speed>
-    </run>
-    <run>
-      <time unit="MINUTES">3</time>
-      <speed unit="MPH">8</speed>
-    </run>
-    <run>
-      <time unit="MINUTES">2</time>
-      <speed unit="MPH">4</speed>
-    </run>
-  </runs>
+  <measurements>
+    <weight unit="LBS">211.4</weight>
+    <height unit="INCHES">73</height>
+    <neck unit="INCHES">16</neck>
+    <waist unit="INCHES">38.75</waist>
+    <hips unit="INCHES">41.5</hips>
+    <biceps type="flexed" side="left" unit="INCHES">14.75</biceps>
+    <biceps type="flexed" side="right" unit="INCHES">14.75</biceps>
+    <wrist side="left" unit="INCHES">7.5</wrist>
+    <wrist side="right" unit="INCHES">7.5</wrist>
+    <forearm side="left" unit="INCHES">11.5</forearm>
+    <forearm side="right" unit="INCHES">12</forearm>
+    <thigh side="left" unit="INCHES">24</thigh>
+    <thigh side="right" unit="INCHES">23</thigh>
+    <skinfolds>
+      <ticeps invalid="true" unit="MM">18</ticeps>
+      <chest unit="MM">16</chest>
+      <midaxillary unit="MM">20</midaxillary>
+      <subscapular invalid="true" unit="MM">30</subscapular>
+      <suprailiac unit="MM">28</suprailiac>
+      <abdominal unit="MM">35</abdominal>
+      <thigh unit="MM">17</thigh>
+      <suprailum unit="MM">1</suprailum>
+    </skinfolds>
+  </measurements>
+  <pushups>33</pushups>
+  <sitandreach unit="INCHES">17</sitandreach>
+  <excercises>
+    <cardio>
+      <runs gradient="0.0" type="best">
+        <run>
+          <time unit="MINUTES">11.5</time>
+          <speed unit="MPH">6.7</speed>
+        </run>
+        <run>
+          <time unit="MINUTES">1.5</time>
+          <speed unit="MPH">8.5</speed>
+        </run>
+      </runs>
+      <runs gradient="0.0" type="treadmill">
+        <run>
+          <time unit="MINUTES">11.5</time>
+          <speed unit="MPH">6.7</speed>
+        </run>
+        <run>
+          <time unit="MINUTES">1.5</time>
+          <speed unit="MPH">8.5</speed>
+        </run>
+        <run>
+          <time unit="MINUTES">2</time>
+          <speed unit="MPH">4</speed>
+        </run>
+      </runs>
+    </cardio>
+    <weights>
+      <fly type="machine">
+        <weight unit="LBS">150</weight><sets>3</sets><reps>12</reps>
+      </fly>
+      <bicepcurls type="dumbbell">
+        <weight unit="LBS">30</weight><sets>3</sets><reps>10</reps>
+      </bicepcurls>
+      <inclinechestpress type="machine">
+        <weight unit="LBS">130</weight><sets>3</sets><reps>8</reps>
+      </inclinechestpress>
+      <flatchestpress type="dumbbell">
+        <weight unit="LBS">90</weight><sets>3</sets><reps>10</reps>
+      </flatchestpress>
+    </weights>
+  </excercises>
 </person>
