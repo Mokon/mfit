@@ -2,19 +2,16 @@
 
 #include "config.h"
 
-#include <boost/concept_check.hpp>
-
 #include "mcommon/Log.hpp"
 
 #include "mfit/Engine.hpp"
 #include "mfit/modules/General.hpp"
+#include "mfit/modules/Measurements.hpp"
 #include "mfit/modules/Weights.hpp"
 #include "mfit/modules/Cardio.hpp"
 #include "mfit/modules/BodyFatPercentage.hpp"
 
 int main( int argc, char* argv[] ) {
-  boost::ignore_unused_variable_warning( argc ) ; 
-
   int rv = EXIT_SUCCESS ;
 
   try {
@@ -33,10 +30,10 @@ int main( int argc, char* argv[] ) {
 
     /* TODO move to factory design pattern */
     e.add(std::shared_ptr<mfit::General>( new mfit::General( ) ) ) ;
-    e.add(std::shared_ptr<mfit::Weights>( new mfit::Weights( ) ) ) ;
-    e.add(std::shared_ptr<mfit::Cardio>( new mfit::Cardio( ) ) ) ;
-    e.add(std::shared_ptr<mfit::BodyFatPercentage>(
-          new mfit::BodyFatPercentage( ) ) ) ;
+    e.add(std::shared_ptr<mfit::Measurements>( new mfit::Measurements( ) ) ) ;
+    //e.add(std::shared_ptr<mfit::Weights>( new mfit::Weights( ) ) ) ;
+    //e.add(std::shared_ptr<mfit::Cardio>( new mfit::Cardio( ) ) ) ;
+    //e.add(std::shared_ptr<mfit::BodyFatPercentage>( new mfit::BodyFatPercentage( ) ) ) ;
 
     for( int i = 1 ; i < argc ; i++ ) {
       e.process( std::cout, argv[i] ) ;

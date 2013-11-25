@@ -2,10 +2,12 @@
 
 #pragma once
 
-#include <ostream>
+#include <list>
 #include <string>
 
 #include <pugixml.hpp>
+
+#include "mfit/Statistic.hpp"
 
 namespace mfit {
 
@@ -26,7 +28,18 @@ namespace mfit {
       virtual std::string getKey( ) = 0 ;
 
       virtual void process( std::ostream& out,
-          const pugi::xml_document& cfg ) const = 0 ;
+          const pugi::xml_document& cfg ) const ;
+    
+      void processRegisteredStats( std::ostream& out,
+          const pugi::xml_document& cfg ) ;
+
+      void add( Statistic stat ) ;
+      
+      void add( std::string header, Statistic::ValueGetter get ) ;
+
+    private:
+
+      std::list<Statistic> stats ;
 
   } ;
 

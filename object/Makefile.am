@@ -8,16 +8,19 @@ SRC_DIR = ../src
 bin_PROGRAMS =
 AM_LIBTOOLFLAGS= --silent
 
+#  ${SRC_DIR}/mfit/modules/Weights.cpp 
+#  ${SRC_DIR}/mfit/modules/Cardio.cpp 
+#  ${SRC_DIR}/mfit/modules/BodyFatPercentage.cpp 
+#  ${SRC_DIR}/mfit/modules/Run.cpp 
+#  ${SRC_DIR}/mfit/modules/WeightRepSet.cpp 
 # TODO update mcommon to build self.
 SHARED_SOURCES = \
   ${SRC_DIR}/../mcommon/src/mcommon/Quantity.cpp \
   ${SRC_DIR}/../mcommon/src/mcommon/Unit.cpp \
   ${SRC_DIR}/mfit/modules/General.cpp \
-  ${SRC_DIR}/mfit/modules/Weights.cpp \
-  ${SRC_DIR}/mfit/modules/Cardio.cpp \
-  ${SRC_DIR}/mfit/modules/BodyFatPercentage.cpp \
-  ${SRC_DIR}/mfit/modules/Run.cpp \
-  ${SRC_DIR}/mfit/modules/WeightRepSet.cpp \
+  ${SRC_DIR}/mfit/modules/Measurements.cpp \
+  ${SRC_DIR}/mfit/Module.cpp \
+  ${SRC_DIR}/mfit/Statistic.cpp \
   ${SRC_DIR}/mfit/Engine.cpp \
   ${SRC_DIR}/Main.cpp 
 

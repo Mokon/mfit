@@ -6,6 +6,7 @@
 
 #include "mfit/modules/BodyFatPercentage.hpp"
 #include "mfit/modules/General.hpp"
+#include "mfit/modules/Measurements.hpp"
 #include "mfit/Engine.hpp"
 
 using namespace mcommon ;
@@ -189,8 +190,8 @@ namespace mfit {
   float BodyFatPercentage::bfpHeritageBMI( const pugi::xml_document& cfg ) {
     Gender gender = General::getGender( cfg ) ;
     float age = General::getAge( cfg ).convert(YEARS).magnitude( ) ;
-    float height = General::getHeight( cfg ).convert(INCHES).magnitude( );
-    float weight = General::getWeight( cfg ).convert(LBS).magnitude() ;
+    float height = Measurements::getHeight( cfg )->convert(INCHES).magnitude( );
+    float weight = Measurements::getWeight( cfg )->convert(LBS).magnitude() ;
 
     switch ( gender ) {
       case Male: 
@@ -203,13 +204,13 @@ namespace mfit {
   float BodyFatPercentage::bfpConvertBailey( const pugi::xml_document& cfg ) {
     Gender gender = General::getGender( cfg ) ;
     float age = General::getAge( cfg ).convert(YEARS).magnitude( ) ;
-    float hips = General::getHips( cfg ).convert(INCHES).magnitude( ) ;
-    float wrist = General::getWrist( cfg ).convert(INCHES).magnitude( ) ;
+    float hips = Measurements::getHips( cfg )->convert(INCHES).magnitude( ) ;
+    float wrist = Measurements::getWrist( cfg )->convert(INCHES).magnitude( ) ;
 
     switch ( gender ) {
       case Male: {
-                   float waist = General::getWaist( cfg ).convert(INCHES).magnitude( ) ;
-                   float forearm = General::getForearm( cfg ).convert(INCHES).magnitude( ) ;
+                   float waist = Measurements::getWaist( cfg )->convert(INCHES).magnitude( ) ;
+                   float forearm = Measurements::getForearm( cfg )->convert(INCHES).magnitude( ) ;
                    if( age <= 30 ) {
                      return waist + 0.5*hips - 3*forearm - wrist ;
                    } else {
@@ -217,8 +218,8 @@ namespace mfit {
                    }
                  }
       default: {
-                 float thigh = General::getThigh( cfg ).convert(INCHES).magnitude( ) ;
-                 float calf = General::getCalf( cfg ).convert(INCHES).magnitude( ) ;
+                 float thigh = Measurements::getThigh( cfg )->convert(INCHES).magnitude( ) ;
+                 float calf = Measurements::getCalf( cfg )->convert(INCHES).magnitude( ) ;
                  if( age <= 30 ) {
                    return hips + 0.8*thigh - 2*calf - wrist ;
                  } else {
@@ -230,16 +231,16 @@ namespace mfit {
 
   float BodyFatPercentage::bfpHodgdonBeckett( const pugi::xml_document& cfg ) {
     Gender gender = General::getGender( cfg ) ;
-    float height = General::getHeight( cfg ).convert(INCHES).magnitude( ) * 2.54 ;
-    float waist = General::getWaist( cfg ).convert(INCHES).magnitude( ) * 2.54 ;
-    float neck = General::getNeck( cfg ).convert(INCHES).magnitude( ) * 2.54 ;
+    float height = Measurements::getHeight( cfg )->convert(INCHES).magnitude( ) * 2.54 ;
+    float waist = Measurements::getWaist( cfg )->convert(INCHES).magnitude( ) * 2.54 ;
+    float neck = Measurements::getNeck( cfg )->convert(INCHES).magnitude( ) * 2.54 ;
 
     switch ( gender ) {
       case Male:
         return 495.0/(1.0324-0.19077*
             (log10(waist-neck))+0.15456*(log10(height)))-450.0 ;
       default:
-        float hip = General::getHips( cfg ).convert(INCHES).magnitude( ) * 2.54 ;
+        float hip = Measurements::getHips( cfg )->convert(INCHES).magnitude( ) * 2.54 ;
         return 495.0/(1.29579-0.35004*
             (log10(waist+hip-neck))+0.22100*(log10(height)))-450 ;
     }
@@ -247,15 +248,15 @@ namespace mfit {
 
   float BodyFatPercentage::bfpUSNavy( const pugi::xml_document& cfg ) {
     Gender gender = General::getGender( cfg ) ;
-    float height = General::getHeight( cfg ).convert(INCHES).magnitude() ;
-    float waist = General::getWaist( cfg ).convert(INCHES).magnitude() ;
-    float neck = General::getNeck( cfg ).convert(INCHES).magnitude() ;
+    float height = Measurements::getHeight( cfg )->convert(INCHES).magnitude() ;
+    float waist = Measurements::getWaist( cfg )->convert(INCHES).magnitude() ;
+    float neck = Measurements::getNeck( cfg )->convert(INCHES).magnitude() ;
 
     switch ( gender ) {
       case Male:
         return 86.010*log10(waist-neck)-70.041*log10(height) + 36.76;
       default:
-        float hip = General::getHips( cfg ).convert(INCHES).magnitude( ) ;
+        float hip = Measurements::getHips( cfg )->convert(INCHES).magnitude( ) ;
         return 163.205*log10(waist+hip-neck)-97.684*log10(height)-78.387;
     }
   }
@@ -267,8 +268,8 @@ namespace mfit {
 
   float BodyFatPercentage::bfpYMCA( const pugi::xml_document& cfg ) {
     Gender gender = General::getGender( cfg ) ;
-    float weight = General::getWeight( cfg ).convert(LBS).magnitude() ;
-    float waist = General::getWaist( cfg ).convert(INCHES).magnitude() ;
+    float weight = Measurements::getWeight( cfg )->convert(LBS).magnitude() ;
+    float waist = Measurements::getWaist( cfg )->convert(INCHES).magnitude() ;
 
     switch ( gender ) {
       case Male:
@@ -280,16 +281,16 @@ namespace mfit {
 
   float BodyFatPercentage::bfpYMCAModified( const pugi::xml_document& cfg ) {
     Gender gender = General::getGender( cfg ) ;
-    float weight = General::getWeight( cfg ).convert(LBS).magnitude() ;
-    float waist = General::getWaist( cfg ).convert(INCHES).magnitude() ;
+    float weight = Measurements::getWeight( cfg )->convert(LBS).magnitude() ;
+    float waist = Measurements::getWaist( cfg )->convert(INCHES).magnitude() ;
 
     switch ( gender ) {
       case Male:
         return (-94.42+4.15*waist-0.082*weight)/weight*100.0 ;
       default: {
-                 float hips = General::getHips( cfg ).convert(INCHES).magnitude( ) ;
-                 float wrist = General::getWrist( cfg ).convert(INCHES).magnitude( ) ;
-                 float forearm = General::getForearm( cfg ).convert(INCHES).magnitude( ) ;
+                 float hips = Measurements::getHips( cfg )->convert(INCHES).magnitude( ) ;
+                 float wrist = Measurements::getWrist( cfg )->convert(INCHES).magnitude( ) ;
+                 float forearm = Measurements::getForearm( cfg )->convert(INCHES).magnitude( ) ;
                  return ( 0.268 * weight - 0.318 * wrist + 0.157 * waist + 0.245 * hips
                      - 0.434 * forearm - 8.987 ) / weight * 100.0 ;
                }

@@ -2,73 +2,87 @@
 <person>
   <name>David Bond</name>
   <gender>Male</gender>
-  <age unit="YEARS">27</age>
+  <age unit="yrs">34</age>
   <measurements>
-    <weight unit="LBS">211.4</weight>
-    <height unit="INCHES">73</height>
-    <neck unit="INCHES">16</neck>
-    <waist unit="INCHES">38.75</waist>
-    <hips unit="INCHES">41.5</hips>
-    <biceps type="flexed" side="left" unit="INCHES">14.75</biceps>
-    <biceps type="flexed" side="right" unit="INCHES">14.75</biceps>
-    <wrist side="left" unit="INCHES">7.5</wrist>
-    <wrist side="right" unit="INCHES">7.5</wrist>
-    <forearm side="left" unit="INCHES">11.5</forearm>
-    <forearm side="right" unit="INCHES">12</forearm>
-    <thigh side="left" unit="INCHES">24</thigh>
-    <thigh side="right" unit="INCHES">23</thigh>
+    <weight unit="lbs">211.4</weight>
+    <height unit="in">73</height>
+    <neck unit="in">15.75</neck>
+    <waist unit="in">38.75</waist>
+    <beltline unit="in">37.5</beltline>
+    <chest unit="in">43.5</chest>
+    <hips unit="in">41.5</hips>
+    <biceps type="flexed" side="left" unit="in">15</biceps>
+    <biceps type="flexed" side="right" unit="in">15</biceps>
+    <biceps type="relaxed" side="left" unit="in">13.25</biceps>
+    <biceps type="relaxed" side="right" unit="in">13.25</biceps>
+    <wrist side="left" unit="in">7.25</wrist>
+    <wrist side="right" unit="in">7.25</wrist>
+    <forearm side="left" unit="in">12</forearm>
+    <forearm side="right" unit="in">12</forearm>
+    <thigh side="left" unit="in">23.5</thigh>
+    <thigh side="right" unit="in">23</thigh>
+    <calf side="left" unit="in">16.5</calf>
+    <calf side="right" unit="in">16.5</calf>
     <skinfolds>
-      <ticeps invalid="true" unit="MM">18</ticeps>
-      <chest unit="MM">16</chest>
-      <midaxillary unit="MM">20</midaxillary>
-      <subscapular invalid="true" unit="MM">30</subscapular>
-      <suprailiac unit="MM">28</suprailiac>
-      <abdominal unit="MM">35</abdominal>
-      <thigh unit="MM">17</thigh>
-      <suprailum unit="MM">1</suprailum>
+      <ticeps unit="mm">20</ticeps>
+      <chest unit="mm">16</chest>
+      <midaxillary unit="mm">20</midaxillary>
+      <subscapular unit="mm">19</subscapular>
+      <suprailiac unit="mm">28</suprailiac>
+      <abdominal unit="mm">35</abdominal>
+      <thigh unit="mm">17</thigh>
     </skinfolds>
   </measurements>
   <pushups>33</pushups>
-  <sitandreach unit="INCHES">17</sitandreach>
+  <sitandreach unit="in">17</sitandreach>
   <excercises>
     <cardio>
       <runs gradient="0.0" type="best">
-        <run>
-          <time unit="MINUTES">11.5</time>
-          <speed unit="MPH">6.7</speed>
-        </run>
-        <run>
-          <time unit="MINUTES">1.5</time>
-          <speed unit="MPH">8.5</speed>
-        </run>
+        <run><time unit="mins">11.5</time><speed unit="mph">6.7</speed></run>
+        <run><time unit="mins">1.5</time><speed unit="mph">8.5</speed></run>
       </runs>
       <runs gradient="0.0" type="treadmill">
-        <run>
-          <time unit="MINUTES">11.5</time>
-          <speed unit="MPH">6.7</speed>
-        </run>
-        <run>
-          <time unit="MINUTES">1.5</time>
-          <speed unit="MPH">8.5</speed>
-        </run>
-        <run>
-          <time unit="MINUTES">2</time>
-          <speed unit="MPH">4</speed>
-        </run>
+        <run><time unit="mins">11.5</time><speed unit="mph">6.7</speed></run>
+        <run><time unit="mins">1.5</time><speed unit="mph">8.5</speed></run>
+        <run><time unit="mins">2</time><speed unit="mph">4</speed></run>
       </runs>
     </cardio>
     <weights>
       <fly type="machine">
-        <weight unit="LBS">150</weight><sets>3</sets><reps>12</reps>
+        <weight unit="lbs">150</weight><sets>3</sets><reps>12</reps>
       </fly>
-      <bicepcurls type="dumbbell">
-        <weight unit="LBS">30</weight><sets>3</sets><reps>10</reps>
+      <bicepcurls type="dumbbell" hands="1">
+        <weight unit="lbs">35</weight><sets>3</sets><reps>10</reps>
       </bicepcurls>
+      <bicepcurls type="machine">
+        <weight unit="lbs">100</weight><sets>3</sets><reps>10</reps>
+      </bicepcurls>
+      <triceppress type="machine">
+        <weight unit="lbs">140</weight><sets>3</sets><reps>12</reps>
+      </triceppress>
+      <pulldown type="machine">
+        <weight unit="lbs">130</weight><sets>3</sets><reps>10</reps>
+      </pulldown>
+      <row type="machine">
+        <weight unit="lbs">100</weight><sets>3</sets><reps>12</reps>
+      </row>
+      <abdominal type="machine">
+        <weight unit="lbs">185</weight><sets>3</sets><reps>12</reps>
+      </abdominal>
+      <seatedlegpress type="machine">
+        <weight unit="lbs">230</weight><sets>3</sets><reps>12</reps>
+      </seatedlegpress>
+      <backextensions type="machine">
+        <weight unit="lbs">200</weight><sets>3</sets><reps>12</reps>
+      </backextensions>
+      <calfextensions type="machine">
+        <weight unit="lbs">185</weight><sets>3</sets><reps>12</reps>
+      </calfextensions>
       <inclinechestpress type="machine">
-        <weight unit="LBS">130</weight><sets>3</sets><reps>8</reps>
+        <weight unit="lbs">130</weight><sets>3</sets><reps>8</reps>
       </inclinechestpress>
       <flatchestpress type="dumbbell">
-        <weight unit="LBS">90</weight><sets>3</sets><reps>10</reps>
+        <weight unit="lbs">90</weight><sets>3</sets><reps>10</reps>
       </flatchestpress>
     </weights>
   </excercises>

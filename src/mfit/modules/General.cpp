@@ -5,6 +5,7 @@
 #include "mcommon/Gender.hpp"
 
 #include "mfit/modules/General.hpp"
+#include "mfit/modules/Measurements.hpp"
 #include "mfit/Engine.hpp"
 
 using namespace mcommon ;
@@ -17,99 +18,14 @@ namespace mfit {
     return key ;
   }
 
-  Quantity General::avg( Quantity a, Quantity b ) {
-    Quantity c = a.convert( b.unit() ) ;
-    return Quantity(( c.magnitude( ) + b.magnitude( ) ) / 2, b.unit( ) ) ; 
+  std::shared_ptr<Quantity> General::avg( std::shared_ptr<Quantity> a,
+      std::shared_ptr<Quantity> b ) {
+    Quantity c = a->convert( b->unit() ) ;
+    return std::shared_ptr<Quantity>( new Quantity(( c.magnitude( ) + b->magnitude( ) ) / 2, b->unit( ) ) ) ; 
   }
 
   Gender General::getGender( const pugi::xml_document& cfg ) {
     return Engine::getNodeAsGender( cfg, "/person/gender" ) ;
-  }
-
-  Quantity General::getWeight( const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantity( cfg, "/person/measurements/weight", LBS ) ;
-  }
-
-  Quantity General::getHeight( const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantity( cfg, "/person/measurements/height", INCHES ) ;
-  }
-
-  Quantity General::getNeck( const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantity( cfg, "/person/measurements/neck", INCHES ) ;
-  }
-
-  Quantity General::getWaist( const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantity( cfg, "/person/measurements/waist", INCHES ) ;
-  }
-
-  Quantity General::getHips( const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantity( cfg, "/person/measurements/hips", INCHES ) ;
-  }
-
-  Quantity General::getThigh( const pugi::xml_document& cfg ) {
-    return avg( getThighLeft( cfg ), getThighRight( cfg ) ) ;
-  }
-
-  Quantity General::getThighLeft( const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantity( cfg, 
-        "/person/measurements/thigh[@side='left']", INCHES ) ;
-  }
-
-  Quantity General::getThighRight( const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantity( cfg, 
-        "/person/measurements/thigh[@side='right']", INCHES ) ;
-  }
-
-  Quantity General::getForearm( const pugi::xml_document& cfg ) {
-    return avg( getForearmLeft( cfg ), getForearmRight( cfg ) ) ;
-  }
-
-  Quantity General::getForearmLeft( const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantity( cfg, 
-        "/person/measurements/forearm[@side='left']", INCHES ) ;
-  }
-
-  Quantity General::getForearmRight( const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantity( cfg, 
-        "/person/measurements/forearm[@side='right']", INCHES ) ;
-  }
-
-  Quantity General::getWrist( const pugi::xml_document& cfg ) {
-    return avg( getWristLeft( cfg ), getWristRight( cfg ) ) ;
-  }
-
-  Quantity General::getWristLeft( const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantity( cfg, 
-        "/person/measurements/wrist[@side='left']", INCHES ) ;
-  }
-
-  Quantity General::getWristRight( const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantity( cfg, 
-        "/person/measurements/wrist[@side='right']", INCHES ) ;
-  }
-
-  Quantity General::getCalf( const pugi::xml_document& cfg ) {
-    return avg( getCalfLeft( cfg ), getCalfRight( cfg ) ) ;
-  }
-
-  Quantity General::getCalfLeft( const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantity( cfg, 
-        "/person/measurements/calf[@side='left']", INCHES ) ;
-  }
-
-  Quantity General::getCalfRight( const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantity( cfg, 
-        "/person/measurements/calf[@side='right']", INCHES ) ;
-  }
-
-  Quantity General::getBicepFlexedRight( const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantity( cfg,
-        "/person/measurements/biceps[@type='flexed' and @side='right']", INCHES ) ;
-  }
-
-  Quantity General::getBicepFlexedLeft( const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantity( cfg,
-        "/person/measurements/biceps[@type='flexed' and @side='left']", INCHES ) ;
   }
 
   Quantity General::getAge( const pugi::xml_document& cfg ) {
@@ -120,26 +36,12 @@ namespace mfit {
       const pugi::xml_document& cfg ) const {
     out << "General Stats" << std::endl ;
 
-    Quantity weight = getWeight( cfg ) ;
-    Quantity height = getHeight( cfg ) ;
-    Quantity neck = getNeck( cfg ) ;
-    Quantity waist = getWaist( cfg ) ;
-    Quantity hips = getHips( cfg ) ;
-    Quantity bicepFlexedRight = getBicepFlexedRight( cfg ) ;
-    Quantity bicepFlexedLeft = getBicepFlexedLeft( cfg ) ;
-
     Quantity bmrHarrisBenedict(General::bmrHarrisBenedict( cfg ) ) ;
     Quantity bmrRozaShizgal(General::bmrRozaShizgal( cfg ) ) ;
 
     float bmi(General::bmi( cfg ) ) ;
 
-    out << "\tYour Weight is " << weight << std::endl
-      << "\tYour Height is " << height << std::endl
-      << "\tYour Neck is " << neck << std::endl
-      << "\tYour Waist is " << waist << std::endl
-      << "\tYour Hips are " << hips << std::endl
-      << "\tYour Bicep Right Flexed is " << bicepFlexedRight << std::endl
-      << "\tYour Bicep Left Flexed is " << bicepFlexedLeft << std::endl
+    out
       << "\tYour BMI is " << bmi << std::endl
       << "\tYour Harris Benedict BMR is " << bmrHarrisBenedict << std::endl
       << "\tYour Roza Shizgal BMR is " << bmrRozaShizgal << std::endl ;
@@ -159,8 +61,8 @@ namespace mfit {
   }
 
   Quantity General::bmrRozaShizgal( const pugi::xml_document& cfg ) {
-    Quantity weight = getWeight( cfg ).convert(KG) ;
-    Quantity height = getHeight( cfg ).convert(CM) ;
+    Quantity weight = Measurements::getWeight( cfg )->convert(KG) ;
+    Quantity height = Measurements::getHeight( cfg )->convert(CM) ;
     Quantity age = getAge( cfg ).convert(YEARS) ;
     Gender gender = getGender( cfg ) ;
 
@@ -180,8 +82,8 @@ namespace mfit {
   }
 
   Quantity General::bmrHarrisBenedict( const pugi::xml_document& cfg ) {
-    Quantity weight = getWeight( cfg ).convert(KG) ;
-    Quantity height = getHeight( cfg ).convert(CM) ;
+    Quantity weight = Measurements::getWeight( cfg )->convert(KG) ;
+    Quantity height = Measurements::getHeight( cfg )->convert(CM) ;
     Quantity age = getAge( cfg ).convert(YEARS) ;
     Gender gender = getGender( cfg ) ;
 
@@ -201,8 +103,8 @@ namespace mfit {
   }
 
   float General::bmi( const pugi::xml_document& cfg ) {
-    Quantity weight = getWeight( cfg ).convert( LBS ) ;
-    Quantity height = getHeight( cfg ).convert( INCHES ) ;
+    Quantity weight = Measurements::getWeight( cfg )->convert( LBS ) ;
+    Quantity height = Measurements::getHeight( cfg )->convert( INCHES ) ;
 
     float height2 = height.magnitude()*height.magnitude() ;
     float bmi = weight.magnitude()/height2*703 ;
@@ -212,18 +114,18 @@ namespace mfit {
 
   Quantity General::metsToCalories( Quantity mets, Quantity time,
       const pugi::xml_document& cfg ) {
-    Quantity weight = getWeight( cfg ).convert(KG) ;
+    Quantity weight = Measurements::getWeight( cfg )->convert(KG) ;
     return Quantity( mets.magnitude()*weight.magnitude()*
         time.convert(SECONDS).magnitude(), CALORIES) ;
   }
 
   Quantity General::idealBodyWeightBrocaIndex( const pugi::xml_document& cfg ) {
-    Quantity height = getHeight( cfg ).convert(CM) ;
+    Quantity height = Measurements::getHeight( cfg )->convert(CM) ;
     return Quantity( height.magnitude()-100, KG).convert(LBS) ;
   }
 
   Quantity General::idealBodyWeightDevine( const pugi::xml_document& cfg ) {
-    Quantity height = getHeight( cfg ).convert(INCHES) ;
+    Quantity height = Measurements::getHeight( cfg )->convert(INCHES) ;
 
     Gender gender = getGender( cfg ) ;
 
@@ -236,7 +138,7 @@ namespace mfit {
   }
 
   Quantity General::idealBodyWeightRobinson( const pugi::xml_document& cfg ) {
-    Quantity height = getHeight( cfg ).convert(INCHES) ;
+    Quantity height = Measurements::getHeight( cfg )->convert(INCHES) ;
 
     Gender gender = getGender( cfg ) ;
 
@@ -249,7 +151,7 @@ namespace mfit {
   }
 
   Quantity General::idealBodyWeightMiller( const pugi::xml_document& cfg ) {
-    Quantity height = getHeight( cfg ).convert(INCHES) ;
+    Quantity height = Measurements::getHeight( cfg )->convert(INCHES) ;
 
     Gender gender = getGender( cfg ) ;
 
@@ -262,7 +164,7 @@ namespace mfit {
   }
 
   void General::greekIdeal( std::ostream& out, const pugi::xml_document& cfg ) {
-    Quantity wrist = getWrist( cfg ) ;
+    Quantity wrist = *Measurements::getWrist( cfg ) ;
 
     Quantity idealchest =  wrist * 6.5 ;
     Quantity idealwaist =  idealchest * 0.7 ;

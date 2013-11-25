@@ -7,6 +7,7 @@
 
 #include "mfit/modules/Cardio.hpp"
 #include "mfit/modules/General.hpp"
+#include "mfit/modules/Measurements.hpp"
 #include "mfit/Engine.hpp"
 
 using namespace mcommon ;
@@ -99,7 +100,7 @@ namespace mfit {
 
   Quantity Cardio::treadmillMETS( const pugi::xml_document& cfg ) {
     float gradient = Cardio::getGradient( cfg ) ;
-    Quantity weight = General::getWeight( cfg ) ;
+    Quantity weight = *Measurements::getWeight( cfg ) ;
     std::vector<Run> treadmillRuns ;
     Quantity tDis ;
     Quantity tTime ;
@@ -117,7 +118,7 @@ namespace mfit {
 
   Quantity Cardio::treadmillCals( const pugi::xml_document& cfg ) {
     float gradient = Cardio::getGradient( cfg ) ;
-    Quantity weight = General::getWeight( cfg ) ;
+    Quantity weight = *Measurements::getWeight( cfg ) ;
     std::vector<Run> treadmillRuns ;
     Quantity tDis ;
     Quantity tTime ;
