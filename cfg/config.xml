@@ -2,7 +2,7 @@
 <person>
   <name>David Bond</name>
   <gender>Male</gender>
-  <age unit="yrs">34</age>
+  <age unit="yrs">27</age>
   <measurements>
     <weight unit="lbs">211.4</weight>
     <height unit="in">73</height>
@@ -67,16 +67,16 @@
         <weight unit="lbs">100</weight><sets>3</sets><reps>12</reps>
       </row>
       <abdominal type="machine">
-        <weight unit="lbs">185</weight><sets>3</sets><reps>12</reps>
+        <weight unit="lbs">160</weight><sets>3</sets><reps>12</reps>
       </abdominal>
       <seatedlegpress type="machine">
-        <weight unit="lbs">230</weight><sets>3</sets><reps>12</reps>
+        <weight unit="lbs">250</weight><sets>3</sets><reps>12</reps>
       </seatedlegpress>
       <backextensions type="machine">
-        <weight unit="lbs">200</weight><sets>3</sets><reps>12</reps>
+        <weight unit="lbs">240</weight><sets>3</sets><reps>12</reps>
       </backextensions>
       <calfextensions type="machine">
-        <weight unit="lbs">185</weight><sets>3</sets><reps>12</reps>
+        <weight unit="lbs">200</weight><sets>3</sets><reps>12</reps>
       </calfextensions>
       <inclinechestpress type="machine">
         <weight unit="lbs">130</weight><sets>3</sets><reps>8</reps>

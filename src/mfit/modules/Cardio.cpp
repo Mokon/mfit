@@ -20,8 +20,6 @@ namespace mfit {
 
   void Cardio::process( std::ostream& out,
       const pugi::xml_document& cfg ) const {
-    out << "Cardio" << std::endl ;
-
     out << "\tRun Stats" << std::endl ;
 
     Quantity as( averageSpeed( cfg ) ) ;
@@ -160,7 +158,7 @@ namespace mfit {
 
   float Cardio::ageGrade( const pugi::xml_document& cfg, const Quantity distance,
       const Quantity time ) {
-    Quantity age = General::getAge( cfg ).convert(YEARS) ;
+    Quantity age = General::getAge( cfg )->convert(YEARS) ;
     Gender gender = General::getGender( cfg ) ;
 
     // TODO this need to be redone so it works with all cfg...

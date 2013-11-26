@@ -17,7 +17,7 @@ namespace mfit {
 
     public:
 
-      typedef std::function<mcommon::Value (
+      typedef std::function<std::shared_ptr<mcommon::Value> (
           const pugi::xml_document& cfg )> ValueGetter ;
 
       Statistic( std::string header, ValueGetter get ) ;
@@ -30,6 +30,9 @@ namespace mfit {
 
       void process( std::ostream& out,
           const pugi::xml_document& cfg ) const ;
+
+      static void print( std::ostream& out, std::string header,
+          std::string value ) ;
 
     protected:
 

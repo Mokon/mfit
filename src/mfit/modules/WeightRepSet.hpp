@@ -13,7 +13,7 @@ namespace mfit {
     ONE_REP_MAX_MODEL_MAX
   } ;
 
-  class WeightRepSet {
+  class WeightRepSet : public mcommon::Value {
 
     public:
 
@@ -31,8 +31,7 @@ namespace mfit {
       
       static float oneRepMaxPercentage[ONE_REP_MAX_MODEL_MAX][15] ;
 
-      friend std::ostream& operator<<( std::ostream& out,
-          const WeightRepSet& o ) ;
+      virtual std::ostream& out( std::ostream& o ) const ;
 
     private:
       

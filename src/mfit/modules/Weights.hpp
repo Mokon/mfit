@@ -5,6 +5,7 @@
 #include "mcommon/Quantity.hpp"
 
 #include "mfit/Module.hpp"
+#include "mfit/Statistic.hpp"
 #include "mfit/modules/WeightRepSet.hpp"
 
 namespace mfit {
@@ -13,7 +14,7 @@ namespace mfit {
 
     public:
 
-      Weights( ) = default ;
+      Weights( ) ;
 
       virtual ~Weights( ) = default ;
 
@@ -23,44 +24,41 @@ namespace mfit {
 
       virtual std::string getKey( ) ;
 
-      virtual void process( std::ostream& out,
-          const pugi::xml_document& cfg ) const ;
-
       static const std::string key ;
+  
+      void addWeight( std::string hdr, Statistic::ValueGetter get ) ;
 
-      static WeightRepSet getDumbbellChestPressFlat(
-          const pugi::xml_document& cfg ) ;
+      static Statistic::ValueGetter getModelFunc( Statistic::ValueGetter get,
+          OneRepMaxModel model ) ;
 
-      static WeightRepSet getMachineFly( const pugi::xml_document& cfg ) ;
+      static std::shared_ptr<WeightRepSet> getModel( Statistic::ValueGetter get,
+          const pugi::xml_document& cfg, OneRepMaxModel model  ) ;
 
-      static WeightRepSet getMachineInclineChestPress(
-          const pugi::xml_document& cfg ) ;
+      static std::shared_ptr<WeightRepSet> getNodeAsWeightRepSet( const pugi::xml_document& cfg, const std::string xpath ) ;
 
-      static WeightRepSet getDumbbellBicepCurls( const pugi::xml_document& cfg ) ;
+      static std::shared_ptr<WeightRepSet> getDumbbellChestPressFlat( const pugi::xml_document& cfg ) ;
 
-      static WeightRepSet getNodeAsWeightRepSet( const pugi::xml_document& cfg, const std::string xpath ) ;
+      static std::shared_ptr<WeightRepSet> getMachineFly( const pugi::xml_document& cfg ) ;
 
-      static WeightRepSet getMachineBicepCurls( const pugi::xml_document& cfg ) ;
+      static std::shared_ptr<WeightRepSet> getMachineInclineChestPress( const pugi::xml_document& cfg ) ;
 
-      static WeightRepSet getMachineTricepPress( const pugi::xml_document& cfg ) ;
+      static std::shared_ptr<WeightRepSet> getDumbbellBicepCurls( const pugi::xml_document& cfg ) ;
 
-      static WeightRepSet getMachinePulldown( const pugi::xml_document& cfg ) ;
+      static std::shared_ptr<WeightRepSet> getMachineBicepCurls( const pugi::xml_document& cfg ) ;
 
-      static WeightRepSet getMachineRow( const pugi::xml_document& cfg ) ;
+      static std::shared_ptr<WeightRepSet> getMachineTricepPress( const pugi::xml_document& cfg ) ;
 
-      static WeightRepSet getMachineAbdominal( const pugi::xml_document& cfg ) ;
+      static std::shared_ptr<WeightRepSet> getMachinePulldown( const pugi::xml_document& cfg ) ;
 
-      static WeightRepSet getMachineSeatedLegPress( const pugi::xml_document& cfg ) ;
+      static std::shared_ptr<WeightRepSet> getMachineRow( const pugi::xml_document& cfg ) ;
 
-      static WeightRepSet getMachineBackExtensions( const pugi::xml_document& cfg ) ;
+      static std::shared_ptr<WeightRepSet> getMachineAbdominal( const pugi::xml_document& cfg ) ;
 
-      static WeightRepSet getMachineCalfExtensions( const pugi::xml_document& cfg ) ;
+      static std::shared_ptr<WeightRepSet> getMachineSeatedLegPress( const pugi::xml_document& cfg ) ;
 
-    private:
+      static std::shared_ptr<WeightRepSet> getMachineBackExtensions( const pugi::xml_document& cfg ) ;
 
-      static void processWeightLift( std::ostream& out,
-          const pugi::xml_document& cfg, const std::string weightLiftName,
-          WeightRepSet (*getWeightLift)( const pugi::xml_document& cfg ) ) ;
+      static std::shared_ptr<WeightRepSet> getMachineCalfExtensions( const pugi::xml_document& cfg ) ;
 
   } ;
 

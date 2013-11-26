@@ -82,7 +82,12 @@ namespace mfit {
 
     for( auto mod : modules ) {
       out << mod.first << " statistics" << std::endl ;
-      mod.second->process( out, cfg ) ;
+      try {
+        mod.second->process( out, cfg ) ;
+      } catch( const std::exception& ex ) {
+        DLOG(INFO) << "Couldn't process a statistic with the given config: "
+          << ex.what() << std::endl ;
+      }
       mod.second->processRegisteredStats( out, cfg ) ;
     }
   }

@@ -46,9 +46,9 @@ namespace mfit {
     return WeightRepSet( Quantity( mag, weight.unit()), sets, reps ) ;
   }
 
-  std::ostream& operator<<( std::ostream& out, const WeightRepSet& o ) {
-    return out << "Weight: " << o.weight
-      << ", Sets: " << o.sets << ", Reps: " << o.reps ;
+  std::ostream& WeightRepSet::out( std::ostream& o ) const {
+    return o << "Weight: " << weight
+      << ", Sets: " << sets << ", Reps: " << reps ;
   }
 
 }
