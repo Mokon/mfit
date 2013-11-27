@@ -196,7 +196,7 @@ namespace mfit {
     float ag = std[gender][21] /
       factors[gender][0][(int)std::round(age.magnitude()-5)] /
       time.magnitude() * 100.0f ;
-    return std::shared_ptr<Quantity>( new Quantity( ag, NONE ) ) ;
+    return std::shared_ptr<Quantity>( new Quantity( ag, PERCENTAGE ) ) ;
   }
 
   const float Cardio::std[GENDER_MAX][33] = {
