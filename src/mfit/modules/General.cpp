@@ -47,10 +47,12 @@ namespace mfit {
 
   void General::process( std::ostream& out,
       const pugi::xml_document& cfg ) const {
-    Statistic::print( out, "Your Gender is",  getGender( cfg ) ? "Female" : "Male" ) ;
+    Statistic::print( out,
+        "Your Gender is",  getGender( cfg ) ? "Female" : "Male" ) ;
   }
 
-  std::shared_ptr<Quantity> General::getBMRRozaShizgal( const pugi::xml_document& cfg ) {
+  std::shared_ptr<Quantity> General::getBMRRozaShizgal(
+      const pugi::xml_document& cfg ) {
     Quantity weight = Measurements::getWeight( cfg )->convert(KG) ;
     Quantity height = Measurements::getHeight( cfg )->convert(CM) ;
     Quantity age = getAge( cfg )->convert(YEARS) ;
@@ -71,7 +73,8 @@ namespace mfit {
     return std::shared_ptr<Quantity>( new Quantity( cals, CALORIES ) ) ;
   }
 
-  std::shared_ptr<Quantity> General::getBMRHarrisBenedict( const pugi::xml_document& cfg ) {
+  std::shared_ptr<Quantity> General::getBMRHarrisBenedict(
+      const pugi::xml_document& cfg ) {
     Quantity weight = Measurements::getWeight( cfg )->convert(KG) ;
     Quantity height = Measurements::getHeight( cfg )->convert(CM) ;
     Quantity age = getAge( cfg )->convert(YEARS) ;
@@ -111,15 +114,16 @@ namespace mfit {
     return std::shared_ptr<Quantity>( new Quantity(ret) ) ;
   }
 
-  std::shared_ptr<Quantity> General::getIdealBodyWeightBrocaIndex( const pugi::xml_document& cfg ) {
+  std::shared_ptr<Quantity> General::getIdealBodyWeightBrocaIndex(
+      const pugi::xml_document& cfg ) {
     Quantity height = Measurements::getHeight( cfg )->convert(CM) ;
     Quantity ret = Quantity( height.magnitude()-100, KG).convert(LBS)  ;
     return std::shared_ptr<Quantity>( new Quantity(ret) ) ;
   }
 
-  std::shared_ptr<Quantity> General::getIdealBodyWeightDevine( const pugi::xml_document& cfg ) {
+  std::shared_ptr<Quantity> General::getIdealBodyWeightDevine(
+      const pugi::xml_document& cfg ) {
     Quantity height = Measurements::getHeight( cfg )->convert(INCHES) ;
-
     Gender gender = getGender( cfg ) ;
 
     Quantity ret ;
@@ -134,9 +138,9 @@ namespace mfit {
     return std::shared_ptr<Quantity>( new Quantity(ret) ) ;
   }
 
-  std::shared_ptr<Quantity> General::getIdealBodyWeightRobinson( const pugi::xml_document& cfg ) {
+  std::shared_ptr<Quantity> General::getIdealBodyWeightRobinson(
+      const pugi::xml_document& cfg ) {
     Quantity height = Measurements::getHeight( cfg )->convert(INCHES) ;
-
     Gender gender = getGender( cfg ) ;
 
     Quantity ret ;
@@ -151,9 +155,9 @@ namespace mfit {
     return std::shared_ptr<Quantity>( new Quantity(ret) ) ;
   }
 
-  std::shared_ptr<Quantity> General::getIdealBodyWeightMiller( const pugi::xml_document& cfg ) {
+  std::shared_ptr<Quantity> General::getIdealBodyWeightMiller(
+      const pugi::xml_document& cfg ) {
     Quantity height = Measurements::getHeight( cfg )->convert(INCHES) ;
-
     Gender gender = getGender( cfg ) ;
 
     Quantity ret ;

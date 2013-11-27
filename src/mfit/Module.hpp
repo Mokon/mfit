@@ -17,6 +17,7 @@ namespace mfit {
 
     public:
 
+      /* TODO add html flag */
       Module( ) = default ;
 
       virtual ~Module( ) = default ;
@@ -27,6 +28,8 @@ namespace mfit {
 
       virtual std::string getKey( ) = 0 ;
 
+      /* This function can be overridden for stats that can't be handled with
+       * registered stats. */
       virtual void process( std::ostream& out,
           const pugi::xml_document& cfg ) const ;
     

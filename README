@@ -2,3 +2,10 @@
 
 Mokon Fitness
 
+This program takes a xml file with a bunch of statistics about your health and
+then computes a bunch of additional statistics based on those. I have my config
+file in cfg/config.xml. Edit that with yours. If you don't know some of your
+stats just delete that line from the xml file. This program is smart enough to
+handle missing stats. It will only compute stats when it is able to given what
+you provide. It will compute the maximum set of those statistics.
+

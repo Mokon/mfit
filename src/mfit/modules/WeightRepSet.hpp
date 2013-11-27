@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "mcommon/Exception.hpp"
 #include "mcommon/Quantity.hpp"
 
 namespace mfit {
@@ -12,6 +13,8 @@ namespace mfit {
     DosRemedios,
     ONE_REP_MAX_MODEL_MAX
   } ;
+  
+  DEFINE_EXCEPTION_CLASS( UnhandledRepException ) ;
 
   class WeightRepSet : public mcommon::Value {
 
@@ -29,11 +32,11 @@ namespace mfit {
 
       WeightRepSet convert( int reps, enum OneRepMaxModel model) ;
       
-      static float oneRepMaxPercentage[ONE_REP_MAX_MODEL_MAX][15] ;
-
       virtual std::ostream& out( std::ostream& o ) const ;
 
     private:
+
+      static float oneRepMaxPercentage[ONE_REP_MAX_MODEL_MAX][15] ;
       
       mcommon::Quantity weight ;
 

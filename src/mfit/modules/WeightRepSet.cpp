@@ -1,7 +1,5 @@
 /* Copyright (C) 2013 David 'Mokon' Bond,  All Rights Reserved */
 
-#include <stdexcept>
-
 #include "mfit/modules/WeightRepSet.hpp"
 
 using namespace mcommon ;
@@ -23,22 +21,22 @@ namespace mfit {
 
   WeightRepSet WeightRepSet::convert( int reps, enum OneRepMaxModel model) {
     if( this->reps > 15 ) {
-      throw std::runtime_error("model does not handle the given rep count");
+      throw UnhandledRepException("model does not handle the given rep count");
     }
 
     float perc = oneRepMaxPercentage[model][this->reps-1] ;
     if( perc == 0 ) {
-      throw std::runtime_error("model does not handle the given rep count");
+      throw UnhandledRepException("model does not handle the given rep count");
     }
     float mag = weight.magnitude()/(perc/100.f) ;
 
     if( reps > 15 ) {
-      throw std::runtime_error("model does not handle the given rep count");
+      throw UnhandledRepException("model does not handle the given rep count");
     }
 
     perc = oneRepMaxPercentage[model][reps-1] ;
     if( perc == 0 ) {
-      throw std::runtime_error("model does not handle the given rep count");
+      throw UnhandledRepException("model does not handle the given rep count");
     }
 
     mag *= perc/100.0 ;

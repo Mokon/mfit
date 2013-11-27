@@ -18,7 +18,7 @@ namespace mfit {
       const pugi::xml_document& cfg ) {
     for( auto stat : stats) {
       try {
-        stat.process( out, cfg ) ;
+          stat.process( out, cfg ) ;
       } catch( const std::exception& ex ) {
         DLOG(INFO) << "Couldn't process a statistic with the given config: "
           << ex.what() << std::endl ;
@@ -31,6 +31,9 @@ namespace mfit {
   }
 
   void Module::add( std::string header, Statistic::ValueGetter get ) {
+    DLOG(INFO) << "Adding registered stat for module " << getKey()
+      << " with header " << header << " and function " << (void*)&get
+      << std::endl ;
     add( Statistic( header, get ) ) ;
   }
 

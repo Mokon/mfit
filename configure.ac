@@ -9,7 +9,8 @@ m4_include([mcommon/configure_cpp.m4])
 AC_REVISION([$Revision: 0.0 $])
 M_COPYRIGHT_PROPRIETARY([David 'Mokon' Bond],[2013])
 
-M_PROG_DEPS([mfit], [glog boost_system pugixml])
+M_PROG_DEPS([mfit],
+  [glog boost_system boost_program_options boost_filesystem pugixml])
 
 AC_OUTPUT
 

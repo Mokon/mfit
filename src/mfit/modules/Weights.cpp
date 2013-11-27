@@ -49,7 +49,8 @@ namespace mfit {
   std::shared_ptr<WeightRepSet> Weights::getModel( Statistic::ValueGetter get,
       const pugi::xml_document& cfg, OneRepMaxModel model  ) {
     return std::shared_ptr<WeightRepSet>(
-        new WeightRepSet( std::dynamic_pointer_cast<WeightRepSet>( get( cfg ) )->convert(1, model) ) ) ;
+        new WeightRepSet( std::dynamic_pointer_cast<WeightRepSet>(
+            get( cfg ) )->convert(1, model) ) ) ;
   }
 
   std::shared_ptr<WeightRepSet> Weights::getNodeAsWeightRepSet(

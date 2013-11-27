@@ -19,9 +19,10 @@ namespace mfit {
     return key ;
   }
 
-  std::shared_ptr<ValueString> BodyFatPercentage::bfpToClassification(
+  std::shared_ptr<ValueString> BodyFatPercentage::getBFPToClassification(
       Statistic::ValueGetter get, const pugi::xml_document& cfg ) {
-    std::shared_ptr<Quantity> bfp = std::dynamic_pointer_cast<Quantity>( get( cfg ) ) ;
+    std::shared_ptr<Quantity> bfp
+      = std::dynamic_pointer_cast<Quantity>( get( cfg ) ) ;
 
     std::string ret ;
     Gender gender = General::getGender( cfg ) ;
@@ -62,15 +63,15 @@ namespace mfit {
   }
 
   BodyFatPercentage::BodyFatPercentage( ) {
-    addBFP( "Your 3 Site Skinfold Body Fat Percentage is", bfp3Site ) ;
-    addBFP( "Your 7 Site Skinfold Body Fat Percentage is", bfp7Site ) ;
-    addBFP( "Your Heritage BMI Formula Body Fat Percentage is", bfpHeritageBMI ) ;
-    addBFP( "Your Convert Baily Formula Body Fat Percentage is", bfpConvertBailey ) ;
-    addBFP( "Your Hodgone Becket Formula Body Fat Percentage is", bfpHodgdonBeckett ) ;
-    addBFP( "Your US Navy Formula Body Fat Percentage is", bfpUSNavy ) ;
-    addBFP( "Your US Marines Formula Body Fat Percentage is", bfpUSMarines ) ;
-    addBFP( "Your YMCA Formula Body Fat Percentage is", bfpYMCA ) ;
-    addBFP( "Your YMCA Modified Formula Body Fat Percentage is", bfpYMCAModified ) ;
+    addBFP( "Your 3 Site Skinfold Body Fat Percentage is", getBFP3Site ) ;
+    addBFP( "Your 7 Site Skinfold Body Fat Percentage is", getBFP7Site ) ;
+    addBFP( "Your Heritage BMI Formula Body Fat Percentage is", getBFPHeritageBMI ) ;
+    addBFP( "Your Convert Baily Formula Body Fat Percentage is", getBFPConvertBailey ) ;
+    addBFP( "Your Hodgone Becket Formula Body Fat Percentage is", getBFPHodgdonBeckett ) ;
+    addBFP( "Your US Navy Formula Body Fat Percentage is", getBFPUSNavy ) ;
+    addBFP( "Your US Marines Formula Body Fat Percentage is", getBFPUSMarines ) ;
+    addBFP( "Your YMCA Formula Body Fat Percentage is", getBFPYMCA ) ;
+    addBFP( "Your YMCA Modified Formula Body Fat Percentage is", getBFPYMCAModified ) ;
     add( "Your tricep skinfold measurement is", getTicepsSkinfold ) ;
     add( "Your chest skinfold measurement is", getChestSkinfold ) ;
     add( "Your midaxillary skinfold measurement is", getMidaxillarySkinfold ) ;
@@ -83,62 +84,73 @@ namespace mfit {
   
   void BodyFatPercentage::addBFP( std::string hdr, Statistic::ValueGetter get ) {
     add( hdr, get ) ;
-    add( "\twhich is",  getBFPFunc( get ) ) ;
+    add( "\twhich is categorized",  getBFPFunc( get ) ) ;
   }
 
-  Statistic::ValueGetter BodyFatPercentage::getBFPFunc( Statistic::ValueGetter get ) {
+  Statistic::ValueGetter BodyFatPercentage::getBFPFunc(
+      Statistic::ValueGetter get ) {
     return [get]( const pugi::xml_document& cfg )
       -> std::shared_ptr<mcommon::Value> {
-        return bfpToClassification( get, cfg ) ;
+        return getBFPToClassification( get, cfg ) ;
       } ;
   }
 
-  std::shared_ptr<Quantity> BodyFatPercentage::getTicepsSkinfold( const pugi::xml_document& cfg ) {
+  std::shared_ptr<Quantity> BodyFatPercentage::getTicepsSkinfold(
+      const pugi::xml_document& cfg ) {
     return Engine::getNodeAsQuantityPtr( cfg,
         "/person/measurements/skinfolds/ticeps", MM ) ;
   }
 
-  std::shared_ptr<Quantity> BodyFatPercentage::getChestSkinfold( const pugi::xml_document& cfg ) {
+  std::shared_ptr<Quantity> BodyFatPercentage::getChestSkinfold(
+      const pugi::xml_document& cfg ) {
     return Engine::getNodeAsQuantityPtr( cfg,
         "/person/measurements/skinfolds/chest", MM ) ;
   }
 
-  std::shared_ptr<Quantity> BodyFatPercentage::getMidaxillarySkinfold( const pugi::xml_document& cfg ) {
+  std::shared_ptr<Quantity> BodyFatPercentage::getMidaxillarySkinfold(
+      const pugi::xml_document& cfg ) {
     return Engine::getNodeAsQuantityPtr( cfg,
         "/person/measurements/skinfolds/midaxillary", MM ) ;
   }
 
-  std::shared_ptr<Quantity> BodyFatPercentage::getSubscapularSkinfold( const pugi::xml_document& cfg ) {
+  std::shared_ptr<Quantity> BodyFatPercentage::getSubscapularSkinfold(
+      const pugi::xml_document& cfg ) {
     return Engine::getNodeAsQuantityPtr( cfg,
         "/person/measurements/skinfolds/subscapular", MM ) ;
   }
 
-  std::shared_ptr<Quantity> BodyFatPercentage::getSuprailiacSkinfold( const pugi::xml_document& cfg ) {
+  std::shared_ptr<Quantity> BodyFatPercentage::getSuprailiacSkinfold(
+      const pugi::xml_document& cfg ) {
     return Engine::getNodeAsQuantityPtr( cfg,
         "/person/measurements/skinfolds/suprailiac", MM ) ;
   }
 
-  std::shared_ptr<Quantity> BodyFatPercentage::getAbdominalSkinfold( const pugi::xml_document& cfg ) {
+  std::shared_ptr<Quantity> BodyFatPercentage::getAbdominalSkinfold(
+      const pugi::xml_document& cfg ) {
     return Engine::getNodeAsQuantityPtr( cfg,
         "/person/measurements/skinfolds/abdominal", MM ) ;
   }
 
-  std::shared_ptr<Quantity> BodyFatPercentage::getThighSkinfold( const pugi::xml_document& cfg ) {
+  std::shared_ptr<Quantity> BodyFatPercentage::getThighSkinfold(
+      const pugi::xml_document& cfg ) {
     return Engine::getNodeAsQuantityPtr( cfg,
         "/person/measurements/skinfolds/thigh", MM ) ;
   }
 
-  std::shared_ptr<Quantity> BodyFatPercentage::getSuprailumSkinfold( const pugi::xml_document& cfg ) {
+  std::shared_ptr<Quantity> BodyFatPercentage::getSuprailumSkinfold(
+      const pugi::xml_document& cfg ) {
     return Engine::getNodeAsQuantityPtr( cfg,
         "/person/measurements/skinfolds/suprailum", MM ) ;
   }
 
-  std::shared_ptr<Quantity> BodyFatPercentage::siriEquation( float bodyDensity ) {
+  std::shared_ptr<Quantity> BodyFatPercentage::siriEquation(
+      float bodyDensity ) {
     return std::shared_ptr<Quantity>(
-        new Quantity((495.0/bodyDensity)-450.0, NONE ) ) ;
+        new Quantity((495.0/bodyDensity)-450.0, PERCENTAGE ) ) ;
   }
 
-  std::shared_ptr<Quantity> BodyFatPercentage::bfp3Site( const pugi::xml_document& cfg ) {
+  std::shared_ptr<Quantity> BodyFatPercentage::getBFP3Site(
+      const pugi::xml_document& cfg ) {
     Gender gender = General::getGender( cfg ) ;
     float age = General::getAge( cfg )->convert(YEARS).magnitude( ) ;
     float sum = 0 ;
@@ -160,7 +172,8 @@ namespace mfit {
     return siriEquation( bd ) ;
   }
 
-  std::shared_ptr<Quantity> BodyFatPercentage::bfp7Site( const pugi::xml_document& cfg ) {
+  std::shared_ptr<Quantity> BodyFatPercentage::getBFP7Site(
+      const pugi::xml_document& cfg ) {
     float sum = 0 ;
     Gender gender = General::getGender( cfg ) ;
     float age = General::getAge( cfg )->convert(YEARS).magnitude( ) ;
@@ -182,7 +195,8 @@ namespace mfit {
     return siriEquation( bd ) ;
   }
 
-  std::shared_ptr<Quantity> BodyFatPercentage::bfpHeritageBMI( const pugi::xml_document& cfg ) {
+  std::shared_ptr<Quantity> BodyFatPercentage::getBFPHeritageBMI(
+      const pugi::xml_document& cfg ) {
     Gender gender = General::getGender( cfg ) ;
     float age = General::getAge( cfg )->convert(YEARS).magnitude( ) ;
     float height = Measurements::getHeight( cfg )->convert(INCHES).magnitude( );
@@ -197,10 +211,11 @@ namespace mfit {
         ret = (977.17*weight/pow(height,2)) + 0.16*age - 9 ;
         break ;
     }
-    return std::shared_ptr<Quantity>( new Quantity( ret, NONE ) ) ;
+    return std::shared_ptr<Quantity>( new Quantity( ret, PERCENTAGE ) ) ;
   }
 
-  std::shared_ptr<Quantity> BodyFatPercentage::bfpConvertBailey( const pugi::xml_document& cfg ) {
+  std::shared_ptr<Quantity> BodyFatPercentage::getBFPConvertBailey(
+      const pugi::xml_document& cfg ) {
     Gender gender = General::getGender( cfg ) ;
     float age = General::getAge( cfg )->convert(YEARS).magnitude( ) ;
     float hips = Measurements::getHips( cfg )->convert(INCHES).magnitude( ) ;
@@ -229,14 +244,15 @@ namespace mfit {
                  break ;
                }
     }
-    return std::shared_ptr<Quantity>( new Quantity( ret, NONE ) ) ;
+    return std::shared_ptr<Quantity>( new Quantity( ret, PERCENTAGE ) ) ;
   }
 
-  std::shared_ptr<Quantity> BodyFatPercentage::bfpHodgdonBeckett( const pugi::xml_document& cfg ) {
+  std::shared_ptr<Quantity> BodyFatPercentage::getBFPHodgdonBeckett(
+      const pugi::xml_document& cfg ) {
     Gender gender = General::getGender( cfg ) ;
-    float height = Measurements::getHeight( cfg )->convert(INCHES).magnitude( ) * 2.54 ;
-    float waist = Measurements::getWaist( cfg )->convert(INCHES).magnitude( ) * 2.54 ;
-    float neck = Measurements::getNeck( cfg )->convert(INCHES).magnitude( ) * 2.54 ;
+    float height = Measurements::getHeight( cfg )->convert(CM).magnitude( ) ;
+    float waist = Measurements::getWaist( cfg )->convert(CM).magnitude( ) ;
+    float neck = Measurements::getNeck( cfg )->convert(CM).magnitude( ) ;
 
     float ret ;
     switch ( gender ) {
@@ -245,15 +261,16 @@ namespace mfit {
             (log10(waist-neck))+0.15456*(log10(height)))-450.0 ;
         break ;
       default:
-        float hip = Measurements::getHips( cfg )->convert(INCHES).magnitude( ) * 2.54 ;
+        float hip = Measurements::getHips( cfg )->convert(CM).magnitude( ) ;
         ret = 495.0/(1.29579-0.35004*
             (log10(waist+hip-neck))+0.22100*(log10(height)))-450 ;
         break ;
     }
-    return std::shared_ptr<Quantity>( new Quantity( ret, NONE ) ) ;
+    return std::shared_ptr<Quantity>( new Quantity( ret, PERCENTAGE ) ) ;
   }
 
-  std::shared_ptr<Quantity> BodyFatPercentage::bfpUSNavy( const pugi::xml_document& cfg ) {
+  std::shared_ptr<Quantity> BodyFatPercentage::getBFPUSNavy(
+      const pugi::xml_document& cfg ) {
     Gender gender = General::getGender( cfg ) ;
     float height = Measurements::getHeight( cfg )->convert(INCHES).magnitude() ;
     float waist = Measurements::getWaist( cfg )->convert(INCHES).magnitude() ;
@@ -269,15 +286,17 @@ namespace mfit {
         ret = 163.205*log10(waist+hip-neck)-97.684*log10(height)-78.387;
         break ;
     }
-    return std::shared_ptr<Quantity>( new Quantity( ret, NONE ) ) ;
+    return std::shared_ptr<Quantity>( new Quantity( ret, PERCENTAGE ) ) ;
   }
 
-  std::shared_ptr<Quantity> BodyFatPercentage::bfpUSMarines( const pugi::xml_document& cfg ) {
+  std::shared_ptr<Quantity> BodyFatPercentage::getBFPUSMarines(
+      const pugi::xml_document& cfg ) {
     (void)cfg ; /* TODO find formula */
-    return std::shared_ptr<Quantity>( new Quantity( 0, NONE ) ) ;
+    return std::shared_ptr<Quantity>( new Quantity( -1, PERCENTAGE ) ) ;
   }
 
-  std::shared_ptr<Quantity> BodyFatPercentage::bfpYMCA( const pugi::xml_document& cfg ) {
+  std::shared_ptr<Quantity> BodyFatPercentage::getBFPYMCA(
+      const pugi::xml_document& cfg ) {
     Gender gender = General::getGender( cfg ) ;
     float weight = Measurements::getWeight( cfg )->convert(LBS).magnitude() ;
     float waist = Measurements::getWaist( cfg )->convert(INCHES).magnitude() ;
@@ -291,10 +310,11 @@ namespace mfit {
         ret = (-76.76+ 4.15*waist-0.082*weight)/weight*100.0 ;
         break ;
     }
-    return std::shared_ptr<Quantity>( new Quantity( ret, NONE ) ) ;
+    return std::shared_ptr<Quantity>( new Quantity( ret, PERCENTAGE ) ) ;
   }
 
-  std::shared_ptr<Quantity> BodyFatPercentage::bfpYMCAModified( const pugi::xml_document& cfg ) {
+  std::shared_ptr<Quantity> BodyFatPercentage::getBFPYMCAModified(
+      const pugi::xml_document& cfg ) {
     Gender gender = General::getGender( cfg ) ;
     float weight = Measurements::getWeight( cfg )->convert(LBS).magnitude() ;
     float waist = Measurements::getWaist( cfg )->convert(INCHES).magnitude() ;
@@ -313,7 +333,7 @@ namespace mfit {
                  break ;
                }
     }
-    return std::shared_ptr<Quantity>( new Quantity( ret, NONE ) ) ;
+    return std::shared_ptr<Quantity>( new Quantity( ret, PERCENTAGE ) ) ;
   }
 }
 

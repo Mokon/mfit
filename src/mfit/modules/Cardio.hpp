@@ -16,7 +16,7 @@ namespace mfit {
 
     public:
 
-      Cardio( ) = default ;
+      Cardio( ) ;
 
       virtual ~Cardio( ) = default ;
 
@@ -26,33 +26,51 @@ namespace mfit {
 
       virtual std::string getKey( ) ;
 
-      virtual void process( std::ostream& out,
-          const pugi::xml_document& cfg ) const ;
-
       static const std::string key ;
 
       static void getRuns( const pugi::xml_document& cfg,
           const std::string xpath, std::vector<Run>& runs, 
           mcommon::Quantity& tTime, mcommon::Quantity& tDis ) ;
       
-      static float getGradient( const pugi::xml_document& cfg ) ;
+      static std::shared_ptr<mcommon::Quantity> getAverageSpeed(
+          const pugi::xml_document& cfg ) ;
 
+      static std::shared_ptr<mcommon::Quantity> getTreadmillDistance(
+          const pugi::xml_document& cfg ) ;
+      
+      static std::shared_ptr<mcommon::Quantity> getTreadmillTime(
+          const pugi::xml_document& cfg ) ;
+      
+      static std::shared_ptr<mcommon::Quantity> getTreadmillMETS(
+          const pugi::xml_document& cfg ) ;
+
+      static std::shared_ptr<mcommon::Quantity> getTreadmillCals(
+          const pugi::xml_document& cfg ) ;
+
+      static std::shared_ptr<mcommon::Quantity> getTimeToTravel(
+          const pugi::xml_document& cfg ) ;
+      
+      static std::shared_ptr<mcommon::Quantity> getTimeToTravelDistance(
+          const pugi::xml_document& cfg ) ;
+  
+      static std::shared_ptr<mcommon::Quantity> getDistanceTraveled(
+          const pugi::xml_document& cfg ) ;
+
+      static std::shared_ptr<mcommon::Quantity> getDistanceTraveledTime(
+          const pugi::xml_document& cfg ) ;
+
+      static std::shared_ptr<mcommon::Quantity> getAgeGrade(
+          const pugi::xml_document& cfg ) ;
+  
+      static std::shared_ptr<mcommon::Quantity> getAgeGradeDistance(
+          const pugi::xml_document& cfg ) ;
+
+      static std::shared_ptr<mcommon::Quantity> getAgeGradeTime(
+          const pugi::xml_document& cfg ) ;
+      
     private:
 
-      static mcommon::Quantity averageSpeed( const pugi::xml_document& cfg ) ;
-
-      static mcommon::Quantity treadmillMETS( const pugi::xml_document& cfg ) ;
-
-      static mcommon::Quantity treadmillCals( const pugi::xml_document& cfg ) ;
-
-      static mcommon::Quantity timeToTravelDistance( const pugi::xml_document& cfg,
-          const mcommon::Quantity distance ) ;
-
-      static mcommon::Quantity distanceTraveledIn( const pugi::xml_document& cfg,
-          const mcommon::Quantity time ) ;
-
-      static float ageGrade( const pugi::xml_document& cfg,
-          const mcommon::Quantity distance, const mcommon::Quantity time ) ;
+      static float getGradient( const pugi::xml_document& cfg ) ;
 
       static const float std[mcommon::GENDER_MAX][33] ;
 

@@ -5,6 +5,7 @@
 #include <map>
 #include <memory>
 #include <ostream>
+#include <vector>
 #include <string>
 
 #include <pugixml.hpp>
@@ -24,7 +25,7 @@ namespace mfit {
 
     public:
 
-      Engine( ) = default ;
+      Engine( bool html ) ;
 
       virtual ~Engine( ) = default ;
 
@@ -41,6 +42,10 @@ namespace mfit {
        */
       void process( std::ostream& out, const std::string config ) const ;
 
+      /* Process all files */
+      void process( std::ostream& out,
+          const std::vector<std::string>& files ) const ;
+
       /* TODO convert to templates */
       static float getNodeAsFloat( const pugi::xml_document& cfg,
           const std::string xpath ) ;
@@ -53,14 +58,18 @@ namespace mfit {
 
       static mcommon::Quantity getNodeAsQuantity( const pugi::xml_document& cfg,
           const std::string xpath, const mcommon::Unit unit ) ;
-  
+
       static std::shared_ptr<mcommon::Quantity> getNodeAsQuantityPtr(
-          const pugi::xml_document& cfg, const std::string xpath, const mcommon::Unit unit ) ;
+          const pugi::xml_document& cfg, const std::string xpath,
+          const mcommon::Unit unit ) ;
 
       static mcommon::Gender getNodeAsGender(
           const pugi::xml_document& cfg, const std::string xpath ) ;
 
     private:
+
+      /* A boolean on whether to output html versus console text. */
+      bool html ;
 
       std::map<const std::string, std::shared_ptr<Module>> modules ;
 

@@ -1,9 +1,10 @@
 /* Copyright (C) 2013 David 'Mokon' Bond,  All Rights Reserved */
 
-#include <cmath>
 #include <stdexcept>
 
 #include <boost/lexical_cast.hpp>
+
+#include "mcommon/Log.hpp"
 
 #include "mfit/modules/Cardio.hpp"
 #include "mfit/modules/General.hpp"
@@ -14,61 +15,25 @@ using namespace mcommon ;
 
 namespace mfit {
 
+  Cardio::Cardio( ) {
+    add( "Your average speed for your best run was", getAverageSpeed ) ;
+    add( "You were on the treadmill for", getTreadmillTime ) ;
+    add( "\tand you traveled", getTreadmillDistance ) ;
+    add( "\tand you spent", getTreadmillMETS ) ;
+    add( "\tand you burnt", getTreadmillCals ) ;
+    add( "Given this pace it would take you", getTimeToTravel ) ;
+    add( "\tto travel", getTimeToTravelDistance ) ;
+    add( "Given this pace you would travel", getDistanceTraveled ) ;
+    add( "\tin", getDistanceTraveledTime ) ;
+    add( "This means that for your given age your run time percentile is", getAgeGrade ) ;
+    add( "\tgiven a run length of", getAgeGradeDistance ) ;
+    add( "\tand given a run time of", getAgeGradeTime ) ;
+  }
+
   std::string Cardio::getKey( ) {
     return key ;
   }
 
-  void Cardio::process( std::ostream& out,
-      const pugi::xml_document& cfg ) const {
-    out << "\tRun Stats" << std::endl ;
-
-    Quantity as( averageSpeed( cfg ) ) ;
-    out << "\t\tYour average speed for your best run was " << as << "."
-      << std::endl ;
-
-    Quantity dis1dot5( 1.5, MILES ) ;
-    Quantity time( 15, MINUTES ) ;
-
-    Quantity dti( distanceTraveledIn( cfg, time ) ) ;
-    Quantity tttd( timeToTravelDistance( cfg, dis1dot5 ) ) ;
-
-    Quantity tttds( std::round(std::fmod(
-            tttd.convert(SECONDS).magnitude(), 60)), SECONDS) ;
-    Quantity tttdm( std::trunc(tttd.convert(MINUTES).magnitude()), MINUTES ) ;
-
-    out << "\t\tKeeping this pace in " << time << " you will travel "
-      << dti  << "." << std::endl
-      << "\t\tAnd you will travel " << dis1dot5 << " in " << tttdm 
-      << " and " << tttds << std::endl ;
-
-    Quantity dis1( 1, MILES ) ;
-    tttd = Quantity( timeToTravelDistance( cfg, dis1 ) ) ;
-    float ag( ageGrade( cfg, dis1, tttd ) ) ;
-
-    out << "\t\tThis means for your given age your run time percentile is "
-      << ag << " for " << dis1 << "." << std::endl ;
-
-    out << "\tTreadmill Stats" << std::endl ;
-
-    Quantity mets( treadmillMETS( cfg ) ) ;
-    Quantity cals( treadmillCals( cfg ) ) ;
-
-    std::vector<Run> treadmillRuns ;
-    Quantity tDis ;
-    Quantity tTime ;
-    getRuns(cfg, "/person/excercises/cardio/runs[@type='treadmill']/run",
-        treadmillRuns, tTime, tDis) ;
-
-    out << "\t\tYou were on the treadmill for " << tDis << " and "
-      << tTime.convert(MINUTES) << "." << std::endl
-      << "\t\tThis means you spent " << mets << " or " << cals << std::endl ;
-
-    std::vector<Run> bestRuns ;
-    getRuns(cfg, "/person/excercises/cardio/runs[@type='best']/run", bestRuns,
-        tTime, tDis) ;
-
-  }
-  
   float Cardio::getGradient( const pugi::xml_document& cfg ) {
     return Engine::getAttributeAsFloat( cfg,
         "/person/excercises/cardio/runs[@type='treadmill']/@gradient" ) ;
@@ -85,18 +50,45 @@ namespace mfit {
     pugi::xpath_node_set xruns = cfg.select_nodes(xpath.c_str());
 
     for ( auto it : xruns ) {
-#if 0
-    std::cout << xpath << " " <<  it.node().name() << " " << it.node().child("speed").last_child().value() << std::endl ;
-#endif
-      float time = boost::lexical_cast<float>(it.node().child("time").last_child().value());
-      float speed = boost::lexical_cast<float>(it.node().child("speed").last_child().value());
+      DLOG(INFO) << xpath << " " <<  it.node().name() << " "
+        << it.node().child("speed").last_child().value() << std::endl ;
+
+      float time = boost::lexical_cast<float>(
+          it.node().child("time").last_child().value());
+      float speed = boost::lexical_cast<float>(
+          it.node().child("speed").last_child().value());
       runs.push_back( Run(time, speed) );
       tTime += runs.back().time;
       tDis += runs.back().distance ;
     }
   }
 
-  Quantity Cardio::treadmillMETS( const pugi::xml_document& cfg ) {
+  std::shared_ptr<Quantity> Cardio::getTreadmillDistance(
+      const pugi::xml_document& cfg ) {
+    Quantity weight = *Measurements::getWeight( cfg ) ;
+    std::vector<Run> treadmillRuns ;
+    Quantity tDis ;
+    Quantity tTime ;
+    getRuns(cfg, "/person/excercises/cardio/runs[@type='treadmill']/run",
+        treadmillRuns, tTime, tDis) ;
+
+    return std::shared_ptr<Quantity>( new Quantity(tDis) ) ;
+  }
+
+  std::shared_ptr<Quantity> Cardio::getTreadmillTime(
+      const pugi::xml_document& cfg ) {
+    Quantity weight = *Measurements::getWeight( cfg ) ;
+    std::vector<Run> treadmillRuns ;
+    Quantity tDis ;
+    Quantity tTime ;
+    getRuns(cfg, "/person/excercises/cardio/runs[@type='treadmill']/run",
+        treadmillRuns, tTime, tDis) ;
+
+    return std::shared_ptr<Quantity>( new Quantity(tTime) ) ;
+  }
+
+  std::shared_ptr<Quantity> Cardio::getTreadmillMETS(
+      const pugi::xml_document& cfg ) {
     float gradient = Cardio::getGradient( cfg ) ;
     Quantity weight = *Measurements::getWeight( cfg ) ;
     std::vector<Run> treadmillRuns ;
@@ -111,10 +103,11 @@ namespace mfit {
     float sp = dis/t*60.0; // KMH
     float gas =  sp + sp*gradient*9.0/200.0 ; 
     float cal=(gas*1000.0/60.0+17.5)*t*we/1000.0 ;
-    return Quantity(cal/we/t*60, METS) ;
+    return std::shared_ptr<Quantity>( new Quantity(cal/we/t*60, METS) ) ;
   }
 
-  Quantity Cardio::treadmillCals( const pugi::xml_document& cfg ) {
+  std::shared_ptr<Quantity> Cardio::getTreadmillCals(
+      const pugi::xml_document& cfg ) {
     float gradient = Cardio::getGradient( cfg ) ;
     Quantity weight = *Measurements::getWeight( cfg ) ;
     std::vector<Run> treadmillRuns ;
@@ -128,45 +121,82 @@ namespace mfit {
     float t = tTime.convert(MINUTES).magnitude( ) ;
     float sp = dis/t*60.0; // KMH
     float gas =  sp + sp*gradient*9.0/200.0 ; 
-    return Quantity((gas*1000.0/60.0+17.5)*t*we/1000.0, CALORIES) ;
+    return std::shared_ptr<Quantity>(
+        new Quantity((gas*1000.0/60.0+17.5)*t*we/1000.0, CALORIES) ) ;
   }
 
-  Quantity Cardio::averageSpeed( const pugi::xml_document& cfg ) {
+  std::shared_ptr<Quantity> Cardio::getAverageSpeed(
+      const pugi::xml_document& cfg ) {
     std::vector<Run> runs ;
     Quantity tDis ;
     Quantity tTime ;
     getRuns(cfg, "/person/excercises/cardio/runs[@type='best']/run",
         runs, tTime, tDis) ;
 
-    return Quantity( tDis.convert(MILES).magnitude()/
-        tTime.convert(HOURS).magnitude(), MPH ) ;
+    return std::shared_ptr<Quantity>(
+        new Quantity( tDis.convert(MILES).magnitude()/
+          tTime.convert(HOURS).magnitude(), MPH ) ) ;
+  }
+  
+  std::shared_ptr<Quantity> Cardio::getDistanceTraveledTime(
+      const pugi::xml_document& cfg ) {
+    return Engine::getNodeAsQuantityPtr( cfg,
+        "/person/excercises/cardio/compute/distanceTraveledIn/time", MINUTES ) ;
   }
 
-  Quantity Cardio::distanceTraveledIn( const pugi::xml_document& cfg,
-      const Quantity time ) {
-    Quantity avgSpeed(averageSpeed(cfg)) ;
-    return Quantity( time.convert(HOURS).magnitude()*
-        avgSpeed.convert(MPH).magnitude(), MILES ) ;
+  std::shared_ptr<Quantity> Cardio::getDistanceTraveled(
+      const pugi::xml_document& cfg ) {
+    Quantity time = *getDistanceTraveledTime( cfg ) ;
+    Quantity avgSpeed(*getAverageSpeed(cfg)) ;
+    return std::shared_ptr<Quantity>(
+        new Quantity( time.convert(HOURS).magnitude()*
+          avgSpeed.convert(MPH).magnitude(), MILES ) ) ;
+  }
+  
+  std::shared_ptr<Quantity> Cardio::getTimeToTravelDistance(
+      const pugi::xml_document& cfg ) {
+    return Engine::getNodeAsQuantityPtr( cfg,
+        "/person/excercises/cardio/compute/timeToTravel/distance", MILES ) ;
   }
 
-  Quantity Cardio::timeToTravelDistance( const pugi::xml_document& cfg,
-      const Quantity dis ) {
-    Quantity avgSpeed(averageSpeed(cfg)) ;
-    return Quantity( dis.convert(MILES).magnitude( )/
-        avgSpeed.convert(MPH).magnitude( ), HOURS ) ;
+  std::shared_ptr<Quantity> Cardio::getTimeToTravel(
+      const pugi::xml_document& cfg ) {
+    Quantity dis = *getTimeToTravelDistance( cfg ) ;
+    Quantity avgSpeed(*getAverageSpeed(cfg)) ;
+    return std::shared_ptr<Quantity>(
+        new Quantity( dis.convert(MILES).magnitude( )/
+          avgSpeed.convert(MPH).magnitude( ), HOURS ) ) ;
   }
 
-  float Cardio::ageGrade( const pugi::xml_document& cfg, const Quantity distance,
-      const Quantity time ) {
+  std::shared_ptr<Quantity> Cardio::getAgeGradeDistance(
+      const pugi::xml_document& cfg ) {
+    return Engine::getNodeAsQuantityPtr( cfg,
+        "/person/excercises/cardio/compute/ageGrade/distance", MILES ) ;
+  }
+
+  std::shared_ptr<Quantity> Cardio::getAgeGradeTime(
+      const pugi::xml_document& cfg ) {
+    Quantity dis = *getAgeGradeDistance( cfg ) ;
+    Quantity avgSpeed(*getAverageSpeed(cfg)) ;
+    return std::shared_ptr<Quantity>(
+        new Quantity( dis.convert(MILES).magnitude( )/
+          avgSpeed.convert(MPH).magnitude( ), HOURS ) ) ;
+  }
+
+  std::shared_ptr<Quantity> Cardio::getAgeGrade(
+      const pugi::xml_document& cfg ) {
+    Quantity distance = *getAgeGradeDistance( cfg ) ;
+    Quantity time = getAgeGradeTime( cfg )->convert(SECONDS) ;
     Quantity age = General::getAge( cfg )->convert(YEARS) ;
     Gender gender = General::getGender( cfg ) ;
 
-    // TODO this need to be redone so it works with all cfg...
-    //EventType evt(et1MILES);
+    /* TODO this need to be redone so it works with all cfg...
+       EventType evt(et1MILES); */
     (void)distance;
-    return std[gender][21] /
+    float ag = std[gender][21] /
       factors[gender][0][(int)std::round(age.magnitude()-5)] /
-      time.convert(SECONDS).magnitude() * 100.0f ;
+      time.magnitude() * 100.0f ;
+    return std::shared_ptr<Quantity>( new Quantity( ag, NONE ) ) ;
   }
 
   const float Cardio::std[GENDER_MAX][33] = {
@@ -188,5 +218,6 @@ namespace mfit {
       .5825,.566,.5488,.5309,.5124,.4933,.4735,.4531,.4321,.4104,.3881,.3652,
       .3416,.3174,.2926,.2671,.2409,.2142,.1868 },
   } } ; 
+
 }
 

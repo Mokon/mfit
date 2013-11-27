@@ -10,10 +10,25 @@
 
 #include "mfit/Engine.hpp"
 #include "mfit/modules/General.hpp"
+#include "mfit/modules/Measurements.hpp"
+#include "mfit/modules/GreekIdeal.hpp"
+#include "mfit/modules/Weights.hpp"
+#include "mfit/modules/Cardio.hpp"
+#include "mfit/modules/BodyFatPercentage.hpp"
 
 using namespace mcommon ;
 
 namespace mfit {
+
+  Engine::Engine( bool html ) : html(html) {
+    /* TODO move to factory design pattern */
+    add(std::shared_ptr<General>( new General( ) ) ) ;
+    add(std::shared_ptr<Measurements>( new Measurements( ) ) ) ;
+    add(std::shared_ptr<GreekIdeal>( new GreekIdeal( ) ) ) ;
+    add(std::shared_ptr<Weights>( new Weights( ) ) ) ;
+    add(std::shared_ptr<Cardio>( new Cardio( ) ) ) ;
+    add(std::shared_ptr<BodyFatPercentage>( new BodyFatPercentage( ) ) ) ;
+  }
 
   void Engine::add( std::shared_ptr<Module> module ) {
     modules[module->getKey()] = module ;
@@ -61,20 +76,27 @@ namespace mfit {
   
   std::shared_ptr<Quantity> Engine::getNodeAsQuantityPtr( const pugi::xml_document& cfg,
       const std::string xpath, const Unit unit ) {
-    /* TODO remove unit param and query from xml */
-    float val = boost::lexical_cast<float>(getNodeAsString(cfg, xpath));
-    return std::shared_ptr<Quantity>( new Quantity(val, unit ) ) ;
+    return std::shared_ptr<Quantity>(
+        new Quantity( getNodeAsQuantity( cfg, xpath, unit ) ) ) ;
   }
 
   Gender Engine::getNodeAsGender( const pugi::xml_document& cfg,
       const std::string xpath ) {
     return toGender(getNodeAsString( cfg, xpath));
   }
+  
+  void Engine::process( std::ostream& out,
+      const std::vector<std::string>& files ) const {
+    for( auto file : files ) {
+      process( out, file ) ;
+    }
+  }
 
   void Engine::process( std::ostream& out, const std::string config ) const {
     pugi::xml_document cfg ;
     cfg.load_file( config.c_str( ) ) ;
 
+    /* TODO update to html output if flag is set. */
     std::string name = getNodeAsString( cfg, "/person/name" ) ;
 
     out << "The mfit analytics engine is processing stats for " << name

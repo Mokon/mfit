@@ -20,6 +20,7 @@ namespace mfit {
       typedef std::function<std::shared_ptr<mcommon::Value> (
           const pugi::xml_document& cfg )> ValueGetter ;
 
+      /* TODO add html flag */
       Statistic( std::string header, ValueGetter get ) ;
 
       virtual ~Statistic( ) = default ;
