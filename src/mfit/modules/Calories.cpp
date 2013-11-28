@@ -30,7 +30,7 @@ namespace mfit {
 
   void Calories::addBMR( std::string hdr, Statistic::ValueGetter get ) {
     add( hdr, get ) ;
-    add( "\tThis you maintainence caloric intake if you are sedentary (little or no exercise) is",
+    add( "\tThis means your maintenance caloric intake if you are sedentary (little or no exercise) is",
         getModelFunc( get, Sedentary ) ) ;
     add( "\tAnd if you are lightly active (light exercise/sports 1-3 days/week) is",
         getModelFunc( get, LightlyActive ) ) ;
