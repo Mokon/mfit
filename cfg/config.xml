@@ -1,4 +1,6 @@
 <!-- Copyright (C) 2013 David 'Mokon' Bond,  All Rights Reserved -->
+<!-- This is a sample configuration file. Fill in with your data and delete any
+     measurements you don't have. -->
 <person>
   <name>David Bond</name>
   <gender>Male</gender>
@@ -6,15 +8,15 @@
   <measurements>
     <weight unit="lbs">210.8</weight>
     <height unit="in">73</height>
-    <neck unit="in">15.75</neck>
-    <waist unit="in">38.75</waist>
-    <beltline unit="in">37.5</beltline>
+    <neck unit="in">16</neck>
+    <waist unit="in">39</waist>
+    <beltline unit="in">38</beltline>
     <chest unit="in">43.5</chest>
-    <hips unit="in">41.5</hips>
+    <hips unit="in">41.25</hips>
     <biceps type="flexed" side="left" unit="in">15</biceps>
     <biceps type="flexed" side="right" unit="in">15</biceps>
-    <biceps type="relaxed" side="left" unit="in">13.25</biceps>
-    <biceps type="relaxed" side="right" unit="in">13.25</biceps>
+    <biceps type="relaxed" side="left" unit="in">13.5</biceps>
+    <biceps type="relaxed" side="right" unit="in">13.5</biceps>
     <wrist side="left" unit="in">7.25</wrist>
     <wrist side="right" unit="in">7.25</wrist>
     <forearm side="left" unit="in">12</forearm>
@@ -25,12 +27,12 @@
     <calf side="right" unit="in">16.5</calf>
     <skinfolds>
       <ticeps unit="mm">12</ticeps>
-      <chest unit="mm">16</chest>
+      <chest unit="mm">15</chest>
       <midaxillary unit="mm">12</midaxillary>
       <subscapular unit="mm">19</subscapular>
       <suprailiac unit="mm">18</suprailiac>
       <abdominal unit="mm">35</abdominal>
-      <thigh unit="mm">12</thigh>
+      <thigh unit="mm">10</thigh>
     </skinfolds>
   </measurements>
   <pushups>33</pushups>
@@ -42,13 +44,17 @@
         <timeToTravel><distance unit="miles">1</distance></timeToTravel>
         <distanceTraveledIn><time unit="mins">15</time></distanceTraveledIn>
       </compute>
+      <runs gradient="0.0" type="bestalt">
+        <run><time unit="mins">5</time><speed unit="mph">6.7</speed></run>
+        <run><time unit="mins">3</time><speed unit="mph">8</speed></run>
+      </runs>
       <runs gradient="0.0" type="best">
-        <run><time unit="mins">12</time><speed unit="mph">6.8</speed></run>
-        <run><time unit="mins">1</time><speed unit="mph">8.5</speed></run>
+        <run><time unit="mins">11.5</time><speed unit="mph">6.8</speed></run>
+        <run><time unit="mins">1.5</time><speed unit="mph">8.5</speed></run>
       </runs>
       <runs gradient="0.0" type="treadmill">
-        <run><time unit="mins">12</time><speed unit="mph">6.8</speed></run>
-        <run><time unit="mins">1</time><speed unit="mph">8.5</speed></run>
+        <run><time unit="mins">11.5</time><speed unit="mph">6.8</speed></run>
+        <run><time unit="mins">1.5</time><speed unit="mph">8.5</speed></run>
         <run><time unit="mins">2</time><speed unit="mph">4</speed></run>
       </runs>
     </cardio>
@@ -66,11 +72,17 @@
         <weight unit="lbs">140</weight><sets>3</sets><reps>12</reps>
       </triceppress>
       <pulldown type="machine">
-        <weight unit="lbs">130</weight><sets>3</sets><reps>10</reps>
+        <weight unit="lbs">140</weight><sets>3</sets><reps>8</reps>
       </pulldown>
       <row type="machine">
         <weight unit="lbs">100</weight><sets>3</sets><reps>12</reps>
       </row>
+      <shoulderpress type="machine">
+        <weight unit="lbs">65</weight><sets>3</sets><reps>12</reps>
+      </shoulderpress>
+      <shrugs type="dumbbell">
+        <weight unit="lbs">100</weight><sets>3</sets><reps>12</reps>
+      </shrugs>
       <abdominal type="machine">
         <weight unit="lbs">160</weight><sets>3</sets><reps>12</reps>
       </abdominal>

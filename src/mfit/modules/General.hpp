@@ -30,11 +30,6 @@ namespace mfit {
 
       static mcommon::Gender getGender( const pugi::xml_document& cfg ) ;
 
-      static std::shared_ptr<mcommon::Quantity> metsToCalories(
-          const std::shared_ptr<mcommon::Quantity> mets,
-          const std::shared_ptr<mcommon::Quantity> time,
-          const pugi::xml_document& cfg ) ;
-
       static std::shared_ptr<mcommon::Quantity> avg(
           std::shared_ptr<mcommon::Quantity> a,
           std::shared_ptr<mcommon::Quantity> b ) ;
@@ -52,12 +47,6 @@ namespace mfit {
           const pugi::xml_document& cfg ) ;
 
       static std::shared_ptr<mcommon::Quantity> getAge(
-          const pugi::xml_document& cfg ) ;
-
-      static std::shared_ptr<mcommon::Quantity> getBMRHarrisBenedict(
-          const pugi::xml_document& cfg ) ;
-
-      static std::shared_ptr<mcommon::Quantity> getBMRRozaShizgal(
           const pugi::xml_document& cfg ) ;
 
       static std::shared_ptr<mcommon::Quantity> getBMI(

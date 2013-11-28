@@ -4,7 +4,6 @@
 
 #include <functional>
 #include <memory>
-#include <ostream>
 #include <string>
 
 #include <pugixml.hpp>
@@ -20,7 +19,6 @@ namespace mfit {
       typedef std::function<std::shared_ptr<mcommon::Value> (
           const pugi::xml_document& cfg )> ValueGetter ;
 
-      /* TODO add html flag */
       Statistic( std::string header, ValueGetter get ) ;
 
       virtual ~Statistic( ) = default ;
@@ -29,11 +27,9 @@ namespace mfit {
 
       Statistic& operator=( const Statistic& ) = default ;
 
-      void process( std::ostream& out,
-          const pugi::xml_document& cfg ) const ;
+      std::string getHeader( ) const ;
 
-      static void print( std::ostream& out, std::string header,
-          std::string value ) ;
+      std::string getValue( const pugi::xml_document& cfg ) const ;
 
     protected:
 

@@ -2,8 +2,6 @@
 
 #include <cmath>
 
-#include "mcommon/Gender.hpp"
-
 #include "mfit/modules/General.hpp"
 #include "mfit/modules/Measurements.hpp"
 #include "mfit/Engine.hpp"
@@ -18,8 +16,6 @@ namespace mfit {
   General::General( ) {
     add( "Your age is", getAge ) ;
     add( "Your BMI is", getBMI ) ;
-    add( "Your Harris Benedict BMR is", getBMRHarrisBenedict ) ;
-    add( "Your Roza Shizgal BMR is", getBMRRozaShizgal ) ;
     add( "Your Broca Index ideal weight is", getIdealBodyWeightBrocaIndex ) ;
     add( "Your Devine Formula ideal weight is", getIdealBodyWeightDevine ) ;
     add( "Your Robinson Formula ideal weight is", getIdealBodyWeightRobinson );
@@ -34,65 +30,20 @@ namespace mfit {
       std::shared_ptr<Quantity> b ) {
     Quantity c = a->convert( b->unit() ) ;
     return std::shared_ptr<Quantity>(
-        new Quantity(( c.magnitude( ) + b->magnitude( ) ) / 2, b->unit( ) ) ) ; 
+        new Quantity(( c.magnitude( ) + b->magnitude( ) ) / 2, b->unit( ) ) ) ;
   }
 
   Gender General::getGender( const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsGender( cfg, "/person/gender" ) ;
+    return Engine::getNodeAs<Gender>( cfg, "/person/gender" ) ;
   }
 
   std::shared_ptr<Quantity> General::getAge( const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantityPtr( cfg, "/person/age", YEARS ) ;
+    return Engine::getNodeAsQuantity( cfg, "/person/age" ) ;
   }
 
   void General::process( std::ostream& out,
       const pugi::xml_document& cfg ) const {
-    Statistic::print( out,
-        "Your Gender is",  getGender( cfg ) ? "Female" : "Male" ) ;
-  }
-
-  std::shared_ptr<Quantity> General::getBMRRozaShizgal(
-      const pugi::xml_document& cfg ) {
-    Quantity weight = Measurements::getWeight( cfg )->convert(KG) ;
-    Quantity height = Measurements::getHeight( cfg )->convert(CM) ;
-    Quantity age = getAge( cfg )->convert(YEARS) ;
-    Gender gender = getGender( cfg ) ;
-
-    float cals ;
-    switch ( gender ) {
-      case Male:
-        cals = (weight.magnitude()*13.397)+(height.magnitude()*4.799)
-          - (age.magnitude()*5.677) + 88.362;
-        break ;
-      default:
-        cals = (weight.magnitude()*9.247) + (height.magnitude()*4.799)
-          - (age.magnitude()*4.330) + 447.593;
-        break ;
-    }
-
-    return std::shared_ptr<Quantity>( new Quantity( cals, CALORIES ) ) ;
-  }
-
-  std::shared_ptr<Quantity> General::getBMRHarrisBenedict(
-      const pugi::xml_document& cfg ) {
-    Quantity weight = Measurements::getWeight( cfg )->convert(KG) ;
-    Quantity height = Measurements::getHeight( cfg )->convert(CM) ;
-    Quantity age = getAge( cfg )->convert(YEARS) ;
-    Gender gender = getGender( cfg ) ;
-
-    float cals ;
-    switch ( gender ) {
-      case Male:
-        cals = (weight.magnitude()*13.7516)+(height.magnitude()*5.0033)
-          - (age.magnitude()*6.755) + 66.4730;
-        break ;
-      default:
-        cals = (weight.magnitude()*9.5634) + (height.magnitude()*1.8496)
-          - (age.magnitude()*4.6756) + 655.0955;
-        break ;
-    }
-
-    return std::shared_ptr<Quantity>( new Quantity( cals, CALORIES ) ) ;
+    print( out, "Your Gender is",  getGender( cfg ) ? "Female" : "Male" ) ;
   }
 
   std::shared_ptr<Quantity> General::getBMI( const pugi::xml_document& cfg ) {
@@ -103,15 +54,6 @@ namespace mfit {
     float bmi = weight.magnitude()/height2*703 ;
 
     return std::shared_ptr<Quantity>( new Quantity( bmi, NONE ) ) ;
-  }
-
-  std::shared_ptr<Quantity> General::metsToCalories(
-      std::shared_ptr<Quantity> mets, std::shared_ptr<Quantity> time,
-      const pugi::xml_document& cfg ) {
-    Quantity weight = Measurements::getWeight( cfg )->convert(KG) ;
-    Quantity ret = Quantity( mets->magnitude()*weight.magnitude()*
-        time->convert(SECONDS).magnitude(), CALORIES ) ;
-    return std::shared_ptr<Quantity>( new Quantity(ret) ) ;
   }
 
   std::shared_ptr<Quantity> General::getIdealBodyWeightBrocaIndex(

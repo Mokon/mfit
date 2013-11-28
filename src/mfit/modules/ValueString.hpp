@@ -25,8 +25,8 @@ namespace mfit {
     private:
 
       std::string value ;
-      
+
   } ;
-  
+
 }
 

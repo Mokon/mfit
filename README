@@ -9,3 +9,13 @@ stats just delete that line from the xml file. This program is smart enough to
 handle missing stats. It will only compute stats when it is able to given what
 you provide. It will compute the maximum set of those statistics.
 
+To build;
+  ./bootstrap && ./configure --disable-debug && make && sudo make install
+To clean:
+  make clean && make clean-purge
+
+Please note this program was mainly designed to be extendable. Much of the
+design choices are slow (e.g. never caching values on parsing). This was a
+design choice for simplicity as this program runs plenty fast enough as it
+stands currently.
+

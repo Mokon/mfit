@@ -1,15 +1,12 @@
 /* Copyright (C) 2013 David 'Mokon' Bond,  All Rights Reserved */
 
 #include <cmath>
-#include <memory>
-
-#include <boost/lexical_cast.hpp>
 
 #include "mcommon/Log.hpp"
-#include "mcommon/Quantity.hpp"
 
 #include "mfit/Engine.hpp"
 #include "mfit/modules/General.hpp"
+#include "mfit/modules/Calories.hpp"
 #include "mfit/modules/Measurements.hpp"
 #include "mfit/modules/GreekIdeal.hpp"
 #include "mfit/modules/Weights.hpp"
@@ -21,8 +18,8 @@ using namespace mcommon ;
 namespace mfit {
 
   Engine::Engine( bool html ) : html(html) {
-    /* TODO move to factory design pattern */
     add(std::shared_ptr<General>( new General( ) ) ) ;
+    add(std::shared_ptr<Calories>( new Calories( ) ) ) ;
     add(std::shared_ptr<Measurements>( new Measurements( ) ) ) ;
     add(std::shared_ptr<GreekIdeal>( new GreekIdeal( ) ) ) ;
     add(std::shared_ptr<Weights>( new Weights( ) ) ) ;
@@ -31,15 +28,13 @@ namespace mfit {
   }
 
   void Engine::add( std::shared_ptr<Module> module ) {
+    if( html ) {
+      module->setHTML( ) ;
+    }
     modules[module->getKey()] = module ;
   }
 
-  float Engine::getNodeAsFloat( const pugi::xml_document& cfg,
-          const std::string xpath ) {
-    return boost::lexical_cast<float>(getNodeAsString(cfg, xpath));
-  }
-
-  float Engine::getAttributeAsFloat( const pugi::xml_document& cfg,
+  std::string Engine::getAttribute( const pugi::xml_document& cfg,
       const std::string xpath ) {
     const pugi::xpath_node xpnode = cfg.select_single_node(xpath.c_str()) ;
 
@@ -50,10 +45,10 @@ namespace mfit {
     if( ret.size( ) == 0 ) {
       throw StatMissingException( "xpath [" + xpath + "] returns no value." ) ;
     }
-    return boost::lexical_cast<float>(ret) ;
+    return ret ;
   }
 
-  std::string Engine::getNodeAsString( const pugi::xml_document& cfg,
+  std::string Engine::getNode( const pugi::xml_document& cfg,
       const std::string xpath ) {
     const pugi::xpath_node xpnode = cfg.select_single_node(xpath.c_str()) ;
 
@@ -67,24 +62,13 @@ namespace mfit {
     return ret ;
   }
 
-  Quantity Engine::getNodeAsQuantity( const pugi::xml_document& cfg,
-      const std::string xpath, const Unit unit ) {
-    /* TODO remove unit param and query from xml */
-    float val = boost::lexical_cast<float>(getNodeAsString(cfg, xpath));
-    return Quantity(val, unit);
-  }
-  
-  std::shared_ptr<Quantity> Engine::getNodeAsQuantityPtr( const pugi::xml_document& cfg,
-      const std::string xpath, const Unit unit ) {
+  std::shared_ptr<Quantity> Engine::getNodeAsQuantity(
+      const pugi::xml_document& cfg, const std::string xpath ) {
     return std::shared_ptr<Quantity>(
-        new Quantity( getNodeAsQuantity( cfg, xpath, unit ) ) ) ;
+        new Quantity( getNodeAs<float>(cfg, xpath),
+          getAttributeAs<Unit>( cfg, xpath + "/@unit" ) ) )  ;
   }
 
-  Gender Engine::getNodeAsGender( const pugi::xml_document& cfg,
-      const std::string xpath ) {
-    return toGender(getNodeAsString( cfg, xpath));
-  }
-  
   void Engine::process( std::ostream& out,
       const std::vector<std::string>& files ) const {
     for( auto file : files ) {
@@ -96,14 +80,33 @@ namespace mfit {
     pugi::xml_document cfg ;
     cfg.load_file( config.c_str( ) ) ;
 
-    /* TODO update to html output if flag is set. */
-    std::string name = getNodeAsString( cfg, "/person/name" ) ;
+    std::string name = getNode( cfg, "/person/name" ) ;
 
-    out << "The mfit analytics engine is processing stats for " << name
-      << "." << std::endl ;
+    if( html ) {
+      out << "<html><body><h1>" ;
+    }
+
+    out << "mfit analytics engine stats for " << name ;
+
+    if( html ) {
+      out << "</h1>" ;
+    } else {
+      out << std::endl ;
+    }
 
     for( auto mod : modules ) {
-      out << mod.first << " statistics" << std::endl ;
+      if( html ) {
+        out << "<h2>" ;
+      }
+
+      out << mod.first << " statistics" ;
+
+      if( html ) {
+        out << "</h2><ul>" ;
+      } else {
+        out << std::endl ;
+      }
+
       try {
         mod.second->process( out, cfg ) ;
       } catch( const std::exception& ex ) {
@@ -111,6 +114,14 @@ namespace mfit {
           << ex.what() << std::endl ;
       }
       mod.second->processRegisteredStats( out, cfg ) ;
+
+      if( html ) {
+        out << "</ul>" ;
+      }
+    }
+
+    if( html ) {
+      out << "</body></html>" ;
     }
   }
 

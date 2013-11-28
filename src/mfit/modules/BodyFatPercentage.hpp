@@ -80,9 +80,6 @@ namespace mfit {
       static std::shared_ptr<mcommon::Quantity> getBFPUSNavy(
           const pugi::xml_document& cfg ) ;
 
-      static std::shared_ptr<mcommon::Quantity> getBFPUSMarines(
-          const pugi::xml_document& cfg ) ;
-
       static std::shared_ptr<mcommon::Quantity> getBFPYMCA(
           const pugi::xml_document& cfg ) ;
 

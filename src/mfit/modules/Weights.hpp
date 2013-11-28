@@ -25,7 +25,7 @@ namespace mfit {
       virtual std::string getKey( ) ;
 
       static const std::string key ;
-  
+
       void addWeight( std::string hdr, Statistic::ValueGetter get ) ;
 
       static Statistic::ValueGetter getModelFunc( Statistic::ValueGetter get,
@@ -47,6 +47,12 @@ namespace mfit {
           const pugi::xml_document& cfg ) ;
 
       static std::shared_ptr<WeightRepSet> getDumbbellBicepCurls(
+          const pugi::xml_document& cfg ) ;
+
+      static std::shared_ptr<WeightRepSet> getDumbbellShrugs(
+          const pugi::xml_document& cfg ) ;
+
+      static std::shared_ptr<WeightRepSet> getMachineShoulderPress(
           const pugi::xml_document& cfg ) ;
 
       static std::shared_ptr<WeightRepSet> getMachineBicepCurls(

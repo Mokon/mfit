@@ -23,6 +23,8 @@ namespace mfit {
     addWeight( "Machine Seated Leg Press", getMachineSeatedLegPress ) ;
     addWeight( "Machine Back Extensions", getMachineBackExtensions ) ;
     addWeight( "Machine Calf Extensions", getMachineCalfExtensions ) ;
+    addWeight( "Machine Shoulder Press", getMachineShoulderPress ) ;
+    addWeight( "Dumbbell Shrugs", getDumbbellShrugs ) ;
   }
 
   std::string Weights::getKey( ) {
@@ -32,10 +34,11 @@ namespace mfit {
   const std::string Weights::key = "mfit::Weights" ;
 
   void Weights::addWeight( std::string hdr, Statistic::ValueGetter get ) {
+    /* TODO create the concept of a sub stat so we can get html correct */
     add( hdr, get ) ;
-    add( "\t 1 Rep Max Brzcki Model",  getModelFunc( get, Brzcki ) ) ;
-    add( "\t 1 Rep Max Baechle Model",  getModelFunc( get, Baechle ) ) ;
-    add( "\t 1 Rep Max DosRemedios Model",  getModelFunc( get, DosRemedios ) ) ;
+    add( "\t1 Rep Max Brzcki Model",  getModelFunc( get, Brzcki ) ) ;
+    add( "\t1 Rep Max Baechle Model",  getModelFunc( get, Baechle ) ) ;
+    add( "\t1 Rep Max DosRemedios Model",  getModelFunc( get, DosRemedios ) ) ;
   }
 
   Statistic::ValueGetter Weights::getModelFunc( Statistic::ValueGetter get,
@@ -56,82 +59,95 @@ namespace mfit {
   std::shared_ptr<WeightRepSet> Weights::getNodeAsWeightRepSet(
       const pugi::xml_document& cfg, const std::string xpath ) {
     return std::shared_ptr<WeightRepSet>( new WeightRepSet (
-          Engine::getNodeAsQuantity( cfg, xpath + "/weight", LBS ),
-          Engine::getNodeAsFloat( cfg, xpath + "/sets" ),
-          Engine::getNodeAsFloat( cfg, xpath + "/reps" ) ) ) ;
+          *Engine::getNodeAsQuantity( cfg, xpath + "/weight" ),
+          Engine::getNodeAs<float>( cfg, xpath + "/sets" ),
+          Engine::getNodeAs<float>( cfg, xpath + "/reps" ) ) ) ;
   }
 
   std::shared_ptr<WeightRepSet> Weights::getDumbbellChestPressFlat(
       const pugi::xml_document& cfg ) {
-    return getNodeAsWeightRepSet( cfg, 
+    return getNodeAsWeightRepSet( cfg,
         "/person/excercises/weights/flatchestpress[@type='dumbbell']" ) ;
   }
 
   std::shared_ptr<WeightRepSet> Weights::getMachineFly(
       const pugi::xml_document& cfg ) {
-    return getNodeAsWeightRepSet( cfg, 
+    return getNodeAsWeightRepSet( cfg,
         "/person/excercises/weights/fly[@type='machine']" ) ;
   }
 
   std::shared_ptr<WeightRepSet> Weights::getMachineInclineChestPress(
       const pugi::xml_document& cfg ) {
-    return getNodeAsWeightRepSet( cfg, 
+    return getNodeAsWeightRepSet( cfg,
         "/person/excercises/weights/inclinechestpress[@type='machine']" ) ;
   }
 
   std::shared_ptr<WeightRepSet> Weights::getDumbbellBicepCurls(
       const pugi::xml_document& cfg ) {
-    return getNodeAsWeightRepSet( cfg, 
+    return getNodeAsWeightRepSet( cfg,
         "/person/excercises/weights/bicepcurls[@type='dumbbell']" ) ;
   }
 
   std::shared_ptr<WeightRepSet> Weights::getMachineBicepCurls(
       const pugi::xml_document& cfg ) {
-    return getNodeAsWeightRepSet( cfg, 
+    return getNodeAsWeightRepSet( cfg,
         "/person/excercises/weights/bicepcurls[@type='machine']" ) ;
   }
 
   std::shared_ptr<WeightRepSet> Weights::getMachineTricepPress(
       const pugi::xml_document& cfg ) {
-    return getNodeAsWeightRepSet( cfg, 
+    return getNodeAsWeightRepSet( cfg,
         "/person/excercises/weights/triceppress[@type='machine']" ) ;
   }
 
   std::shared_ptr<WeightRepSet> Weights::getMachinePulldown(
       const pugi::xml_document& cfg ) {
-    return getNodeAsWeightRepSet( cfg, 
+    return getNodeAsWeightRepSet( cfg,
         "/person/excercises/weights/pulldown[@type='machine']" ) ;
   }
 
   std::shared_ptr<WeightRepSet> Weights::getMachineRow(
       const pugi::xml_document& cfg ) {
-    return getNodeAsWeightRepSet( cfg, 
+    return getNodeAsWeightRepSet( cfg,
         "/person/excercises/weights/row[@type='machine']" ) ;
   }
 
   std::shared_ptr<WeightRepSet> Weights::getMachineAbdominal(
       const pugi::xml_document& cfg ) {
-    return getNodeAsWeightRepSet( cfg, 
+    return getNodeAsWeightRepSet( cfg,
         "/person/excercises/weights/abdominal[@type='machine']" ) ;
   }
 
   std::shared_ptr<WeightRepSet> Weights::getMachineSeatedLegPress(
       const pugi::xml_document& cfg ) {
-    return getNodeAsWeightRepSet( cfg, 
+    return getNodeAsWeightRepSet( cfg,
         "/person/excercises/weights/seatedlegpress[@type='machine']" ) ;
   }
 
   std::shared_ptr<WeightRepSet> Weights::getMachineBackExtensions(
       const pugi::xml_document& cfg ) {
-    return getNodeAsWeightRepSet( cfg, 
+    return getNodeAsWeightRepSet( cfg,
         "/person/excercises/weights/backextensions[@type='machine']" ) ;
   }
 
   std::shared_ptr<WeightRepSet> Weights::getMachineCalfExtensions(
       const pugi::xml_document& cfg ) {
-    return getNodeAsWeightRepSet( cfg, 
+    return getNodeAsWeightRepSet( cfg,
         "/person/excercises/weights/calfextensions[@type='machine']" ) ;
   }
+
+  std::shared_ptr<WeightRepSet> Weights::getDumbbellShrugs(
+      const pugi::xml_document& cfg ) {
+    return getNodeAsWeightRepSet( cfg,
+        "/person/excercises/weights/shrugs[@type='dumbbell']" ) ;
+  }
+
+  std::shared_ptr<WeightRepSet> Weights::getMachineShoulderPress(
+      const pugi::xml_document& cfg ) {
+    return getNodeAsWeightRepSet( cfg,
+        "/person/excercises/weights/shoulderpress[@type='machine']" ) ;
+  }
+
 
 }
 

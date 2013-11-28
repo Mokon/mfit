@@ -13,7 +13,7 @@ namespace mfit {
     DosRemedios,
     ONE_REP_MAX_MODEL_MAX
   } ;
-  
+
   DEFINE_EXCEPTION_CLASS( UnhandledRepException ) ;
 
   class WeightRepSet : public mcommon::Value {
@@ -31,13 +31,13 @@ namespace mfit {
       WeightRepSet( mcommon::Quantity weight, int sets, int reps ) ;
 
       WeightRepSet convert( int reps, enum OneRepMaxModel model) ;
-      
+
       virtual std::ostream& out( std::ostream& o ) const ;
 
     private:
 
       static float oneRepMaxPercentage[ONE_REP_MAX_MODEL_MAX][15] ;
-      
+
       mcommon::Quantity weight ;
 
       int sets ;
@@ -45,6 +45,6 @@ namespace mfit {
       int reps ;
 
   } ;
-  
+
 }
 

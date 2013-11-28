@@ -31,50 +31,50 @@ namespace mfit {
 
   std::shared_ptr<Quantity> GreekIdeal::getGreekIdealChest(
       const pugi::xml_document& cfg ) {
-      return std::shared_ptr<Quantity>(
-          new Quantity( (*Measurements::getWrist( cfg ))*6.5 ) ) ;
+    return std::shared_ptr<Quantity>(
+        new Quantity( (*Measurements::getWrist( cfg ))*6.5 ) ) ;
   }
 
   std::shared_ptr<Quantity> GreekIdeal::getGreekIdealWaist(
       const pugi::xml_document& cfg ) {
-      return std::shared_ptr<Quantity>(
-          new Quantity( (*Measurements::getWrist( cfg ))*6.5*0.7 ) ) ;
+    return std::shared_ptr<Quantity>(
+        new Quantity( (*Measurements::getWrist( cfg ))*6.5*0.7 ) ) ;
   }
 
   std::shared_ptr<Quantity> GreekIdeal::getGreekIdealHip(
       const pugi::xml_document& cfg ) {
-      return std::shared_ptr<Quantity>(
-          new Quantity( (*Measurements::getWrist( cfg ))*6.5*0.85 ) ) ;
+    return std::shared_ptr<Quantity>(
+        new Quantity( (*Measurements::getWrist( cfg ))*6.5*0.85 ) ) ;
   }
 
   std::shared_ptr<Quantity> GreekIdeal::getGreekIdealBicep(
       const pugi::xml_document& cfg ) {
-      return std::shared_ptr<Quantity>(
-          new Quantity( (*Measurements::getWrist( cfg ))*6.5*0.36 ) ) ;
+    return std::shared_ptr<Quantity>(
+        new Quantity( (*Measurements::getWrist( cfg ))*6.5*0.36 ) ) ;
   }
 
   std::shared_ptr<Quantity> GreekIdeal::getGreekIdealForearm(
       const pugi::xml_document& cfg ) {
-      return std::shared_ptr<Quantity>(
-          new Quantity( (*Measurements::getWrist( cfg ))*6.5*0.29 ) ) ;
+    return std::shared_ptr<Quantity>(
+        new Quantity( (*Measurements::getWrist( cfg ))*6.5*0.29 ) ) ;
   }
 
   std::shared_ptr<Quantity> GreekIdeal::getGreekIdealThigh(
       const pugi::xml_document& cfg ) {
-      return std::shared_ptr<Quantity>(
-          new Quantity( (*Measurements::getWrist( cfg ))*6.5*0.53 ) ) ;
+    return std::shared_ptr<Quantity>(
+        new Quantity( (*Measurements::getWrist( cfg ))*6.5*0.53 ) ) ;
   }
 
   std::shared_ptr<Quantity> GreekIdeal::getGreekIdealCalf(
       const pugi::xml_document& cfg ) {
-      return std::shared_ptr<Quantity>(
-          new Quantity( (*Measurements::getWrist( cfg ))*6.5*0.34 ) ) ;
+    return std::shared_ptr<Quantity>(
+        new Quantity( (*Measurements::getWrist( cfg ))*6.5*0.34 ) ) ;
   }
 
   std::shared_ptr<Quantity> GreekIdeal::getGreekIdealNeck(
       const pugi::xml_document& cfg ) {
-      return std::shared_ptr<Quantity>(
-          new Quantity( (*Measurements::getWrist( cfg ))*6.5*0.37 ) ) ;
+    return std::shared_ptr<Quantity>(
+        new Quantity( (*Measurements::getWrist( cfg ))*6.5*0.37 ) ) ;
   }
 
 }

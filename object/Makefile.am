@@ -8,11 +8,12 @@ SRC_DIR = ../src
 bin_PROGRAMS =
 AM_LIBTOOLFLAGS= --silent
 
-# TODO update mcommon to build self.
 SHARED_SOURCES = \
   ${SRC_DIR}/../mcommon/src/mcommon/Quantity.cpp \
   ${SRC_DIR}/../mcommon/src/mcommon/Unit.cpp \
+  ${SRC_DIR}/../mcommon/src/mcommon/Gender.cpp \
   ${SRC_DIR}/mfit/modules/General.cpp \
+  ${SRC_DIR}/mfit/modules/Calories.cpp \
   ${SRC_DIR}/mfit/modules/Measurements.cpp \
   ${SRC_DIR}/mfit/modules/GreekIdeal.cpp \
   ${SRC_DIR}/mfit/modules/Weights.cpp \

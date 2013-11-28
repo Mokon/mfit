@@ -6,7 +6,6 @@
 #include "mfit/modules/Measurements.hpp"
 #include "mfit/modules/General.hpp"
 #include "mfit/Engine.hpp"
-#include "mfit/Statistic.hpp"
 
 using namespace mcommon ;
 
@@ -18,6 +17,7 @@ namespace mfit {
     add( "Your height is", getHeight ) ;
     add( "Your weight is", getWeight ) ;
     add( "Your neck is", getNeck ) ;
+    add( "Your chest is", getChest ) ;
     add( "Your waist is",  getWaist ) ;
     add( "Your hips are", getHips ) ;
     add( "Your biceps are", getBicep ) ;
@@ -46,32 +46,32 @@ namespace mfit {
 
   std::shared_ptr<Quantity> Measurements::getWeight(
       const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantityPtr( cfg,
-        "/person/measurements/weight", LBS ) ;
+    return Engine::getNodeAsQuantity( cfg, "/person/measurements/weight" ) ;
   }
 
   std::shared_ptr<Quantity> Measurements::getHeight(
       const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantityPtr( cfg,
-        "/person/measurements/height", INCHES ) ;
+    return Engine::getNodeAsQuantity( cfg, "/person/measurements/height" ) ;
   }
 
   std::shared_ptr<Quantity> Measurements::getNeck(
       const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantityPtr( cfg,
-        "/person/measurements/neck", INCHES ) ;
+    return Engine::getNodeAsQuantity( cfg, "/person/measurements/neck" ) ;
+  }
+
+  std::shared_ptr<Quantity> Measurements::getChest(
+      const pugi::xml_document& cfg ) {
+    return Engine::getNodeAsQuantity( cfg, "/person/measurements/chest" ) ;
   }
 
   std::shared_ptr<Quantity> Measurements::getWaist(
       const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantityPtr( cfg,
-        "/person/measurements/waist", INCHES ) ;
+    return Engine::getNodeAsQuantity( cfg, "/person/measurements/waist" ) ;
   }
 
   std::shared_ptr<Quantity> Measurements::getHips(
       const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantityPtr( cfg,
-        "/person/measurements/hips", INCHES ) ;
+    return Engine::getNodeAsQuantity( cfg, "/person/measurements/hips" ) ;
   }
 
   std::shared_ptr<Quantity> Measurements::getThigh(
@@ -81,14 +81,14 @@ namespace mfit {
 
   std::shared_ptr<Quantity> Measurements::getThighLeft(
       const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantityPtr( cfg, 
-        "/person/measurements/thigh[@side='left']", INCHES ) ;
+    return Engine::getNodeAsQuantity( cfg,
+        "/person/measurements/thigh[@side='left']" ) ;
   }
 
   std::shared_ptr<Quantity> Measurements::getThighRight(
       const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantityPtr( cfg, 
-        "/person/measurements/thigh[@side='right']", INCHES ) ;
+    return Engine::getNodeAsQuantity( cfg,
+        "/person/measurements/thigh[@side='right']" ) ;
   }
 
   std::shared_ptr<Quantity> Measurements::getForearm(
@@ -98,14 +98,14 @@ namespace mfit {
 
   std::shared_ptr<Quantity> Measurements::getForearmLeft(
       const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantityPtr( cfg, 
-        "/person/measurements/forearm[@side='left']", INCHES ) ;
+    return Engine::getNodeAsQuantity( cfg,
+        "/person/measurements/forearm[@side='left']" ) ;
   }
 
   std::shared_ptr<Quantity> Measurements::getForearmRight(
       const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantityPtr( cfg, 
-        "/person/measurements/forearm[@side='right']", INCHES ) ;
+    return Engine::getNodeAsQuantity( cfg,
+        "/person/measurements/forearm[@side='right']" ) ;
   }
 
   std::shared_ptr<Quantity> Measurements::getWrist(
@@ -115,14 +115,14 @@ namespace mfit {
 
   std::shared_ptr<Quantity> Measurements::getWristLeft(
       const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantityPtr( cfg, 
-        "/person/measurements/wrist[@side='left']", INCHES ) ;
+    return Engine::getNodeAsQuantity( cfg,
+        "/person/measurements/wrist[@side='left']" ) ;
   }
 
   std::shared_ptr<Quantity> Measurements::getWristRight(
       const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantityPtr( cfg, 
-        "/person/measurements/wrist[@side='right']", INCHES ) ;
+    return Engine::getNodeAsQuantity( cfg,
+        "/person/measurements/wrist[@side='right']" ) ;
   }
 
   std::shared_ptr<Quantity> Measurements::getCalf(
@@ -132,16 +132,16 @@ namespace mfit {
 
   std::shared_ptr<Quantity> Measurements::getCalfLeft(
       const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantityPtr( cfg, 
-        "/person/measurements/calf[@side='left']", INCHES ) ;
+    return Engine::getNodeAsQuantity( cfg,
+        "/person/measurements/calf[@side='left']" ) ;
   }
 
   std::shared_ptr<Quantity> Measurements::getCalfRight(
       const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantityPtr( cfg, 
-        "/person/measurements/calf[@side='right']", INCHES ) ;
+    return Engine::getNodeAsQuantity( cfg,
+        "/person/measurements/calf[@side='right']" ) ;
   }
-  
+
   std::shared_ptr<Quantity> Measurements::getBicep(
       const pugi::xml_document& cfg ) {
     return General::avg( getBicepLeft( cfg ), getBicepRight( cfg ) ) ;
@@ -149,16 +149,16 @@ namespace mfit {
 
   std::shared_ptr<Quantity> Measurements::getBicepRight(
       const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantityPtr( cfg,
-        "/person/measurements/biceps[@type!='flexed' and @side='right']", INCHES ) ;
+    return Engine::getNodeAsQuantity( cfg,
+        "/person/measurements/biceps[@type!='flexed' and @side='right']" ) ;
   }
 
   std::shared_ptr<Quantity> Measurements::getBicepLeft(
       const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantityPtr( cfg,
-        "/person/measurements/biceps[@type!='flexed' and @side='left']", INCHES ) ;
+    return Engine::getNodeAsQuantity( cfg,
+        "/person/measurements/biceps[@type!='flexed' and @side='left']" ) ;
   }
-  
+
   std::shared_ptr<Quantity> Measurements::getBicepFlexed(
       const pugi::xml_document& cfg ) {
     return General::avg( getBicepFlexedLeft( cfg ), getBicepFlexedRight( cfg ) ) ;
@@ -166,14 +166,14 @@ namespace mfit {
 
   std::shared_ptr<Quantity> Measurements::getBicepFlexedRight(
       const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantityPtr( cfg,
-        "/person/measurements/biceps[@type='flexed' and @side='right']", INCHES ) ;
+    return Engine::getNodeAsQuantity( cfg,
+        "/person/measurements/biceps[@type='flexed' and @side='right']" ) ;
   }
 
   std::shared_ptr<Quantity> Measurements::getBicepFlexedLeft(
       const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantityPtr( cfg,
-        "/person/measurements/biceps[@type='flexed' and @side='left']", INCHES ) ;
+    return Engine::getNodeAsQuantity( cfg,
+        "/person/measurements/biceps[@type='flexed' and @side='left']" ) ;
   }
 
 }

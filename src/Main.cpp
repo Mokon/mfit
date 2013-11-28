@@ -3,6 +3,7 @@
 #include "config.h"
 
 #include <limits>
+#include <stdio.h>
 #include <sys/wait.h>
 #include <unistd.h>
 #include <vector>
@@ -14,32 +15,37 @@
 
 #include "mfit/Engine.hpp"
 
+static const std::string pager = "less" ;
+
+static const std::string pager_opts = "-R" ;
+
 /* Command line options parsing */
 int parse( int argc, char* argv[], std::vector<std::string>& files, bool& page,
-    bool& html ) {
+    bool& html, std::string& out ) {
   if( argc < 1 ) {
     return EXIT_FAILURE ;
   }
 
-  std::string app = boost::filesystem::basename( argv[0] ) ; 
+  std::string app = boost::filesystem::basename( argv[0] ) ;
 
   std::string pn(PACKAGE_NAME) ;
   boost::program_options::options_description desc( pn + " Program Options" ) ;
   desc.add_options()
     ("help", "program usage")
-    ("page", boost::program_options::value<bool>(&page), "page the output")
-    ("html", boost::program_options::value<bool>(&html), "use html output")
+    ("page", boost::program_options::value<bool>(&page)->implicit_value(true), "page the output")
+    ("html", boost::program_options::value<bool>(&html)->implicit_value(true), "use html output")
+    ("out", boost::program_options::value<std::string>(&out), "output filename")
     ("files", boost::program_options::value<
      std::vector<std::string> >(&files)->required(), "xml config files") ;
 
-  boost::program_options::positional_options_description po ; 
-  po.add( "files", std::numeric_limits<unsigned>::max() )  ; 
+  boost::program_options::positional_options_description po ;
+  po.add( "files", std::numeric_limits<unsigned>::max() )  ;
 
   boost::program_options::variables_map vm ;
   try {
     boost::program_options::store(
-        boost::program_options::command_line_parser(argc, argv).options(desc) 
-        .positional(po).run(), vm ) ; 
+        boost::program_options::command_line_parser(argc, argv).options(desc)
+        .positional(po).run(), vm ) ;
 
     if ( vm.count("help")  ) {
       CONSOLE( ) << PACKAGE_NAME << std::endl << desc << std::endl ;
@@ -47,7 +53,7 @@ int parse( int argc, char* argv[], std::vector<std::string>& files, bool& page,
     }
 
     boost::program_options::notify( vm ) ;
-  } catch( boost::program_options::required_option& e ) { 
+  } catch( boost::program_options::required_option& e ) {
     LOG(ERROR) << "Error: " << e.what() << std::endl << std::endl
       << PACKAGE_NAME << std::endl << desc << std::endl ;
     return EXIT_FAILURE ;
@@ -60,7 +66,8 @@ int parse( int argc, char* argv[], std::vector<std::string>& files, bool& page,
   return EXIT_SUCCESS ;
 }
 
-/* Pagination */
+/* Pagination: These are static globals which isn't nice but simplifies this
+ * a lot. */
 static pid_t pid ;
 
 static int pipeFd[2] ;
@@ -88,11 +95,11 @@ int page_start( ) {
       return EXIT_FAILURE ;
     }
 
-    execlp( "less", "less", "-R", NULL ) ;
+    execlp( pager.c_str( ), pager.c_str( ), pager_opts.c_str( ), NULL ) ;
 
     perror( "execlp" ) ;
     return EXIT_FAILURE ;
-  } else {
+  } else { /* In Parent */
     if( close( pipeFd[0] ) != 0 ) {
       perror( "close" ) ;
       return EXIT_FAILURE ;
@@ -135,19 +142,29 @@ int main( int argc, char* argv[] ) {
     google::InstallFailureSignalHandler( ) ;
     google::SetStderrLogging( google::INFO ) ;
 
-    CONSOLE( ) << PACKAGE_NAME << " " << PACKAGE_COPYRIGHT << std::endl ;
-
+    /* Options to be set. */
     std::vector<std::string> files ;
     bool html = false ;
     bool page = false ;
+    std::string out ;
 
     /* Parse the command line arguments */
-    if( parse( argc, argv, files, page, html ) != EXIT_SUCCESS ) {
+    if( parse( argc, argv, files, page, html, out ) != EXIT_SUCCESS ) {
       return EXIT_FAILURE ;
+    }
+
+    if( !html ) {
+      CONSOLE( ) << PACKAGE_NAME << " " << PACKAGE_COPYRIGHT << std::endl ;
     }
 
     if( page && page_start( ) != EXIT_SUCCESS ) {
       return EXIT_FAILURE ;
+    } else if( out.size( ) != 0 ) {
+      /* Redirect stdout to file */
+      if( freopen( out.c_str( ), "w", stdout ) == NULL ) {
+        perror( "freopen" ) ;
+        return EXIT_FAILURE ;
+      }
     }
 
     mfit::Engine e(html) ;
@@ -157,7 +174,9 @@ int main( int argc, char* argv[] ) {
       return EXIT_FAILURE ;
     }
 
-    CONSOLE( ) << PACKAGE_NAME << " Good Bye!" << std::endl ;
+    if( !html ) {
+      CONSOLE( ) << PACKAGE_NAME << " Good Bye!" << std::endl ;
+    }
 
     return EXIT_SUCCESS ;
   } catch( const std::exception& ex ) {

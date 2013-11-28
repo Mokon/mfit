@@ -10,18 +10,12 @@ namespace mfit {
   get(get) {
   }
 
-  void Statistic::process( std::ostream& out,
-      const pugi::xml_document& cfg ) const {
-    print( out, header, boost::lexical_cast<std::string>(*get(cfg)) ) ;
+  std::string Statistic::getHeader( ) const {
+    return header ;
   }
 
-  void Statistic::print( std::ostream& out, std::string header,
-      std::string value ) {
-#define THDR "[38;5;203m"
-#define TRESET "[0m"
-#define TVALUE "[0;37;48m"
-    out << "\t" << THDR << header << TRESET << " "
-      << TVALUE << value << TRESET << std::endl ;
+  std::string Statistic::getValue( const pugi::xml_document& cfg ) const {
+    return boost::lexical_cast<std::string>(*get(cfg)) ;
   }
 
 }

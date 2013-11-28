@@ -8,10 +8,11 @@
 #include <vector>
 #include <string>
 
+#include <boost/lexical_cast.hpp>
+
 #include <pugixml.hpp>
 
 #include "mcommon/Exception.hpp"
-#include "mcommon/Gender.hpp"
 #include "mcommon/Quantity.hpp"
 
 namespace mfit {
@@ -46,24 +47,23 @@ namespace mfit {
       void process( std::ostream& out,
           const std::vector<std::string>& files ) const ;
 
-      /* TODO convert to templates */
-      static float getNodeAsFloat( const pugi::xml_document& cfg,
+      static std::string getAttribute( const pugi::xml_document& cfg,
           const std::string xpath ) ;
 
-      static float getAttributeAsFloat( const pugi::xml_document& cfg,
+      template<typename T> static T getAttributeAs(
+          const pugi::xml_document& cfg, const std::string xpath ) {
+        return boost::lexical_cast<T>(getAttribute( cfg, xpath ) ) ;
+      }
+
+      static std::string getNode( const pugi::xml_document& cfg,
           const std::string xpath ) ;
 
-      static std::string getNodeAsString( const pugi::xml_document& cfg,
-          const std::string xpath ) ;
+      template<typename T> static T getNodeAs(
+          const pugi::xml_document& cfg, const std::string xpath ) {
+        return boost::lexical_cast<T>(getNode(cfg, xpath));
+      }
 
-      static mcommon::Quantity getNodeAsQuantity( const pugi::xml_document& cfg,
-          const std::string xpath, const mcommon::Unit unit ) ;
-
-      static std::shared_ptr<mcommon::Quantity> getNodeAsQuantityPtr(
-          const pugi::xml_document& cfg, const std::string xpath,
-          const mcommon::Unit unit ) ;
-
-      static mcommon::Gender getNodeAsGender(
+      static std::shared_ptr<mcommon::Quantity> getNodeAsQuantity(
           const pugi::xml_document& cfg, const std::string xpath ) ;
 
     private:

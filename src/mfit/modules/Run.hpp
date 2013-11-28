@@ -9,7 +9,7 @@ namespace mfit {
   class Run {
 
     public:
-      
+
       Run( ) ;
 
       Run( mcommon::Quantity time, mcommon::Quantity speed ) ;

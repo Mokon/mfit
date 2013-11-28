@@ -35,7 +35,7 @@ namespace mfit {
   }
 
   float Cardio::getGradient( const pugi::xml_document& cfg ) {
-    return Engine::getAttributeAsFloat( cfg,
+    return Engine::getAttributeAs<float>( cfg,
         "/person/excercises/cardio/runs[@type='treadmill']/@gradient" ) ;
   }
 
@@ -101,7 +101,7 @@ namespace mfit {
     float we = weight.convert(KG).magnitude( ) ;
     float t = tTime.convert(MINUTES).magnitude( ) ;
     float sp = dis/t*60.0; // KMH
-    float gas =  sp + sp*gradient*9.0/200.0 ; 
+    float gas =  sp + sp*gradient*9.0/200.0 ;
     float cal=(gas*1000.0/60.0+17.5)*t*we/1000.0 ;
     return std::shared_ptr<Quantity>( new Quantity(cal/we/t*60, METS) ) ;
   }
@@ -120,7 +120,7 @@ namespace mfit {
     float we = weight.convert(KG).magnitude( ) ;
     float t = tTime.convert(MINUTES).magnitude( ) ;
     float sp = dis/t*60.0; // KMH
-    float gas =  sp + sp*gradient*9.0/200.0 ; 
+    float gas =  sp + sp*gradient*9.0/200.0 ;
     return std::shared_ptr<Quantity>(
         new Quantity((gas*1000.0/60.0+17.5)*t*we/1000.0, CALORIES) ) ;
   }
@@ -137,11 +137,11 @@ namespace mfit {
         new Quantity( tDis.convert(MILES).magnitude()/
           tTime.convert(HOURS).magnitude(), MPH ) ) ;
   }
-  
+
   std::shared_ptr<Quantity> Cardio::getDistanceTraveledTime(
       const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantityPtr( cfg,
-        "/person/excercises/cardio/compute/distanceTraveledIn/time", MINUTES ) ;
+    return Engine::getNodeAsQuantity( cfg,
+        "/person/excercises/cardio/compute/distanceTraveledIn/time" ) ;
   }
 
   std::shared_ptr<Quantity> Cardio::getDistanceTraveled(
@@ -152,11 +152,11 @@ namespace mfit {
         new Quantity( time.convert(HOURS).magnitude()*
           avgSpeed.convert(MPH).magnitude(), MILES ) ) ;
   }
-  
+
   std::shared_ptr<Quantity> Cardio::getTimeToTravelDistance(
       const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantityPtr( cfg,
-        "/person/excercises/cardio/compute/timeToTravel/distance", MILES ) ;
+    return Engine::getNodeAsQuantity( cfg,
+        "/person/excercises/cardio/compute/timeToTravel/distance" ) ;
   }
 
   std::shared_ptr<Quantity> Cardio::getTimeToTravel(
@@ -170,8 +170,8 @@ namespace mfit {
 
   std::shared_ptr<Quantity> Cardio::getAgeGradeDistance(
       const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantityPtr( cfg,
-        "/person/excercises/cardio/compute/ageGrade/distance", MILES ) ;
+    return Engine::getNodeAsQuantity( cfg,
+        "/person/excercises/cardio/compute/ageGrade/distance" ) ;
   }
 
   std::shared_ptr<Quantity> Cardio::getAgeGradeTime(
@@ -217,7 +217,7 @@ namespace mfit {
       .7319,.723,.7134,.7031,.6923,.6808,.6687,.6559,.6425,.6285,.6138,.5985,
       .5825,.566,.5488,.5309,.5124,.4933,.4735,.4531,.4321,.4104,.3881,.3652,
       .3416,.3174,.2926,.2671,.2409,.2142,.1868 },
-  } } ; 
+  } } ;
 
 }
 

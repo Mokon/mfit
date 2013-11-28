@@ -29,18 +29,18 @@ namespace mfit {
       static const std::string key ;
 
       static void getRuns( const pugi::xml_document& cfg,
-          const std::string xpath, std::vector<Run>& runs, 
+          const std::string xpath, std::vector<Run>& runs,
           mcommon::Quantity& tTime, mcommon::Quantity& tDis ) ;
-      
+
       static std::shared_ptr<mcommon::Quantity> getAverageSpeed(
           const pugi::xml_document& cfg ) ;
 
       static std::shared_ptr<mcommon::Quantity> getTreadmillDistance(
           const pugi::xml_document& cfg ) ;
-      
+
       static std::shared_ptr<mcommon::Quantity> getTreadmillTime(
           const pugi::xml_document& cfg ) ;
-      
+
       static std::shared_ptr<mcommon::Quantity> getTreadmillMETS(
           const pugi::xml_document& cfg ) ;
 
@@ -49,10 +49,10 @@ namespace mfit {
 
       static std::shared_ptr<mcommon::Quantity> getTimeToTravel(
           const pugi::xml_document& cfg ) ;
-      
+
       static std::shared_ptr<mcommon::Quantity> getTimeToTravelDistance(
           const pugi::xml_document& cfg ) ;
-  
+
       static std::shared_ptr<mcommon::Quantity> getDistanceTraveled(
           const pugi::xml_document& cfg ) ;
 
@@ -61,13 +61,13 @@ namespace mfit {
 
       static std::shared_ptr<mcommon::Quantity> getAgeGrade(
           const pugi::xml_document& cfg ) ;
-  
+
       static std::shared_ptr<mcommon::Quantity> getAgeGradeDistance(
           const pugi::xml_document& cfg ) ;
 
       static std::shared_ptr<mcommon::Quantity> getAgeGradeTime(
           const pugi::xml_document& cfg ) ;
-      
+
     private:
 
       static float getGradient( const pugi::xml_document& cfg ) ;
