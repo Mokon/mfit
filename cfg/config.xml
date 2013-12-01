@@ -37,11 +37,16 @@
   </measurements>
   <pushups>33</pushups>
   <sitandreach unit="in">17</sitandreach>
+  <restingheartrate>50</restingheartrate>
+  <bloodpressure>
+    <systolic unit="mmHg">120</systolic>
+    <diastolic unit="mmHg">72</diastolic>
+  </bloodpressure>
   <excercises>
     <cardio>
       <compute>
         <ageGrade><distance unit="miles">1</distance></ageGrade>
-        <timeToTravel><distance unit="miles">1</distance></timeToTravel>
+        <timeToTravel><distance unit="miles">3.10686</distance></timeToTravel>
         <distanceTraveledIn><time unit="mins">15</time></distanceTraveledIn>
       </compute>
       <runs gradient="0.0" type="bestalt">

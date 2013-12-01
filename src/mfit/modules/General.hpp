@@ -52,6 +52,9 @@ namespace mfit {
       static std::shared_ptr<mcommon::Quantity> getBMI(
           const pugi::xml_document& cfg ) ;
 
+      static std::shared_ptr<mcommon::Quantity> getBMITrefethen(
+          const pugi::xml_document& cfg ) ;
+
   } ;
 
 }

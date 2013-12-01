@@ -32,7 +32,7 @@ namespace mfit {
       virtual std::string getKey( ) ;
 
       static const std::string key ;
-  
+
       void addBMR( std::string hdr, Statistic::ValueGetter get ) ;
 
       static std::shared_ptr<mcommon::Quantity> metsToCalories(
@@ -40,7 +40,13 @@ namespace mfit {
           const std::shared_ptr<mcommon::Quantity> time,
           const pugi::xml_document& cfg ) ;
 
+      static std::shared_ptr<mcommon::Quantity> getBMRKatchMcCardie(
+          const pugi::xml_document& cfg ) ;
+
       static std::shared_ptr<mcommon::Quantity> getBMRHarrisBenedict(
+          const pugi::xml_document& cfg ) ;
+
+      static std::shared_ptr<mcommon::Quantity> getBMRMifflinStJeor(
           const pugi::xml_document& cfg ) ;
 
       static std::shared_ptr<mcommon::Quantity> getBMRRozaShizgal(

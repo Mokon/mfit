@@ -16,6 +16,7 @@ namespace mfit {
   General::General( ) {
     add( "Your age is", getAge ) ;
     add( "Your BMI is", getBMI ) ;
+    add( "You Trefethen BMI is", getBMITrefethen ) ;
     add( "Your Broca Index ideal weight is", getIdealBodyWeightBrocaIndex ) ;
     add( "Your Devine Formula ideal weight is", getIdealBodyWeightDevine ) ;
     add( "Your Robinson Formula ideal weight is", getIdealBodyWeightRobinson );
@@ -44,6 +45,15 @@ namespace mfit {
   void General::process( std::ostream& out,
       const pugi::xml_document& cfg ) const {
     print( out, "Your Gender is",  getGender( cfg ) ? "Female" : "Male" ) ;
+  }
+
+  std::shared_ptr<Quantity> General::getBMITrefethen( const pugi::xml_document& cfg ) {
+    Quantity weight = Measurements::getWeight( cfg )->convert( LBS ) ;
+    Quantity height = Measurements::getHeight( cfg )->convert( INCHES ) ;
+
+    float bmi = (weight.magnitude()*5734.0)/pow( height.magnitude( ),2.5 ) ;
+
+    return std::shared_ptr<Quantity>( new Quantity( bmi, NONE ) ) ;
   }
 
   std::shared_ptr<Quantity> General::getBMI( const pugi::xml_document& cfg ) {

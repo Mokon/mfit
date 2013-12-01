@@ -7,6 +7,7 @@
 #include "mfit/modules/Calories.hpp"
 #include "mfit/modules/General.hpp"
 #include "mfit/modules/Measurements.hpp"
+#include "mfit/modules/BodyFatPercentage.hpp"
 #include "mfit/Engine.hpp"
 #include "mfit/Statistic.hpp"
 
@@ -19,6 +20,9 @@ namespace mfit {
   Calories::Calories( ) {
     addBMR( "Your Harris Benedict BMR is", getBMRHarrisBenedict ) ;
     addBMR( "Your Roza Shizgal BMR is", getBMRRozaShizgal ) ;
+    addBMR( "Your Mifflin St Jeor BMR is", getBMRMifflinStJeor ) ;
+    addBMR( "Your Katch McCardie BMR using the US Navy BFP is",
+        getBMRKatchMcCardie ) ;
   }
 
   std::string Calories::getKey( ) {
@@ -57,6 +61,17 @@ namespace mfit {
             get( cfg ) ) * bmrMultipliers[model] ) ) ;
   }
 
+  std::shared_ptr<Quantity> Calories::getBMRKatchMcCardie(
+      const pugi::xml_document& cfg ) {
+    Quantity weight = Measurements::getWeight( cfg )->convert(KG) ;
+    Quantity bfp = *BodyFatPercentage::getBFPUSNavy( cfg ) ;
+    float lbm = weight.magnitude( ) * (100 - bfp.magnitude ( ))/100;
+
+    float cals = lbm * 21.6 + 370 ;
+
+    return std::shared_ptr<Quantity>( new Quantity( cals, CALORIES ) ) ;
+  }
+
   std::shared_ptr<Quantity> Calories::getBMRRozaShizgal(
       const pugi::xml_document& cfg ) {
     Quantity weight = Measurements::getWeight( cfg )->convert(KG) ;
@@ -73,6 +88,28 @@ namespace mfit {
       default:
         cals = (weight.magnitude()*9.247) + (height.magnitude()*4.799)
           - (age.magnitude()*4.330) + 447.593;
+        break ;
+    }
+
+    return std::shared_ptr<Quantity>( new Quantity( cals, CALORIES ) ) ;
+  }
+
+  std::shared_ptr<Quantity> Calories::getBMRMifflinStJeor(
+      const pugi::xml_document& cfg ) {
+    Quantity weight = Measurements::getWeight( cfg )->convert(KG) ;
+    Quantity height = Measurements::getHeight( cfg )->convert(CM) ;
+    Quantity age = General::getAge( cfg )->convert(YEARS) ;
+    Gender gender = General::getGender( cfg ) ;
+
+    float cals ;
+    switch ( gender ) {
+      case Male:
+        cals = (weight.magnitude()*10)+(height.magnitude()*6.25)
+          - (age.magnitude()*5.0) + 5 ;
+        break ;
+      default:
+        cals = (weight.magnitude()*10) + (height.magnitude()*6.25)
+          - (age.magnitude()*5.0) - 161 ;
         break ;
     }
 

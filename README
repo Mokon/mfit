@@ -14,6 +14,16 @@ To build;
 To clean:
   make clean && make clean-purge
 
+There are several prerequisites that must be installed. These include the
+autotools build programs. If you are a fedora/rh user try:
+  sudo yum groupinstall 'Development Tools'
+You will also need the devel packages for the following libs installed:
+  glog
+  boost_system
+  boost_program_options
+  boost_filesystem
+  pugixml
+
 Please note this program was mainly designed to be extendable. Much of the
 design choices are slow (e.g. never caching values on parsing). This was a
 design choice for simplicity as this program runs plenty fast enough as it
