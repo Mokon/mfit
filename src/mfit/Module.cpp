@@ -44,7 +44,31 @@ namespace mfit {
       const pugi::xml_document& cfg ) {
     for( auto stat : stats) {
       try {
-        print( out, stat.getHeader( ), stat.getValue( cfg ) ) ;
+        if( stat.isMultiList( ) ) {
+          std::list<std::list<std::string> > values ;
+          stat.getValues( cfg, values ) ;
+          for( auto v : values ) {
+            int i = 0 ;
+            for( auto av : v ) {
+              print( out, stat.getHeader( i++ ), av ) ;
+            }
+          }
+        } else if( stat.isMultiPair( ) ) {
+          std::list<std::pair<std::string, std::string> > values ;
+          stat.getValues( cfg, values ) ;
+          for( auto v : values ) {
+            print( out, stat.getHeader( 0 ), v.first ) ;
+            print( out, stat.getHeader( 1 ), v.second ) ;
+          }
+        } else if( stat.isMulti( ) ) {
+          std::list<std::string> values ;
+          stat.getValues( cfg, values ) ;
+          for( auto v : values ) {
+            print( out, stat.getHeader( ), v ) ;
+          }
+        } else {
+          print( out, stat.getHeader( ), stat.getValue( cfg ) ) ;
+        }
       } catch( const std::exception& ex ) {
         DLOG(INFO) << "Couldn't process a statistic with the given config: "
           << ex.what() << std::endl ;
@@ -63,6 +87,33 @@ namespace mfit {
 
     add( Statistic( header, get ) ) ;
   }
+
+  void Module::add( std::string header, Statistic::MultiValueGetter get ) {
+    DLOG(INFO) << "Adding registered stat for module " << getKey()
+      << " with header " << header << " and function " << (void*)&get
+      << std::endl ;
+
+    add( Statistic( header, get ) ) ;
+  }
+
+  void Module::add( std::string header, std::string header2,
+      Statistic::MultiPairValueGetter get ) {
+    DLOG(INFO) << "Adding registered stat for module " << getKey()
+      << " with header " << header << " and function " << (void*)&get
+      << std::endl ;
+
+    add( Statistic( header, header2, get ) ) ;
+  }
+
+  void Module::add( std::vector<std::string> headers,
+      Statistic::MultiListValueGetter get ) {
+    DLOG(INFO) << "Adding registered stat for module " << getKey()
+      << " with header " << headers.front( ) << " and function " << (void*)&get
+      << std::endl ;
+
+    add( Statistic( headers, get ) ) ;
+  }
+
 
 }
 

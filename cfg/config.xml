@@ -46,7 +46,10 @@
     <cardio>
       <compute>
         <ageGrade><distance unit="miles">1</distance></ageGrade>
+        <ageGrade><distance unit="miles">1.5</distance></ageGrade>
+        <ageGrade><distance unit="miles">3.10686</distance></ageGrade>
         <timeToTravel><distance unit="miles">3.10686</distance></timeToTravel>
+        <timeToTravel><distance unit="miles">1</distance></timeToTravel>
         <distanceTraveledIn><time unit="mins">15</time></distanceTraveledIn>
       </compute>
       <runs gradient="0.0" type="bestalt">
@@ -54,12 +57,12 @@
         <run><time unit="mins">3</time><speed unit="mph">8</speed></run>
       </runs>
       <runs gradient="0.0" type="best">
-        <run><time unit="mins">11.5</time><speed unit="mph">6.8</speed></run>
-        <run><time unit="mins">1.5</time><speed unit="mph">8.5</speed></run>
+        <run><time unit="mins">12</time><speed unit="mph">6.9</speed></run>
+        <run><time unit="mins">1</time><speed unit="mph">8.5</speed></run>
       </runs>
       <runs gradient="0.0" type="treadmill">
-        <run><time unit="mins">11.5</time><speed unit="mph">6.8</speed></run>
-        <run><time unit="mins">1.5</time><speed unit="mph">8.5</speed></run>
+        <run><time unit="mins">12</time><speed unit="mph">6.9</speed></run>
+        <run><time unit="mins">1</time><speed unit="mph">8.5</speed></run>
         <run><time unit="mins">2</time><speed unit="mph">4</speed></run>
       </runs>
     </cardio>
@@ -88,17 +91,20 @@
       <shrugs type="dumbbell">
         <weight unit="lbs">100</weight><sets>3</sets><reps>12</reps>
       </shrugs>
+      <abdominalcrunch type="machine">
+        <weight unit="lbs">110</weight><sets>4</sets><reps>10</reps>
+      </abdominalcrunch>
       <abdominal type="machine">
         <weight unit="lbs">160</weight><sets>3</sets><reps>12</reps>
       </abdominal>
       <seatedlegpress type="machine">
-        <weight unit="lbs">250</weight><sets>3</sets><reps>12</reps>
+        <weight unit="lbs">270</weight><sets>4</sets><reps>12</reps>
       </seatedlegpress>
       <backextensions type="machine">
-        <weight unit="lbs">240</weight><sets>3</sets><reps>12</reps>
+        <weight unit="lbs">250</weight><sets>4</sets><reps>12</reps>
       </backextensions>
       <calfextensions type="machine">
-        <weight unit="lbs">200</weight><sets>3</sets><reps>12</reps>
+        <weight unit="lbs">210</weight><sets>4</sets><reps>12</reps>
       </calfextensions>
       <inclinechestpress type="machine">
         <weight unit="lbs">140</weight><sets>3</sets><reps>8</reps>

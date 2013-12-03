@@ -21,13 +21,12 @@ namespace mfit {
     add( "\tand you traveled", getTreadmillDistance ) ;
     add( "\tand you spent", getTreadmillMETS ) ;
     add( "\tand you burnt", getTreadmillCals ) ;
-    add( "Given this pace it would take you", getTimeToTravel ) ;
-    add( "\tto travel", getTimeToTravelDistance ) ;
-    add( "Given this pace you would travel", getDistanceTraveled ) ;
-    add( "\tin", getDistanceTraveledTime ) ;
-    add( "This means that for your given age your run time percentile is", getAgeGrade ) ;
-    add( "\tgiven a run length of", getAgeGradeDistance ) ;
-    add( "\tand given a run time of", getAgeGradeTime ) ;
+    add( "Given this pace it would take you", "\tto travel", getTimeToTravel ) ;
+    add( "Given this pace you would travel", "\tin", getDistanceTraveled ) ;
+    add( { "This means that for your given age your run time percentile is",
+        "\tgiven a run length of",
+        "\tand given a run time of" },
+        getAgeGrade ) ;
   }
 
   std::string Cardio::getKey( ) {
@@ -138,65 +137,66 @@ namespace mfit {
           tTime.convert(HOURS).magnitude(), MPH ) ) ;
   }
 
-  std::shared_ptr<Quantity> Cardio::getDistanceTraveledTime(
-      const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantity( cfg,
-        "/person/excercises/cardio/compute/distanceTraveledIn/time" ) ;
-  }
+  void Cardio::getDistanceTraveled( const pugi::xml_document& cfg,
+      std::list<std::pair<std::shared_ptr<mcommon::Value>,
+      std::shared_ptr<mcommon::Value> > >& values ) {
+    std::list<std::shared_ptr<Quantity> > qvalues ;
+    Engine::getNodesAsQuantity( cfg,
+        "/person/excercises/cardio/compute/distanceTraveledIn/time", qvalues ) ;
 
-  std::shared_ptr<Quantity> Cardio::getDistanceTraveled(
-      const pugi::xml_document& cfg ) {
-    Quantity time = *getDistanceTraveledTime( cfg ) ;
     Quantity avgSpeed(*getAverageSpeed(cfg)) ;
-    return std::shared_ptr<Quantity>(
-        new Quantity( time.convert(HOURS).magnitude()*
-          avgSpeed.convert(MPH).magnitude(), MILES ) ) ;
+
+    for( auto time : qvalues ) {
+    values.push_back( std::make_pair( std::shared_ptr<Quantity>(
+        new Quantity( time->convert(HOURS).magnitude()*
+          avgSpeed.convert(MPH).magnitude(), MILES ) ), time ) ) ;
+    }
   }
 
-  std::shared_ptr<Quantity> Cardio::getTimeToTravelDistance(
-      const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantity( cfg,
-        "/person/excercises/cardio/compute/timeToTravel/distance" ) ;
-  }
+  void Cardio::getTimeToTravel( const pugi::xml_document& cfg,
+      std::list<std::pair<std::shared_ptr<mcommon::Value>,
+      std::shared_ptr<mcommon::Value> > >& values ) {
+    std::list<std::shared_ptr<Quantity> > qvalues ;
+    Engine::getNodesAsQuantity( cfg,
+        "/person/excercises/cardio/compute/timeToTravel/distance", qvalues ) ;
 
-  std::shared_ptr<Quantity> Cardio::getTimeToTravel(
-      const pugi::xml_document& cfg ) {
-    Quantity dis = *getTimeToTravelDistance( cfg ) ;
     Quantity avgSpeed(*getAverageSpeed(cfg)) ;
-    return std::shared_ptr<Quantity>(
-        new Quantity( dis.convert(MILES).magnitude( )/
-          avgSpeed.convert(MPH).magnitude( ), HOURS ) ) ;
+
+    for( auto dis : qvalues ) {
+      values.push_back( std::make_pair(
+            std::shared_ptr<Quantity>(
+              new Quantity( dis->convert(MILES).magnitude( )/
+                avgSpeed.convert(MPH).magnitude( ), HOURS ) ),  dis ) ) ;
+    }
   }
 
-  std::shared_ptr<Quantity> Cardio::getAgeGradeDistance(
-      const pugi::xml_document& cfg ) {
-    return Engine::getNodeAsQuantity( cfg,
-        "/person/excercises/cardio/compute/ageGrade/distance" ) ;
-  }
-
-  std::shared_ptr<Quantity> Cardio::getAgeGradeTime(
-      const pugi::xml_document& cfg ) {
-    Quantity dis = *getAgeGradeDistance( cfg ) ;
-    Quantity avgSpeed(*getAverageSpeed(cfg)) ;
-    return std::shared_ptr<Quantity>(
-        new Quantity( dis.convert(MILES).magnitude( )/
-          avgSpeed.convert(MPH).magnitude( ), HOURS ) ) ;
-  }
-
-  std::shared_ptr<Quantity> Cardio::getAgeGrade(
-      const pugi::xml_document& cfg ) {
-    Quantity distance = *getAgeGradeDistance( cfg ) ;
-    Quantity time = getAgeGradeTime( cfg )->convert(SECONDS) ;
+  void Cardio::getAgeGrade( const pugi::xml_document& cfg,
+      std::list<std::list<std::shared_ptr<mcommon::Value> > >& values ) {
     Quantity age = General::getAge( cfg )->convert(YEARS) ;
     Gender gender = General::getGender( cfg ) ;
+    Quantity avgSpeed(*getAverageSpeed(cfg)) ;
 
-    /* TODO this need to be redone so it works with all cfg...
-       EventType evt(et1MILES); */
-    (void)distance;
-    float ag = std[gender][21] /
-      factors[gender][0][(int)std::round(age.magnitude()-5)] /
-      time.magnitude() * 100.0f ;
-    return std::shared_ptr<Quantity>( new Quantity( ag, PERCENTAGE ) ) ;
+    std::list<std::shared_ptr<Quantity> > distances ;
+    Engine::getNodesAsQuantity( cfg,
+        "/person/excercises/cardio/compute/ageGrade/distance", distances ) ;
+
+    for( auto dis : distances ) {
+      std::list<std::shared_ptr<Value> > avalues ;
+
+      std::shared_ptr<Quantity> time(
+          new Quantity( dis->convert(MILES).magnitude( )/
+            avgSpeed.convert(MPH).magnitude( ), HOURS ) )  ;
+
+      // TODO this need to be redone so it works with all cfg... EventType evt(et1MILES);
+      float ag = std[gender][21] /
+        factors[gender][0][(int)std::round(age.magnitude()-5)] /
+        time->convert(SECONDS).magnitude() * 100.0f ;
+      avalues.push_back( std::shared_ptr<Quantity>(
+            new Quantity( ag, PERCENTAGE ) ) ) ;
+      avalues.push_back( time ) ;
+      avalues.push_back( dis ) ;
+      values.push_back( avalues ) ;
+    }
   }
 
   const float Cardio::std[GENDER_MAX][33] = {

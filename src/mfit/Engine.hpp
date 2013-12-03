@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <list>
 #include <map>
 #include <memory>
 #include <ostream>
@@ -55,6 +56,19 @@ namespace mfit {
         return boost::lexical_cast<T>(getAttribute( cfg, xpath ) ) ;
       }
 
+      static void getAttributes( const pugi::xml_document& cfg,
+          const std::string xpath, std::list<std::string>& attrs ) ;
+
+      template<typename T> static void getAttributesAs(
+          const pugi::xml_document& cfg, const std::string xpath,
+          std::list<T>& attrs ) {
+        std::list<std::string> sattrs ;
+        getAttributes( cfg, xpath, sattrs ) ;
+        for( auto a : sattrs ) {
+          attrs.push_back( boost::lexical_cast<T>( a ) ) ;
+        }
+      }
+
       static std::string getNode( const pugi::xml_document& cfg,
           const std::string xpath ) ;
 
@@ -65,6 +79,23 @@ namespace mfit {
 
       static std::shared_ptr<mcommon::Quantity> getNodeAsQuantity(
           const pugi::xml_document& cfg, const std::string xpath ) ;
+
+      static void getNodes( const pugi::xml_document& cfg,
+          const std::string xpath, std::list<std::string>& nodes ) ;
+
+      template<typename T> static void getNodesAs(
+          const pugi::xml_document& cfg, const std::string xpath,
+          std::list<T>& nodes ) {
+        std::list<std::string> snodes ;
+        getNodes( cfg, xpath, snodes ) ;
+        for( auto n : snodes ) {
+          nodes.push_back( boost::lexical_cast<T>( n ) ) ;
+        }
+      }
+
+      static void getNodesAsQuantity(
+          const pugi::xml_document& cfg, const std::string xpath,
+          std::list<std::shared_ptr<mcommon::Quantity> >& nodes ) ;
 
     private:
 

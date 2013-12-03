@@ -48,6 +48,14 @@ namespace mfit {
 
       void add( std::string header, Statistic::ValueGetter get ) ;
 
+      void add( std::string header, Statistic::MultiValueGetter get ) ;
+
+      void add( std::string header, std::string header2,
+          Statistic::MultiPairValueGetter get ) ;
+
+      void add( std::vector<std::string> headers,
+          Statistic::MultiListValueGetter get ) ;
+
       /* Prints a stat in html or terminal output. */
       void print( std::ostream& out, std::string header,
           std::string value ) const ;
