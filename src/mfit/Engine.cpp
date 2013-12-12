@@ -9,7 +9,7 @@
 #include "mfit/modules/Calories.hpp"
 #include "mfit/modules/Measurements.hpp"
 #include "mfit/modules/GreekIdeal.hpp"
-#include "mfit/modules/Weights.hpp"
+#include "mfit/modules/weights/Weights.hpp"
 #include "mfit/modules/Cardio.hpp"
 #include "mfit/modules/BodyFatPercentage.hpp"
 
@@ -17,7 +17,16 @@ using namespace mcommon ;
 
 namespace mfit {
 
+  static const std::string TTXT = "[38;5;215m" ;
+
+  static const std::string THDR = "[38;5;203m" ;
+
+  static const std::string TRESET = "[0m" ;
+
+  static const std::string TVALUE = "[0;37;48m" ;
+
   Engine::Engine( bool html ) : html(html) {
+    /* TODO move to options */
     add(std::shared_ptr<General>( new General( ) ) ) ;
     add(std::shared_ptr<Calories>( new Calories( ) ) ) ;
     add(std::shared_ptr<Measurements>( new Measurements( ) ) ) ;
@@ -28,10 +37,31 @@ namespace mfit {
   }
 
   void Engine::add( std::shared_ptr<Module> module ) {
+    /* TODO would be cleaner if eng. was the only thing that knew about html */
+    module->set( this ) ;
+    modules.push_back( module ) ;
+  }
+  
+  void Engine::print( std::ostream& out, std::string text ) const {
     if( html ) {
-      module->setHTML( ) ;
+      out << "<span class='text'>" << text << " " << "</span>" ;
+    } else {
+      out << TTXT << text << TRESET << std::endl ;
     }
-    modules[module->getKey()] = module ;
+  }
+
+  void Engine::print( std::ostream& out, std::string header,
+      std::string value, bool indent ) const {
+    if( html ) {
+      out << "<li><span class='header'>" << header << " " << "</span>" <<
+        "<span class='value'>" << value << "</span></li>" ;
+    } else {
+      if( indent ) {
+        header.insert( 0, "\t" ) ;
+      }
+      out << "\t" << THDR << header << TRESET << " "
+        << TVALUE << value << TRESET << std::endl ;
+    }
   }
 
   std::string Engine::getAttribute( const pugi::xml_document& cfg,
@@ -84,7 +114,6 @@ namespace mfit {
       attrs.push_back( ret ) ;
     }
   }
-
 
   void Engine::getNodes( const pugi::xml_document& cfg,
       const std::string xpath, std::list<std::string>& nodes ) {
@@ -151,7 +180,7 @@ namespace mfit {
         out << "<h2>" ;
       }
 
-      out << mod.first << " statistics" ;
+      out << mod->getKey( ) << " statistics" ;
 
       if( html ) {
         out << "</h2><ul>" ;
@@ -160,12 +189,12 @@ namespace mfit {
       }
 
       try {
-        mod.second->process( out, cfg ) ;
+        mod->process( out, cfg ) ;
       } catch( const std::exception& ex ) {
         DLOG(INFO) << "Couldn't process a statistic with the given config: "
           << ex.what() << std::endl ;
       }
-      mod.second->processRegisteredStats( out, cfg ) ;
+      mod->processRegisteredStats( out, cfg ) ;
 
       if( html ) {
         out << "</ul>" ;

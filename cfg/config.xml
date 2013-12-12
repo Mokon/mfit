@@ -8,21 +8,28 @@
   <measurements>
     <weight unit="lbs">210.8</weight>
     <height unit="in">73</height>
+    <bioelectricimpedanceanalysis>
+      <bodyfat unit="percentage">26.2</bodyfat>
+      <bone>8.8</bone>
+      <bodywater>56.3</bodywater>
+    </bioelectricimpedanceanalysis>
     <neck unit="in">16</neck>
-    <waist unit="in">39</waist>
-    <beltline unit="in">38</beltline>
+    <waist unit="in">38.25</waist>
+    <beltline unit="in">37.25</beltline>
     <chest unit="in">43.5</chest>
-    <hips unit="in">41.25</hips>
+    <hips unit="in">41</hips>
     <biceps type="flexed" side="left" unit="in">15</biceps>
     <biceps type="flexed" side="right" unit="in">15</biceps>
     <biceps type="relaxed" side="left" unit="in">13.5</biceps>
     <biceps type="relaxed" side="right" unit="in">13.5</biceps>
+    <ankle side="left" unit="in">9.5</ankle>
+    <ankle side="right" unit="in">9.5</ankle>
     <wrist side="left" unit="in">7.25</wrist>
     <wrist side="right" unit="in">7.25</wrist>
     <forearm side="left" unit="in">12</forearm>
     <forearm side="right" unit="in">12</forearm>
-    <thigh side="left" unit="in">23.5</thigh>
-    <thigh side="right" unit="in">23</thigh>
+    <thigh side="left" unit="in">23.75</thigh>
+    <thigh side="right" unit="in">24</thigh>
     <calf side="left" unit="in">16.5</calf>
     <calf side="right" unit="in">16.5</calf>
     <skinfolds>
@@ -46,72 +53,88 @@
     <cardio>
       <compute>
         <ageGrade><distance unit="miles">1</distance></ageGrade>
-        <ageGrade><distance unit="miles">1.5</distance></ageGrade>
-        <ageGrade><distance unit="miles">3.10686</distance></ageGrade>
+        <ageGrade><distance unit="km">42.195</distance></ageGrade>
+        <ageGrade><distance unit="km">5</distance></ageGrade>
+        <timeToTravel><distance unit="km">42.195</distance></timeToTravel>
         <timeToTravel><distance unit="miles">3.10686</distance></timeToTravel>
         <timeToTravel><distance unit="miles">1</distance></timeToTravel>
+        <timeToTravel><distance unit="miles">1.5</distance></timeToTravel>
         <distanceTraveledIn><time unit="mins">15</time></distanceTraveledIn>
       </compute>
-      <runs gradient="0.0" type="bestalt">
-        <run><time unit="mins">5</time><speed unit="mph">6.7</speed></run>
-        <run><time unit="mins">3</time><speed unit="mph">8</speed></run>
-      </runs>
       <runs gradient="0.0" type="best">
-        <run><time unit="mins">12</time><speed unit="mph">6.9</speed></run>
-        <run><time unit="mins">1</time><speed unit="mph">8.5</speed></run>
+        <run><time unit="mins">6</time><speed unit="mph">7.0</speed></run>
+        <run><time unit="mins">2</time><speed unit="mph">8.5</speed></run>
+      </runs>
+      <runs gradient="0.0" type="best2">
+        <run><time unit="mins">11</time><speed unit="mph">7.0</speed></run>
+        <run><time unit="mins">2</time><speed unit="mph">8.5</speed></run>
       </runs>
       <runs gradient="0.0" type="treadmill">
-        <run><time unit="mins">12</time><speed unit="mph">6.9</speed></run>
-        <run><time unit="mins">1</time><speed unit="mph">8.5</speed></run>
+        <run><time unit="mins">11</time><speed unit="mph">7.0</speed></run>
+        <run><time unit="mins">2</time><speed unit="mph">8.5</speed></run>
         <run><time unit="mins">2</time><speed unit="mph">4</speed></run>
       </runs>
     </cardio>
     <weights>
-      <fly type="machine">
-        <weight unit="lbs">150</weight><sets>3</sets><reps>12</reps>
-      </fly>
-      <bicepcurls type="dumbbell" hands="1">
-        <weight unit="lbs">35</weight><sets>3</sets><reps>10</reps>
-      </bicepcurls>
-      <bicepcurls type="machine">
-        <weight unit="lbs">100</weight><sets>3</sets><reps>10</reps>
-      </bicepcurls>
-      <triceppress type="machine">
-        <weight unit="lbs">140</weight><sets>3</sets><reps>12</reps>
-      </triceppress>
-      <pulldown type="machine">
-        <weight unit="lbs">140</weight><sets>3</sets><reps>8</reps>
-      </pulldown>
-      <row type="machine">
-        <weight unit="lbs">100</weight><sets>3</sets><reps>12</reps>
-      </row>
-      <shoulderpress type="machine">
-        <weight unit="lbs">65</weight><sets>3</sets><reps>12</reps>
-      </shoulderpress>
-      <shrugs type="dumbbell">
-        <weight unit="lbs">100</weight><sets>3</sets><reps>12</reps>
-      </shrugs>
-      <abdominalcrunch type="machine">
-        <weight unit="lbs">110</weight><sets>4</sets><reps>10</reps>
-      </abdominalcrunch>
-      <abdominal type="machine">
-        <weight unit="lbs">160</weight><sets>3</sets><reps>12</reps>
-      </abdominal>
-      <seatedlegpress type="machine">
-        <weight unit="lbs">270</weight><sets>4</sets><reps>12</reps>
+      <!-- Legs -->
+      <seatedlegpress type="machine" equipment="" varient="">
+        <weight unit="lbs">290</weight><sets>4</sets><reps>12</reps>
       </seatedlegpress>
-      <backextensions type="machine">
+      <backextensions type="machine" equipment="" varient="">
         <weight unit="lbs">250</weight><sets>4</sets><reps>12</reps>
       </backextensions>
-      <calfextensions type="machine">
-        <weight unit="lbs">210</weight><sets>4</sets><reps>12</reps>
+      <calfextensions type="machine" equipment="" varient="">
+        <weight unit="lbs">210</weight><sets>5</sets><reps>12</reps>
       </calfextensions>
-      <inclinechestpress type="machine">
-        <weight unit="lbs">140</weight><sets>3</sets><reps>8</reps>
-      </inclinechestpress>
-      <flatchestpress type="dumbbell">
-        <weight unit="lbs">100</weight><sets>3</sets><reps>10</reps>
-      </flatchestpress>
+      <seatedlegcurl type="machine" equipment="" varient="">
+        <weight unit="lbs">150</weight><sets>3</sets><reps>10</reps>
+      </seatedlegcurl>
+
+      <!-- Chest -->
+      <fly type="machine" equipment="" varient="">
+        <weight unit="lbs">150</weight><sets>3</sets><reps>12</reps>
+      </fly>
+      <chestpress type="machine" equipment="" varient="incline">
+        <weight unit="lbs">145</weight><sets>3</sets><reps>10</reps>
+      </chestpress>
+      <chestpress type="freeweights" equipment="dumbbell" varient="flat">
+        <weight unit="lbs">110</weight><sets>3</sets><reps>12</reps>
+      </chestpress>
+
+      <!-- Sholders -->
+      <pulldown type="machine" equipment="" varient="">
+        <weight unit="lbs">145</weight><sets>3</sets><reps>10</reps>
+      </pulldown>
+      <row type="machine" equipment="" varient="">
+        <weight unit="lbs">110</weight><sets>3</sets><reps>12</reps>
+      </row>
+      <shoulderpress type="machine" equipment="" varient="">
+        <weight unit="lbs">70</weight><sets>3</sets><reps>12</reps>
+      </shoulderpress>
+      <shrugs type="freeweights" equipment="dumbbell" varient="">
+        <weight unit="lbs">110</weight><sets>3</sets><reps>12</reps>
+      </shrugs>
+
+      <!-- Biceps -->
+      <curl type="freeweights" equipment="dumbbell" varient="concentration" hands="1">
+        <weight unit="lbs">35</weight><sets>3</sets><reps>10</reps>
+      </curl>
+      <curl type="machine" equipment="" varient="">
+        <weight unit="lbs">105</weight><sets>3</sets><reps>12</reps>
+      </curl>
+
+      <!-- Ticeps -->
+      <triceppress type="machine" equipment="" varient="">
+        <weight unit="lbs">150</weight><sets>3</sets><reps>12</reps>
+      </triceppress>
+
+      <!-- Abs -->
+      <abdominalcrunch type="machine" equipment="" varient="">
+        <weight unit="lbs">110</weight><sets>4</sets><reps>10</reps>
+      </abdominalcrunch>
+      <abdominal type="machine" equipment="" varient="">
+        <weight unit="lbs">170</weight><sets>4</sets><reps>10</reps>
+      </abdominal>
     </weights>
   </excercises>
 </person>

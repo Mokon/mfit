@@ -27,7 +27,7 @@ namespace mfit {
 
       /* Sets the html flag on this module so that all output from this module
        * will now be in html rather than terminal output. */
-      void setHTML( ) ;
+      void set( Engine* engine ) ;
 
       virtual std::string getKey( ) = 0 ;
 
@@ -56,13 +56,13 @@ namespace mfit {
       void add( std::vector<std::string> headers,
           Statistic::MultiListValueGetter get ) ;
 
-      /* Prints a stat in html or terminal output. */
-      void print( std::ostream& out, std::string header,
-          std::string value ) const ;
+      void add( Statistic::MultiListWHeadersValueGetter get ) ;
+
+    protected:
+
+      Engine* engine ;
 
     private:
-
-      bool html ;
 
       std::list<Statistic> stats ;
 

@@ -1,6 +1,6 @@
 /* Copyright (C) 2013 David 'Mokon' Bond,  All Rights Reserved */
 
-#include "mfit/modules/WeightRepSet.hpp"
+#include "mfit/modules/weights/WeightRepSet.hpp"
 
 using namespace mcommon ;
 
@@ -17,6 +17,12 @@ namespace mfit {
     { 100, 95, 90, 88, 86, 83, 80, 78, 76, 75, 72, 70, 0, 0,  0 },
     { 100, 95, 93, 90, 87, 85, 83, 80, 77, 75,  0, 67, 0, 0, 65 },
     { 100, 92, 90, 87, 85, 82,  0, 75,  0, 70,  0, 65, 0, 0, 60 },
+  } ;
+      
+  std::string WeightRepSet::oneRepMaxModelString[ONE_REP_MAX_MODEL_MAX] = {
+    "Brzcki",
+    "Baechle",
+    "DosRemedios",
   } ;
 
   WeightRepSet WeightRepSet::convert( int reps, enum OneRepMaxModel model) {
@@ -42,6 +48,16 @@ namespace mfit {
     mag *= perc/100.0 ;
 
     return WeightRepSet( Quantity( mag, weight.unit()), sets, reps ) ;
+  }
+  
+  WeightRepSet WeightRepSet::operator *( const float& rhs ) {
+    WeightRepSet ret(*this);
+    ret.weight = weight*rhs ;
+    return ret ;
+  }
+
+  int WeightRepSet::getReps( ) {
+    return reps ;
   }
 
   std::ostream& WeightRepSet::out( std::ostream& o ) const {

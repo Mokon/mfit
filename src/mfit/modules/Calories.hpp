@@ -40,6 +40,9 @@ namespace mfit {
           const std::shared_ptr<mcommon::Quantity> time,
           const pugi::xml_document& cfg ) ;
 
+      static std::shared_ptr<mcommon::Quantity> weightCaloriesBurnt(
+          const pugi::xml_document& cfg ) ; 
+
       static std::shared_ptr<mcommon::Quantity> getBMRKatchMcCardie(
           const pugi::xml_document& cfg ) ;
 

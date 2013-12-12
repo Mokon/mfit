@@ -33,6 +33,12 @@ namespace mfit {
       WeightRepSet convert( int reps, enum OneRepMaxModel model) ;
 
       virtual std::ostream& out( std::ostream& o ) const ;
+      
+      WeightRepSet operator *( const float& rhs ) ;
+      
+      static std::string oneRepMaxModelString[ONE_REP_MAX_MODEL_MAX] ;
+
+      int getReps( ) ;
 
     private:
 

@@ -107,6 +107,23 @@ namespace mfit {
     return Engine::getNodeAsQuantity( cfg,
         "/person/measurements/forearm[@side='right']" ) ;
   }
+  
+  std::shared_ptr<Quantity> Measurements::getAnkle(
+      const pugi::xml_document& cfg ) {
+    return General::avg( getAnkleLeft( cfg ), getAnkleRight( cfg ) ) ;
+  }
+
+  std::shared_ptr<Quantity> Measurements::getAnkleLeft(
+      const pugi::xml_document& cfg ) {
+    return Engine::getNodeAsQuantity( cfg,
+        "/person/measurements/wrist[@side='left']" ) ;
+  }
+
+  std::shared_ptr<Quantity> Measurements::getAnkleRight(
+      const pugi::xml_document& cfg ) {
+    return Engine::getNodeAsQuantity( cfg,
+        "/person/measurements/wrist[@side='right']" ) ;
+  }
 
   std::shared_ptr<Quantity> Measurements::getWrist(
       const pugi::xml_document& cfg ) {

@@ -59,6 +59,15 @@ namespace mfit {
 
       static std::shared_ptr<mcommon::Quantity> getForearmRight(
           const pugi::xml_document& cfg ) ;
+      
+      static std::shared_ptr<mcommon::Quantity> getAnkle(
+          const pugi::xml_document& cfg ) ;
+
+      static std::shared_ptr<mcommon::Quantity> getAnkleLeft(
+          const pugi::xml_document& cfg ) ;
+
+      static std::shared_ptr<mcommon::Quantity> getAnkleRight(
+          const pugi::xml_document& cfg ) ;
 
       static std::shared_ptr<mcommon::Quantity> getWrist(
           const pugi::xml_document& cfg ) ;

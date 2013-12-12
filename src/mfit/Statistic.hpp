@@ -35,6 +35,10 @@ namespace mfit {
           std::list<std::list<std::shared_ptr<mcommon::Value> > >& values )>
           MultiListValueGetter ;
 
+      typedef std::function<void ( const pugi::xml_document& cfg,
+          std::list<std::list<std::pair<std::string, std::shared_ptr<mcommon::Value> > > >& values )>
+          MultiListWHeadersValueGetter ;
+
       Statistic( std::string header, ValueGetter get ) ;
 
       Statistic( std::string header, MultiValueGetter get ) ;
@@ -43,6 +47,8 @@ namespace mfit {
           MultiPairValueGetter get ) ;
 
       Statistic( std::vector<std::string> headers, MultiListValueGetter get ) ;
+      
+      Statistic( MultiListWHeadersValueGetter get ) ;
 
       virtual ~Statistic( ) = default ;
 
@@ -64,12 +70,17 @@ namespace mfit {
 
       void getValues( const pugi::xml_document& cfg,
         std::list<std::list<std::string> >& values ) const ;
+      
+      void getValues( const pugi::xml_document& cfg,
+        std::list<std::list<std::pair<std::string, std::string> > >& values ) const ;
 
       bool isMulti( ) ;
 
       bool isMultiPair( ) ;
 
       bool isMultiList( ) ;
+
+      bool isMultiListWHeaders( ) ;
 
     protected:
 
@@ -82,6 +93,8 @@ namespace mfit {
       MultiPairValueGetter multiPairGet ;
 
       MultiListValueGetter multiListGet ;
+      
+      MultiListWHeadersValueGetter multiListWHeadersGet ;
 
   } ;
 

@@ -3,7 +3,6 @@
 #pragma once
 
 #include <list>
-#include <map>
 #include <memory>
 #include <ostream>
 #include <vector>
@@ -97,12 +96,18 @@ namespace mfit {
           const pugi::xml_document& cfg, const std::string xpath,
           std::list<std::shared_ptr<mcommon::Quantity> >& nodes ) ;
 
+      /* Prints a stat in html or terminal output. */
+      void print( std::ostream& out, std::string header,
+          std::string value, bool indent ) const ;
+
+      void print( std::ostream& out, std::string text ) const ;
+
     private:
 
       /* A boolean on whether to output html versus console text. */
       bool html ;
 
-      std::map<const std::string, std::shared_ptr<Module>> modules ;
+      std::list<std::shared_ptr<Module>> modules ;
 
   } ;
 

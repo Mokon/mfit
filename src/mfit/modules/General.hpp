@@ -55,6 +55,15 @@ namespace mfit {
       static std::shared_ptr<mcommon::Quantity> getBMITrefethen(
           const pugi::xml_document& cfg ) ;
 
+      static std::shared_ptr<mcommon::Quantity> getLBPMPotentialBuiltLean(
+          const pugi::xml_document& cfg ) ;
+
+      static std::shared_ptr<mcommon::Quantity> getShreadedWeightLeanGains(
+          const pugi::xml_document& cfg ) ;
+
+      static std::shared_ptr<mcommon::Quantity> getLBPMPotentialFrameSizeModel(
+          const pugi::xml_document& cfg ) ;
+
   } ;
 
 }

@@ -3,6 +3,7 @@
 #include <cmath>
 
 #include "mfit/modules/General.hpp"
+#include "mfit/modules/BodyFatPercentage.hpp"
 #include "mfit/modules/Measurements.hpp"
 #include "mfit/Engine.hpp"
 #include "mfit/Statistic.hpp"
@@ -21,10 +22,46 @@ namespace mfit {
     add( "Your Devine Formula ideal weight is", getIdealBodyWeightDevine ) ;
     add( "Your Robinson Formula ideal weight is", getIdealBodyWeightRobinson );
     add( "Your Miller Formula ideal weight is", getIdealBodyWeightMiller ) ;
+    add( "Your max lean body mass potential from the build lean model is",
+        getLBPMPotentialBuiltLean ) ;
+    add( "Your max shreaded body weight from the lean gains model is",
+        getShreadedWeightLeanGains ) ;
+    add( "Your max lean body mass potential based on your frame size is",
+        getLBPMPotentialFrameSizeModel ) ;
   }
 
   std::string General::getKey( ) {
     return key ;
+  }
+  
+  std::shared_ptr<Quantity> General::getLBPMPotentialBuiltLean(
+      const pugi::xml_document& cfg ) {
+    Quantity height = Measurements::getHeight( cfg )->convert( INCHES ) ;
+    float ret = (height.magnitude()-70)*5 + 160 ;
+
+    return std::shared_ptr<Quantity>( new Quantity(ret, LBS) ) ;
+  }
+
+  std::shared_ptr<Quantity> General::getShreadedWeightLeanGains(
+      const pugi::xml_document& cfg ) {
+    Quantity height = Measurements::getHeight( cfg )->convert( CM ) ;
+    float ret = (height.magnitude()-100) ;
+    Quantity qk = Quantity(ret, KG).convert(LBS) ;
+
+    return std::shared_ptr<Quantity>( new Quantity(qk) ) ;
+  }
+  
+  std::shared_ptr<Quantity> General::getLBPMPotentialFrameSizeModel(
+      const pugi::xml_document& cfg ) {
+    Quantity height = Measurements::getHeight( cfg )->convert( INCHES ) ;
+    Quantity wrist = Measurements::getWrist( cfg )->convert( INCHES ) ;
+    Quantity ankle = Measurements::getAnkle( cfg )->convert( INCHES ) ;
+    Quantity bfp = *BodyFatPercentage::getBFPUSNavy( cfg ) ;
+    float ret = std::pow(height.magnitude(), 1.5) *
+      ( std::sqrt(wrist.magnitude())/22.6670 + std::sqrt(ankle.magnitude())/17.0104) *
+      (bfp.magnitude()/224+1) ;
+
+    return std::shared_ptr<Quantity>( new Quantity(ret, LBS) ) ;
   }
 
   std::shared_ptr<Quantity> General::avg( std::shared_ptr<Quantity> a,
@@ -44,7 +81,7 @@ namespace mfit {
 
   void General::process( std::ostream& out,
       const pugi::xml_document& cfg ) const {
-    print( out, "Your Gender is",  getGender( cfg ) ? "Female" : "Male" ) ;
+    engine->print( out, "Your Gender is",  getGender( cfg ) ? "Female" : "Male", false ) ;
   }
 
   std::shared_ptr<Quantity> General::getBMITrefethen( const pugi::xml_document& cfg ) {

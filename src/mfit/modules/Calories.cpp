@@ -23,6 +23,7 @@ namespace mfit {
     addBMR( "Your Mifflin St Jeor BMR is", getBMRMifflinStJeor ) ;
     addBMR( "Your Katch McCardie BMR using the US Navy BFP is",
         getBMRKatchMcCardie ) ;
+    add( "You spent this many calories lifting weights", weightCaloriesBurnt ) ;
   }
 
   std::string Calories::getKey( ) {
@@ -59,6 +60,16 @@ namespace mfit {
     return std::shared_ptr<Quantity>(
         new Quantity( *std::dynamic_pointer_cast<Quantity>(
             get( cfg ) ) * bmrMultipliers[model] ) ) ;
+  }
+
+  std::shared_ptr<Quantity> Calories::weightCaloriesBurnt(
+      const pugi::xml_document& cfg ) {
+    Quantity timeLifting( 30, MINUTES ) ;
+    //Quantity timeLifting = Weights::timeLifting( ) ->convert( MINUTES ) ;
+    Quantity weight = Measurements::getWeight( cfg )->convert(KG) ;
+    float cals = 0.086 * weight.magnitude( ) * timeLifting.magnitude() ;
+    
+    return std::shared_ptr<Quantity>( new Quantity( cals, CALORIES ) ) ;
   }
 
   std::shared_ptr<Quantity> Calories::getBMRKatchMcCardie(

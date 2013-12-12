@@ -32,8 +32,10 @@ int parse( int argc, char* argv[], std::vector<std::string>& files, bool& page,
   boost::program_options::options_description desc( pn + " Program Options" ) ;
   desc.add_options()
     ("help", "program usage")
-    ("page", boost::program_options::value<bool>(&page)->implicit_value(true), "page the output")
-    ("html", boost::program_options::value<bool>(&html)->implicit_value(true), "use html output")
+    ("page", boost::program_options::value<bool>(&page)->implicit_value(true),
+     "page the output")
+    ("html", boost::program_options::value<bool>(&html)->implicit_value(true),
+     "use html output")
     ("out", boost::program_options::value<std::string>(&out), "output filename")
     ("files", boost::program_options::value<
      std::vector<std::string> >(&files)->required(), "xml config files") ;
@@ -66,13 +68,8 @@ int parse( int argc, char* argv[], std::vector<std::string>& files, bool& page,
   return EXIT_SUCCESS ;
 }
 
-/* Pagination: These are static globals which isn't nice but simplifies this
- * a lot. */
-static pid_t pid ;
-
-static int pipeFd[2] ;
-
-int page_start( ) {
+/* Pagination */
+int page_start( pid_t& pid, int pipeFd[] ) {
   if( pipe( pipeFd ) < 0 ) {
     perror( "pipe" ) ;
     return EXIT_FAILURE ;
@@ -119,7 +116,7 @@ int page_start( ) {
   return EXIT_SUCCESS ;
 }
 
-int page_end( ) {
+int page_end( pid_t& pid, int pipeFd[] ) {
   int status ;
   pid = waitpid( pid, &status, 0 ) ;
   if( pid < 0 ) {
@@ -147,6 +144,8 @@ int main( int argc, char* argv[] ) {
     bool html = false ;
     bool page = false ;
     std::string out ;
+    pid_t pid ;
+    int pipeFd[2] ;
 
     /* Parse the command line arguments */
     if( parse( argc, argv, files, page, html, out ) != EXIT_SUCCESS ) {
@@ -157,7 +156,7 @@ int main( int argc, char* argv[] ) {
       CONSOLE( ) << PACKAGE_NAME << " " << PACKAGE_COPYRIGHT << std::endl ;
     }
 
-    if( page && page_start( ) != EXIT_SUCCESS ) {
+    if( page && page_start( pid, pipeFd ) != EXIT_SUCCESS ) {
       return EXIT_FAILURE ;
     } else if( out.size( ) != 0 ) {
       /* Redirect stdout to file */
@@ -170,7 +169,7 @@ int main( int argc, char* argv[] ) {
     mfit::Engine e(html) ;
     e.process( CONSOLE( ), files ) ;
 
-    if( page && page_end( ) != EXIT_SUCCESS ) {
+    if( page && page_end( pid, pipeFd ) != EXIT_SUCCESS ) {
       return EXIT_FAILURE ;
     }
 

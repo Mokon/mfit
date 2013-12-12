@@ -16,11 +16,12 @@ SHARED_SOURCES = \
   ${SRC_DIR}/mfit/modules/Calories.cpp \
   ${SRC_DIR}/mfit/modules/Measurements.cpp \
   ${SRC_DIR}/mfit/modules/GreekIdeal.cpp \
-  ${SRC_DIR}/mfit/modules/Weights.cpp \
   ${SRC_DIR}/mfit/modules/Cardio.cpp \
   ${SRC_DIR}/mfit/modules/BodyFatPercentage.cpp \
   ${SRC_DIR}/mfit/modules/Run.cpp \
-  ${SRC_DIR}/mfit/modules/WeightRepSet.cpp \
+  ${SRC_DIR}/mfit/modules/weights/Weight.cpp \
+  ${SRC_DIR}/mfit/modules/weights/Weights.cpp \
+  ${SRC_DIR}/mfit/modules/weights/WeightRepSet.cpp \
   ${SRC_DIR}/mfit/modules/ValueString.cpp \
   ${SRC_DIR}/mfit/Module.cpp \
   ${SRC_DIR}/mfit/Statistic.cpp \

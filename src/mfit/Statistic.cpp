@@ -24,6 +24,10 @@ namespace mfit {
       MultiListValueGetter get ) : headers(headers), multiListGet(get) {
   }
 
+  Statistic::Statistic( MultiListWHeadersValueGetter get ) :
+    multiListWHeadersGet(get) {
+  }
+
   std::string Statistic::getHeader( ) const {
     return headers.front( ) ;
   }
@@ -42,6 +46,10 @@ namespace mfit {
 
   bool Statistic::isMultiList( ) {
     return (bool)multiListGet ;
+  }
+
+  bool Statistic::isMultiListWHeaders( ) {
+    return (bool)multiListWHeadersGet ;
   }
 
   std::string Statistic::getValue( const pugi::xml_document& cfg ) const {
@@ -68,7 +76,7 @@ namespace mfit {
             boost::lexical_cast<std::string>(*v.second) ) ) ;
     }
   }
-
+  
   void Statistic::getValues( const pugi::xml_document& cfg,
       std::list<std::list<std::string> >& values ) const {
     std::list<std::list<std::shared_ptr<mcommon::Value> > > vs ;
@@ -77,6 +85,20 @@ namespace mfit {
       std::list<std::string> avs ;
       for( auto av : v ) {
         avs.push_back( boost::lexical_cast<std::string>(*av) ) ;
+      }
+      values.push_back( avs ) ;
+    }
+  }
+
+  void Statistic::getValues( const pugi::xml_document& cfg,
+      std::list<std::list<std::pair<std::string, std::string> > >& values ) const {
+    std::list<std::list<std::pair< std::string, std::shared_ptr<mcommon::Value> > > > vs ;
+    multiListWHeadersGet(cfg, vs) ;
+    for( auto v : vs ) {
+      std::list<std::pair<std::string, std::string> > avs ;
+      for( auto av : v ) {
+        avs.push_back( std::make_pair(
+              av.first, boost::lexical_cast<std::string>(*(av.second)) ) ) ;
       }
       values.push_back( avs ) ;
     }

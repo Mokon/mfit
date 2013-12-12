@@ -4,70 +4,64 @@
 
 #include "mcommon/Log.hpp"
 
+#include "mfit/Engine.hpp"
 #include "mfit/Module.hpp"
 
 namespace mfit {
 
-  static const std::string THDR = "[38;5;203m" ;
-
-  static const std::string TRESET = "[0m" ;
-
-  static const std::string TVALUE = "[0;37;48m" ;
-
-  Module::Module( ) : html(false) {
+  Module::Module( ) : engine(NULL) {
   }
 
-  void Module::setHTML( ) {
-    html = true ;
+  void Module::set( Engine* engine ) {
+    this->engine = engine ;
   }
 
   void Module::process( std::ostream& out,
       const pugi::xml_document& cfg ) const {
     /* By default do nothing. This allow concrete classes to implement this
-     * at their descretion. */
+     * at their discrection. */
     boost::ignore_unused_variable_warning( out ) ;
     boost::ignore_unused_variable_warning( cfg ) ;
-  }
-
-  void Module::print( std::ostream& out, std::string header,
-      std::string value ) const {
-    if( html ) {
-      out << "<li><span class='header'>" << header << " " << "</span>" <<
-        "<span class='value'>" << value << "</span></li>" ;
-    } else {
-      out << "\t" << THDR << header << TRESET << " "
-        << TVALUE << value << TRESET << std::endl ;
-    }
   }
 
   void Module::processRegisteredStats( std::ostream& out,
       const pugi::xml_document& cfg ) {
     for( auto stat : stats) {
       try {
-        if( stat.isMultiList( ) ) {
+        if( stat.isMultiListWHeaders( ) ) {
+          std::list<std::list<std::pair<std::string, std::string> > > values ;
+          stat.getValues( cfg, values ) ;
+          for( auto v : values ) {
+            int i = 0 ;
+            for( auto av : v ) {
+              engine->print( out, av.first, av.second, i++ != 0 ) ;
+            }
+          }
+        } else if( stat.isMultiList( ) ) {
           std::list<std::list<std::string> > values ;
           stat.getValues( cfg, values ) ;
           for( auto v : values ) {
             int i = 0 ;
             for( auto av : v ) {
-              print( out, stat.getHeader( i++ ), av ) ;
+              engine->print( out, stat.getHeader( i ), av, i != 0 ) ;
+              i++ ;
             }
           }
         } else if( stat.isMultiPair( ) ) {
           std::list<std::pair<std::string, std::string> > values ;
           stat.getValues( cfg, values ) ;
           for( auto v : values ) {
-            print( out, stat.getHeader( 0 ), v.first ) ;
-            print( out, stat.getHeader( 1 ), v.second ) ;
+            engine->print( out, stat.getHeader( 0 ), v.first, false ) ;
+            engine->print( out, stat.getHeader( 1 ), v.second, false ) ;
           }
         } else if( stat.isMulti( ) ) {
           std::list<std::string> values ;
           stat.getValues( cfg, values ) ;
           for( auto v : values ) {
-            print( out, stat.getHeader( ), v ) ;
+            engine->print( out, stat.getHeader( ), v, false ) ;
           }
         } else {
-          print( out, stat.getHeader( ), stat.getValue( cfg ) ) ;
+          engine->print( out, stat.getHeader( ), stat.getValue( cfg ), false ) ;
         }
       } catch( const std::exception& ex ) {
         DLOG(INFO) << "Couldn't process a statistic with the given config: "
@@ -114,6 +108,13 @@ namespace mfit {
     add( Statistic( headers, get ) ) ;
   }
 
+  void Module::add( Statistic::MultiListWHeadersValueGetter get ) {
+    DLOG(INFO) << "Adding registered stat for module " << getKey()
+      << " with dynamic headers and function " << (void*)&get
+      << std::endl ;
+
+    add( Statistic( get ) ) ;
+  }
 
 }
 
