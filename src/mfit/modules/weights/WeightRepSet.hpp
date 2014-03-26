@@ -1,4 +1,4 @@
-/* Copyright (C) 2013 David 'Mokon' Bond,  All Rights Reserved */
+/* Copyright (C) 2013-2014 David 'Mokon' Bond, All Rights Reserved */
 
 #pragma once
 
@@ -11,7 +11,8 @@ namespace mfit {
     Brzcki,
     Baechle,
     DosRemedios,
-    ONE_REP_MAX_MODEL_MAX
+    Average,
+    ONE_REP_MAX_MODEL_MAX,
   } ;
 
   DEFINE_EXCEPTION_CLASS( UnhandledRepException ) ;
@@ -41,6 +42,8 @@ namespace mfit {
       int getReps( ) ;
 
     private:
+  
+      static float getPerc( int reps, enum OneRepMaxModel model ) ;
 
       static float oneRepMaxPercentage[ONE_REP_MAX_MODEL_MAX][15] ;
 

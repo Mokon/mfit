@@ -1,4 +1,4 @@
-/* Copyright (C) 2013 David 'Mokon' Bond,  All Rights Reserved */
+/* Copyright (C) 2013-2014 David 'Mokon' Bond, All Rights Reserved */
 
 #pragma once
 
@@ -10,10 +10,8 @@ namespace mfit {
 
     public:
 
-      Weight( std::string xpath, float factor ) ;
-
       Weight( std::string weight, std::string type, std::string equipment,
-          std::string varient, float factor ) ;
+          std::string varient, float factor, bool ismajor ) ;
 
       virtual ~Weight( ) = default ;
 
@@ -25,11 +23,15 @@ namespace mfit {
 
       float getFactor( ) const ;
 
+      bool isMajor( ) const ;
+
     private:
 
       std::string xpath ;
 
       float factor ;
+
+      bool ismajor ; /* Can't name major since GNU populates the global ns... */
 
   } ;
 

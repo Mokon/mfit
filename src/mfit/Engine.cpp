@@ -1,4 +1,4 @@
-/* Copyright (C) 2013 David 'Mokon' Bond,  All Rights Reserved */
+/* Copyright (C) 2013-2014 David 'Mokon' Bond, All Rights Reserved */
 
 #include <cmath>
 
@@ -28,12 +28,12 @@ namespace mfit {
   Engine::Engine( bool html ) : html(html) {
     /* TODO move to options */
     add(std::shared_ptr<General>( new General( ) ) ) ;
-    add(std::shared_ptr<Calories>( new Calories( ) ) ) ;
     add(std::shared_ptr<Measurements>( new Measurements( ) ) ) ;
     add(std::shared_ptr<GreekIdeal>( new GreekIdeal( ) ) ) ;
-    add(std::shared_ptr<Weights>( new Weights( ) ) ) ;
-    add(std::shared_ptr<Cardio>( new Cardio( ) ) ) ;
     add(std::shared_ptr<BodyFatPercentage>( new BodyFatPercentage( ) ) ) ;
+    add(std::shared_ptr<Calories>( new Calories( ) ) ) ;
+    add(std::shared_ptr<Cardio>( new Cardio( ) ) ) ;
+    add(std::shared_ptr<Weights>( new Weights( ) ) ) ;
   }
 
   void Engine::add( std::shared_ptr<Module> module ) {

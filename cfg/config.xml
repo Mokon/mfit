@@ -1,27 +1,27 @@
-<!-- Copyright (C) 2013 David 'Mokon' Bond,  All Rights Reserved -->
+<!-- Copyright (C) 2013-2014 David 'Mokon' Bond, All Rights Reserved -->
 <!-- This is a sample configuration file. Fill in with your data and delete any
      measurements you don't have. -->
 <person>
   <name>David Bond</name>
   <gender>Male</gender>
   <age unit="yrs">27</age>
-  <measurements>
-    <weight unit="lbs">210.8</weight>
+  <measurements><!--205.4-->
+    <weight unit="lbs">207</weight>
     <height unit="in">73</height>
     <bioelectricimpedanceanalysis>
-      <bodyfat unit="percentage">26.2</bodyfat>
-      <bone>8.8</bone>
+      <bodyfat unit="percentage">25.4</bodyfat>
+      <bone>8.7</bone>
       <bodywater>56.3</bodywater>
     </bioelectricimpedanceanalysis>
-    <neck unit="in">16</neck>
-    <waist unit="in">38.25</waist>
-    <beltline unit="in">37.25</beltline>
+    <neck unit="in">15.75</neck>
+    <waist unit="in">37.75</waist>
+    <beltline unit="in">37</beltline>
     <chest unit="in">43.5</chest>
-    <hips unit="in">41</hips>
-    <biceps type="flexed" side="left" unit="in">15</biceps>
-    <biceps type="flexed" side="right" unit="in">15</biceps>
-    <biceps type="relaxed" side="left" unit="in">13.5</biceps>
-    <biceps type="relaxed" side="right" unit="in">13.5</biceps>
+    <hips unit="in">40</hips>
+    <biceps type="flexed" side="left" unit="in">14.5</biceps>
+    <biceps type="flexed" side="right" unit="in">14.5</biceps>
+    <biceps type="relaxed" side="left" unit="in">13.25</biceps>
+    <biceps type="relaxed" side="right" unit="in">13.25</biceps>
     <ankle side="left" unit="in">9.5</ankle>
     <ankle side="right" unit="in">9.5</ankle>
     <wrist side="left" unit="in">7.25</wrist>
@@ -29,20 +29,20 @@
     <forearm side="left" unit="in">12</forearm>
     <forearm side="right" unit="in">12</forearm>
     <thigh side="left" unit="in">23.75</thigh>
-    <thigh side="right" unit="in">24</thigh>
-    <calf side="left" unit="in">16.5</calf>
-    <calf side="right" unit="in">16.5</calf>
+    <thigh side="right" unit="in">23.75</thigh>
+    <calf side="left" unit="in">15.75</calf>
+    <calf side="right" unit="in">15.75</calf>
     <skinfolds>
-      <ticeps unit="mm">12</ticeps>
-      <chest unit="mm">15</chest>
-      <midaxillary unit="mm">12</midaxillary>
-      <subscapular unit="mm">19</subscapular>
-      <suprailiac unit="mm">18</suprailiac>
-      <abdominal unit="mm">35</abdominal>
+      <ticeps unit="mm">19.5</ticeps>
+      <chest unit="mm">13</chest>
+      <midaxillary unit="mm">29</midaxillary>
+      <subscapular unit="mm">31</subscapular>
+      <suprailiac unit="mm">21</suprailiac>
+      <abdominal unit="mm">45</abdominal>
       <thigh unit="mm">10</thigh>
     </skinfolds>
   </measurements>
-  <pushups>33</pushups>
+  <pushups>41</pushups>
   <sitandreach unit="in">17</sitandreach>
   <restingheartrate>50</restingheartrate>
   <bloodpressure>
@@ -58,33 +58,30 @@
         <timeToTravel><distance unit="km">42.195</distance></timeToTravel>
         <timeToTravel><distance unit="miles">3.10686</distance></timeToTravel>
         <timeToTravel><distance unit="miles">1</distance></timeToTravel>
+        <timeToTravel><distance unit="miles">2</distance></timeToTravel>
         <timeToTravel><distance unit="miles">1.5</distance></timeToTravel>
         <distanceTraveledIn><time unit="mins">15</time></distanceTraveledIn>
       </compute>
       <runs gradient="0.0" type="best">
-        <run><time unit="mins">6</time><speed unit="mph">7.0</speed></run>
-        <run><time unit="mins">2</time><speed unit="mph">8.5</speed></run>
-      </runs>
-      <runs gradient="0.0" type="best2">
-        <run><time unit="mins">11</time><speed unit="mph">7.0</speed></run>
-        <run><time unit="mins">2</time><speed unit="mph">8.5</speed></run>
+        <run><time unit="mins">5</time><speed unit="mph">7.5</speed></run>
+        <run><time unit="mins">2.5</time><speed unit="mph">9.5</speed></run>
       </runs>
       <runs gradient="0.0" type="treadmill">
-        <run><time unit="mins">11</time><speed unit="mph">7.0</speed></run>
-        <run><time unit="mins">2</time><speed unit="mph">8.5</speed></run>
-        <run><time unit="mins">2</time><speed unit="mph">4</speed></run>
+        <run><time unit="mins">9.5</time><speed unit="mph">7.5</speed></run>
+        <run><time unit="mins">2.5</time><speed unit="mph">9.5</speed></run>
+        <run><time unit="mins">3</time><speed unit="mph">4</speed></run>
       </runs>
     </cardio>
     <weights>
       <!-- Legs -->
       <seatedlegpress type="machine" equipment="" varient="">
-        <weight unit="lbs">290</weight><sets>4</sets><reps>12</reps>
+        <weight unit="lbs">405</weight><sets>5</sets><reps>12</reps>
       </seatedlegpress>
       <backextensions type="machine" equipment="" varient="">
-        <weight unit="lbs">250</weight><sets>4</sets><reps>12</reps>
+        <weight unit="lbs">295</weight><sets>5</sets><reps>12</reps>
       </backextensions>
       <calfextensions type="machine" equipment="" varient="">
-        <weight unit="lbs">210</weight><sets>5</sets><reps>12</reps>
+        <weight unit="lbs">330</weight><sets>5</sets><reps>12</reps>
       </calfextensions>
       <seatedlegcurl type="machine" equipment="" varient="">
         <weight unit="lbs">150</weight><sets>3</sets><reps>10</reps>
@@ -92,32 +89,44 @@
 
       <!-- Chest -->
       <fly type="machine" equipment="" varient="">
-        <weight unit="lbs">150</weight><sets>3</sets><reps>12</reps>
+        <weight unit="lbs">170</weight><sets>3</sets><reps>12</reps>
       </fly>
+      <fly type="freeweights" equipment="dumbbell" varient="">
+        <weight unit="lbs">90</weight><sets>3</sets><reps>12</reps>
+      </fly>
+      <benchpress type="freeweights" equipment="smithmachine" varient="flat">
+        <weight unit="lbs">200</weight><sets>3</sets><reps>5</reps>
+      </benchpress>
       <chestpress type="machine" equipment="" varient="incline">
         <weight unit="lbs">145</weight><sets>3</sets><reps>10</reps>
       </chestpress>
       <chestpress type="freeweights" equipment="dumbbell" varient="flat">
+        <weight unit="lbs">120</weight><sets>5</sets><reps>12</reps>
+      </chestpress>
+      <chestpress type="freeweights" equipment="dumbbell" varient="incline">
         <weight unit="lbs">110</weight><sets>3</sets><reps>12</reps>
       </chestpress>
 
-      <!-- Sholders -->
+      <!-- Sholders/Back -->
       <pulldown type="machine" equipment="" varient="">
-        <weight unit="lbs">145</weight><sets>3</sets><reps>10</reps>
+        <weight unit="lbs">170</weight><sets>3</sets><reps>12</reps>
       </pulldown>
       <row type="machine" equipment="" varient="">
-        <weight unit="lbs">110</weight><sets>3</sets><reps>12</reps>
+        <weight unit="lbs">150</weight><sets>3</sets><reps>12</reps>
       </row>
       <shoulderpress type="machine" equipment="" varient="">
-        <weight unit="lbs">70</weight><sets>3</sets><reps>12</reps>
+        <weight unit="lbs">110</weight><sets>3</sets><reps>12</reps>
       </shoulderpress>
       <shrugs type="freeweights" equipment="dumbbell" varient="">
-        <weight unit="lbs">110</weight><sets>3</sets><reps>12</reps>
+        <weight unit="lbs">120</weight><sets>5</sets><reps>12</reps>
       </shrugs>
 
       <!-- Biceps -->
       <curl type="freeweights" equipment="dumbbell" varient="concentration" hands="1">
-        <weight unit="lbs">35</weight><sets>3</sets><reps>10</reps>
+        <weight unit="lbs">40</weight><sets>3</sets><reps>10</reps>
+      </curl>
+      <curl type="freeweights" equipment="barbell" varient="standing">
+        <weight unit="lbs">60</weight><sets>1</sets><reps>12</reps>
       </curl>
       <curl type="machine" equipment="" varient="">
         <weight unit="lbs">105</weight><sets>3</sets><reps>12</reps>
@@ -125,12 +134,15 @@
 
       <!-- Ticeps -->
       <triceppress type="machine" equipment="" varient="">
-        <weight unit="lbs">150</weight><sets>3</sets><reps>12</reps>
+        <weight unit="lbs">170</weight><sets>3</sets><reps>12</reps>
       </triceppress>
+      <skullcrushers type="freeweights" equipment="ezbar" varient="">
+        <weight unit="lbs">60</weight><sets>3</sets><reps>12</reps>
+      </skullcrushers>
 
       <!-- Abs -->
       <abdominalcrunch type="machine" equipment="" varient="">
-        <weight unit="lbs">110</weight><sets>4</sets><reps>10</reps>
+        <weight unit="lbs">170</weight><sets>5</sets><reps>12</reps>
       </abdominalcrunch>
       <abdominal type="machine" equipment="" varient="">
         <weight unit="lbs">170</weight><sets>4</sets><reps>10</reps>

@@ -1,5 +1,1 @@
-#!/bin/sh
-# Copyright (C) 2013 David 'Mokon' Bond,  All Rights Reserved
-
-autoreconf -f --install --no-recursive
-
+mcommon/templates/bootstrap

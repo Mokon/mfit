@@ -1,15 +1,12 @@
-/* Copyright (C) 2013 David 'Mokon' Bond,  All Rights Reserved */
+/* Copyright (C) 2013-2014 David 'Mokon' Bond, All Rights Reserved */
 
 #include "mfit/modules/weights/Weight.hpp"
 
 namespace mfit {
 
-  Weight::Weight( std::string xpath, float factor ) : xpath(xpath),
-  factor(factor) {
-  }
-
   Weight::Weight( std::string weight, std::string type, std::string equipment,
-      std::string varient, float factor ) : xpath(""), factor(factor) {
+      std::string varient, float factor, bool ismajor )
+    : xpath(""), factor(factor), ismajor(ismajor) {
     xpath.append( "/person/excercises/weights/") ;
     xpath.append( weight ) ;
 
@@ -57,6 +54,10 @@ namespace mfit {
 
   float Weight::getFactor( ) const {
     return factor ;
+  }
+
+  bool Weight::isMajor( ) const {
+    return ismajor ;
   }
 
 }

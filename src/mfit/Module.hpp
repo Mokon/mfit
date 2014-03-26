@@ -1,4 +1,4 @@
-/* Copyright (C) 2013 David 'Mokon' Bond,  All Rights Reserved */
+/* Copyright (C) 2013-2014 David 'Mokon' Bond, All Rights Reserved */
 
 #pragma once
 
@@ -60,7 +60,7 @@ namespace mfit {
 
     protected:
 
-      Engine* engine ;
+      Engine* engine ; /* No ownership */
 
     private:
 

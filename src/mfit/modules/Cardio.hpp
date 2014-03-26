@@ -1,4 +1,4 @@
-/* Copyright (C) 2013 David 'Mokon' Bond,  All Rights Reserved */
+/* Copyright (C) 2013-2014 David 'Mokon' Bond, All Rights Reserved */
 
 #pragma once
 
@@ -36,6 +36,9 @@ namespace mfit {
           const pugi::xml_document& cfg ) ;
 
       static std::shared_ptr<mcommon::Quantity> getTreadmillDistance(
+          const pugi::xml_document& cfg ) ;
+
+      static std::shared_ptr<mcommon::Quantity> getTreadmillPace(
           const pugi::xml_document& cfg ) ;
 
       static std::shared_ptr<mcommon::Quantity> getTreadmillTime(

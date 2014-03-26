@@ -1,4 +1,4 @@
-/* Copyright (C) 2013 David 'Mokon' Bond,  All Rights Reserved */
+/* Copyright (C) 2013-2014 David 'Mokon' Bond, All Rights Reserved */
 
 #include <stdexcept>
 
@@ -16,11 +16,12 @@ using namespace mcommon ;
 namespace mfit {
 
   Cardio::Cardio( ) {
-    add( "Your average speed for your best run was", getAverageSpeed ) ;
     add( "You were on the treadmill for", getTreadmillTime ) ;
     add( "\tand you traveled", getTreadmillDistance ) ;
+    add( "\tand your pace was", getTreadmillPace ) ;
     add( "\tand you spent", getTreadmillMETS ) ;
     add( "\tand you burnt", getTreadmillCals ) ;
+    add( "Your average speed for your best run was", getAverageSpeed ) ;
     add( "Given this pace it would take you", "\tto travel", getTimeToTravel ) ;
     add( "Given this pace you would travel", "\tin", getDistanceTraveled ) ;
     add( { "This means that for your given age your run time percentile is",
@@ -85,6 +86,20 @@ namespace mfit {
 
     return std::shared_ptr<Quantity>( new Quantity(tTime) ) ;
   }
+  
+  std::shared_ptr<Quantity> Cardio::getTreadmillPace(
+      const pugi::xml_document& cfg ) {
+    std::vector<Run> treadmillRuns ;
+    Quantity tDis ;
+    Quantity tTime ;
+    getRuns(cfg, "/person/excercises/cardio/runs[@type='treadmill']/run",
+        treadmillRuns, tTime, tDis) ;
+
+    float dis = tDis.convert(MILES).magnitude( ) ;
+    float t = tTime.convert(HOURS).magnitude( ) ;
+    float sp = dis/t ;
+    return std::shared_ptr<Quantity>( new Quantity(sp, MPH) ) ;
+  }
 
   std::shared_ptr<Quantity> Cardio::getTreadmillMETS(
       const pugi::xml_document& cfg ) {
@@ -145,6 +160,7 @@ namespace mfit {
         "/person/excercises/cardio/compute/distanceTraveledIn/time", qvalues ) ;
 
     Quantity avgSpeed(*getAverageSpeed(cfg)) ;
+//    Quantity avgSpeed(*getTreadmillPace(cfg)) ;
 
     for( auto time : qvalues ) {
       values.push_back( std::make_pair( std::shared_ptr<Quantity>(
@@ -161,6 +177,7 @@ namespace mfit {
         "/person/excercises/cardio/compute/timeToTravel/distance", qvalues ) ;
 
     Quantity avgSpeed(*getAverageSpeed(cfg)) ;
+//    Quantity avgSpeed(*getTreadmillPace(cfg)) ;
 
     for( auto dis : qvalues ) {
       values.push_back( std::make_pair(
@@ -175,6 +192,7 @@ namespace mfit {
     Quantity age = General::getAge( cfg )->convert(YEARS) ;
     Gender gender = General::getGender( cfg ) ;
     Quantity avgSpeed(*getAverageSpeed(cfg)) ;
+//    Quantity avgSpeed(*getTreadmillPace(cfg)) ;
 
     std::list<std::shared_ptr<Quantity> > distances ;
     Engine::getNodesAsQuantity( cfg,
