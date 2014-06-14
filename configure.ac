@@ -11,11 +11,12 @@ M_COPYRIGHT_PROPRIETARY([David 'Mokon' Bond],[2013-2014])
 
 M_PROG_DEPS([mfit],[
                      [[boost_system],[]],
+                     [[boost_thread],[]],
                      [[boost_program_options],[]],
                      [[boost_filesystem],[]],
                      [[glog],[]],
                      [[pugixml],[]],
-                     [[mcommon],[-lpthread -lboost_system]]
+                     [[mcommon],[-lpthread -lboost_system -lboost_thread]]
                    ])
 
 AC_OUTPUT

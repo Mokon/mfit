@@ -19,8 +19,8 @@ namespace mfit {
     /* Free Weights */
     { "Dead Lift", { "deadlift", "freeweights", "", "", 1.0, true } },
       { "Back Squat", { "squat", "freeweights", "", "back", 0.714, true } },
-      //{ "Bench Press", { "benchpress", "freeweights", "barbell", "flat", 0.556, true } },
-      { "Bench Press", { "benchpress", "freeweights", "smithmachine", "flat", 0.556, true } },
+      { "Bench Press", { "benchpress", "freeweights", "barbell", "flat", 0.556, true } },
+      { "Smith Machine Bench Press", { "smithmachinebenchpress", "freeweights", "smithmachine", "flat", 0.556*(1.0-0.16), true } },
       { "Pull Up", { "pullup", "freeweights", "", "", 0.556, false } },
       { "Front Squat", { "squat", "freeweights", "", "front", 0.5, false } },
       { "Close Grip Bench Press", { "benchpress", "freeweights", "barbell", "closegrip", 0.5, false } },
@@ -191,7 +191,7 @@ namespace mfit {
 
         values.push_back( avalues ) ;
       } catch( const std::exception& ex ) {
-        DLOG(INFO) << "Couldn't process a statistic with the given config: "
+          DLOG(INFO) << "Couldn't process a statistic with the given config: "
           << ex.what() << std::endl ;
       }
     }
