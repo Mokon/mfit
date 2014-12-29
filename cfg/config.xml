@@ -79,6 +79,9 @@
       <pushups>45</pushups>
     <weights>
       <!-- Legs -->
+      <deadlift type="freeweights" equipment="" varient="">
+        <weight unit="lbs">315</weight><sets>1</sets><reps>3</reps>
+      </deadlift>
       <seatedlegpress type="machine" equipment="" varient="">
         <weight unit="lbs">405</weight><sets>6</sets><reps>15</reps>
       </seatedlegpress>
